@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OrderApiController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.increff.employee.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: OrderApiController (com.increff.employee.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OrderApiController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.increff.employee.controller;
+&nbsp;
+&nbsp;import com.increff.employee.model.OrderData;
+&nbsp;import com.increff.employee.dto.orderDto;
+&nbsp;import com.increff.employee.model.OrderForm;
+&nbsp;import com.increff.employee.pojo.EmployeePojo;
+&nbsp;import com.increff.employee.pojo.OrderPojo;
+&nbsp;import com.increff.employee.service.ApiException;
+&nbsp;import io.swagger.annotations.Api;
+&nbsp;import io.swagger.annotations.ApiOperation;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Api
+&nbsp;@RestController
+<b class="fc">&nbsp;public class OrderApiController {</b>
+&nbsp;
+&nbsp;	@Autowired
+&nbsp;	private orderDto dto;
+&nbsp;
+&nbsp;	@ApiOperation(value = &quot;Add an order&quot;)
+&nbsp;	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.POST)
+&nbsp;	public int add() throws ApiException {
+<b class="nc">&nbsp;		return dto.add();</b>
+&nbsp;	}
+&nbsp;	
+&nbsp;	@ApiOperation(value = &quot;Delete an order&quot;)
+&nbsp;	@RequestMapping(path = &quot;/api/order/{id}&quot;, method = RequestMethod.DELETE)
+&nbsp;	public void delete(@PathVariable int id) {
+<b class="nc">&nbsp;		dto.delete(id);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ApiOperation(value = &quot;Get an order by ID&quot;)
+&nbsp;	@RequestMapping(path = &quot;/api/order/{id}&quot;, method = RequestMethod.GET)
+&nbsp;	public OrderData get(@PathVariable int id) throws ApiException {
+<b class="nc">&nbsp;		return dto.get(id);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ApiOperation(value = &quot;Get list of all orders&quot;)
+&nbsp;	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.GET)
+&nbsp;	public List&lt;OrderData&gt; getAll() {
+<b class="nc">&nbsp;		return dto.getAll();</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ApiOperation(value = &quot;Update an order&quot;)
+&nbsp;	@RequestMapping(path = &quot;/api/order/{id}&quot;, method = RequestMethod.PUT)
+&nbsp;	public void update(@PathVariable int id ) throws ApiException {
+<b class="nc">&nbsp;		dto.update(id);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ApiOperation(value = &quot;Download Invoice&quot;)
+&nbsp;	@GetMapping(path = &quot;/api/invoice/{id}&quot;)
+&nbsp;	public ResponseEntity&lt;byte[]&gt; getInvoicePDF(@PathVariable Integer id) throws Exception{
+<b class="nc">&nbsp;		return dto.getInvoicePDF(id);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-07-17 13:58</div>
+</div>
+</body>
+</html>

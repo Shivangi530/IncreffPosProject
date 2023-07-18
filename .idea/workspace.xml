@@ -4,41 +4,100 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fab9188e-5739-42ec-a965-4171a9a948ff" name="Changes" comment="pdf done">
-      <change afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/signup.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/signup.js" afterDir="false" />
+    <list default="true" id="fab9188e-5739-42ec-a965-4171a9a948ff" name="Changes" comment="done">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dto/ProductDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dto/brandDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dto/createOrderDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dto/inventoryDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dto/orderDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dto/orderItemDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/util/ConversionUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/util/NormaliseUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service/BrandServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service/InventoryServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service/OrderItemServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service/OrderServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service/ProductServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../IncreffPOSproject/.idea/IncreffPOSproject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvoiceApp" beforeDir="false" afterPath="$PROJECT_DIR$/InvoiceApp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvoiceApp/generated/invoice.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/InvoiceApp/generated/invoice.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvoiceApp/jetty.log" beforeDir="false" afterPath="$PROJECT_DIR$/InvoiceApp/jetty.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InvoiceApp/src/main/resources/xml/Invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/InvoiceApp/src/main/resources/xml/Invoice.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InvoiceApp/target/classes/xml/Invoice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/InvoiceApp/target/classes/xml/Invoice.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/employee.properties" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/employee.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/jetty.log" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/jetty.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/AdminApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/AdminApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/BrandApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/BrandApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/CreateOrderApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/CreateOrderApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/DayOnDaySalesReportApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/DayOnDaySalesReportApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/InitApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/InitApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/InventoryApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/InventoryApiController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/OrderApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/OrderApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/OrderItemApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/OrderItemApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/ProductApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/ProductApiController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/SiteUiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/SiteUiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/spring/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/spring/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/salesReportApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/controller/salesReportApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dao/BrandDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dao/BrandDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dao/OrderItemDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dao/OrderItemDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dao/ProductDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/dao/ProductDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/model/InventoryForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/model/InventoryForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/model/OrderForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/model/OrderForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/model/OrderItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/model/OrderItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/pojo/OrderPojo.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/pojo/OrderPojo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/BrandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/BrandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/DayOnDaySalesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/DayOnDaySalesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/InventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/InventoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/OrderItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/OrderItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/java/com/increff/employee/service/ProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/brand.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/brand.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/brandReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/brandReport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/dayOnDaySalesReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/dayOnDaySalesReport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/inventoryReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/inventoryReport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/salesReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/salesReport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/product.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/product.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/html/snippets.html" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/html/snippets.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/brand.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/brand.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/brandReport.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/brandReport.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/createOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/createOrder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/dayOnDaySalesReport.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/dayOnDaySalesReport.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/inventory.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/inventory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/inventoryReport.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/inventoryReport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/newCreateOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/newCreateOrder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/orderItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/orderItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/product.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/salesReport.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/salesReport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/src/main/webapp/static/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/main/webapp/static/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service/SampleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service/SampleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/AdminApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/AdminApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/BrandApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/BrandApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/CreateOrderApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/CreateOrderApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/DayOnDaySalesReportApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/DayOnDaySalesReportApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/InitApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/InitApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/InventoryApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/InventoryApiController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/OrderApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/OrderApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/OrderItemApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/OrderItemApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/ProductApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/ProductApiController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/SiteUiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/SiteUiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/spring/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/spring/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/salesReportApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/controller/salesReportApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/dao/BrandDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/dao/BrandDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/dao/OrderItemDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/dao/OrderItemDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/dao/ProductDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/dao/ProductDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/model/InventoryForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/model/InventoryForm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/model/OrderForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/model/OrderForm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/model/OrderItemForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/model/OrderItemForm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/pojo/OrderPojo.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/pojo/OrderPojo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/BrandService.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/BrandService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/InventoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/InventoryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/OrderItemService.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/OrderItemService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/OrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/classes/com/increff/employee/service/ProductService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posApp/target/test-classes/com/increff/employee/service/SampleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/posApp/target/test-classes/com/increff/employee/service/SampleTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../IncreffPOSproject/posApp" beforeDir="false" afterPath="$PROJECT_DIR$/../IncreffPOSproject/posApp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Increff_POS_Spring_app" beforeDir="false" afterPath="$PROJECT_DIR$/../Increff_POS_Spring_app" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../employee-" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-" afterDir="false" />
@@ -48,6 +107,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="1" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/htmlReport" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -75,15 +141,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew/posApp/src/main/webapp/static",
-    "onboarding.tips.debug.path": "/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew/src/main/java/org/increff/Main.java",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew/posApp/src/main/webapp/static&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew/src/main/java/org/increff/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/posApp/src/main/webapp/static" />
@@ -92,8 +162,140 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/posApp" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.increff.employee.service" />
+      <recent name="com.increff.employee.dto" />
+    </key>
   </component>
-  <component name="RunManager" selected="Maven. [jetty-run]">
+  <component name="RunManager" selected="JUnit.java in employee-spring-full">
+    <configuration name="OrderItemServiceTest.testGetAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee-spring-full" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.employee.service" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.employee.service.OrderItemServiceTest" />
+      <option name="METHOD_NAME" value="testGetAll" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderItemServiceTest.testGetOrderList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee-spring-full" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.employee.service" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.employee.service.OrderItemServiceTest" />
+      <option name="METHOD_NAME" value="testGetOrderList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderItemServiceTest.testGetRelevantAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee-spring-full" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.employee.service" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.employee.service.OrderItemServiceTest" />
+      <option name="METHOD_NAME" value="testGetRelevantAll" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderItemServiceTest.testUpdate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee-spring-full" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.employee.service" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.employee.service.OrderItemServiceTest" />
+      <option name="METHOD_NAME" value="testUpdate" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="java in employee-spring-full" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee-spring-full" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.util.ConversionUtil" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.util.NormaliseUtil" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/posApp/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="service in employee-spring-full" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="employee-spring-full" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.util.ConversionUtil" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.increff.employee.util.NormaliseUtil" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/service" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name=" [jetty-run]" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -145,9 +347,24 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="JUnit.service in employee-spring-full" />
+      <item itemvalue="JUnit.OrderItemServiceTest.testGetAll" />
+      <item itemvalue="JUnit.OrderItemServiceTest.testGetOrderList" />
+      <item itemvalue="JUnit.OrderItemServiceTest.testGetRelevantAll" />
+      <item itemvalue="JUnit.OrderItemServiceTest.testUpdate" />
+      <item itemvalue="JUnit.java in employee-spring-full" />
       <item itemvalue="Maven. [jetty-run]" />
       <item itemvalue="Maven.invoice-app [jetty:run]" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.java in employee-spring-full" />
+        <item itemvalue="JUnit.OrderItemServiceTest.testUpdate" />
+        <item itemvalue="JUnit.OrderItemServiceTest.testGetRelevantAll" />
+        <item itemvalue="JUnit.OrderItemServiceTest.testGetAll" />
+        <item itemvalue="JUnit.OrderItemServiceTest.testGetOrderList" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -193,7 +410,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="pdf done" />
-    <option name="LAST_COMMIT_MESSAGE" value="pdf done" />
+    <MESSAGE value="done" />
+    <option name="LAST_COMMIT_MESSAGE" value="done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -205,5 +423,132 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderServiceTest_testUpdate.ic" NAME="OrderServiceTest.testUpdate Coverage Results" MODIFIED="1689586911814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testBrandCategoryExistAdd.ic" NAME="BrandServiceTest.testBrandCategoryExistAdd Coverage Results" MODIFIED="1689567620229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest_testUpdate.ic" NAME="ProductServiceTest.testUpdate Coverage Results" MODIFIED="1689574337390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderItemServiceTest_testAdd.ic" NAME="OrderItemServiceTest.testAdd Coverage Results" MODIFIED="1689587779980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$java_in_employee_spring_full.ic" NAME="java in employee-spring-full Coverage Results" MODIFIED="1689590800244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testAdd.ic" NAME="BrandServiceTest.testAdd Coverage Results" MODIFIED="1689566080080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$java_in_employee_spring_full__1_.ic" NAME="java in employee-spring-full (1) Coverage Results" MODIFIED="1689566108724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testCheckQuantityNegative.ic" NAME="InventoryServiceTest.testCheckQuantityNegative Coverage Results" MODIFIED="1689584401181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderItemServiceTest_testDelete.ic" NAME="OrderItemServiceTest.testDelete Coverage Results" MODIFIED="1689587995666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderItemServiceTest_testGetRelevantAll.ic" NAME="OrderItemServiceTest.testGetRelevantAll Coverage Results" MODIFIED="1689589286926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testInventoryExistAdd.ic" NAME="InventoryServiceTest.testInventoryExistAdd Coverage Results" MODIFIED="1689583019031" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest_testCheckSellingPriceInvalid.ic" NAME="ProductServiceTest.testCheckSellingPriceInvalid Coverage Results" MODIFIED="1689581905661" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testBrandCategoryExistUpdate.ic" NAME="BrandServiceTest.testBrandCategoryExistUpdate Coverage Results" MODIFIED="1689571707715" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testGetCheck.ic" NAME="BrandServiceTest.testGetCheck Coverage Results" MODIFIED="1689572542118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testGetAll.ic" NAME="BrandServiceTest.testGetAll Coverage Results" MODIFIED="1689572566508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderServiceTest_testAdd.ic" NAME="OrderServiceTest.testAdd Coverage Results" MODIFIED="1689585160342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest_testAdd.ic" NAME="ProductServiceTest.testAdd Coverage Results" MODIFIED="1689574304429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testCategoryExistAdd.ic" NAME="BrandServiceTest.testCategoryExistAdd Coverage Results" MODIFIED="1689566657131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderItemServiceTest_testUpdate.ic" NAME="OrderItemServiceTest.testUpdate Coverage Results" MODIFIED="1689589384290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testUpdate.ic" NAME="InventoryServiceTest.testUpdate Coverage Results" MODIFIED="1689583596746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testQuantityInvalidAdd.ic" NAME="InventoryServiceTest.testQuantityInvalidAdd Coverage Results" MODIFIED="1689583194310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest_testGetCheckIdInvalid.ic" NAME="ProductServiceTest.testGetCheckIdInvalid Coverage Results" MODIFIED="1689575922658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testUpdate.ic" NAME="BrandServiceTest.testUpdate Coverage Results" MODIFIED="1689568214304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest_testNameEmptyUpdate.ic" NAME="ProductServiceTest.testNameEmptyUpdate Coverage Results" MODIFIED="1689574530166" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest_testGetCheckId.ic" NAME="ProductServiceTest.testGetCheckId Coverage Results" MODIFIED="1689576139003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testCheckQuantity.ic" NAME="InventoryServiceTest.testCheckQuantity Coverage Results" MODIFIED="1689583946411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testGetCheckInvalid.ic" NAME="InventoryServiceTest.testGetCheckInvalid Coverage Results" MODIFIED="1689584459594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testBrandExistAdd.ic" NAME="BrandServiceTest.testBrandExistAdd Coverage Results" MODIFIED="1689566533431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest.ic" NAME="ProductServiceTest Coverage Results" MODIFIED="1689582463696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderItemServiceTest_testGetAll.ic" NAME="OrderItemServiceTest.testGetAll Coverage Results" MODIFIED="1689588244341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testGetAll.ic" NAME="InventoryServiceTest.testGetAll Coverage Results" MODIFIED="1689584106130" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$ProductServiceTest_testCheckSellingPrice.ic" NAME="ProductServiceTest.testCheckSellingPrice Coverage Results" MODIFIED="1689577383372" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testAdd.ic" NAME="InventoryServiceTest.testAdd Coverage Results" MODIFIED="1689583095270" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderItemServiceTest_testGetOrderList.ic" NAME="OrderItemServiceTest.testGetOrderList Coverage Results" MODIFIED="1689588200705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest.ic" NAME="BrandServiceTest Coverage Results" MODIFIED="1689582408534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testUpdateQuantity.ic" NAME="InventoryServiceTest.testUpdateQuantity Coverage Results" MODIFIED="1689583720005" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderServiceTest_testGetOrderDates.ic" NAME="OrderServiceTest.testGetOrderDates Coverage Results" MODIFIED="1689586875205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testCheckQuantityLess.ic" NAME="InventoryServiceTest.testCheckQuantityLess Coverage Results" MODIFIED="1689584373668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderServiceTest.ic" NAME="OrderServiceTest Coverage Results" MODIFIED="1689585475581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderServiceTest_testGenerateInvoiceForOrder.ic" NAME="OrderServiceTest.testGenerateInvoiceForOrder Coverage Results" MODIFIED="1689587098302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderServiceTest_testGetInvoicePDF.ic" NAME="OrderServiceTest.testGetInvoicePDF Coverage Results" MODIFIED="1689587290367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testBrandEmptyUpdate.ic" NAME="BrandServiceTest.testBrandEmptyUpdate Coverage Results" MODIFIED="1689570335903" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$OrderServiceTest_testGetAll.ic" NAME="OrderServiceTest.testGetAll Coverage Results" MODIFIED="1689586050503" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.employee.service.*</FILTER>
+    </SUITE>
   </component>
 </project>

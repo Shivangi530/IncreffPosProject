@@ -1,0 +1,182 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container">
+
+    <h3>CreateOrders</h3>
+
+    <!-- Top row with form-->
+    <div class="row">
+        <div class="col-12">
+            <form class="form-inline" id="createOrder-form">
+
+                <div class="form-group">
+                    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="enter barcode">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" name="quantity" id="inputQuantity" placeholder="enter quantity">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSellingPrice" class="col-sm-2 col-form-label">Mrp</label>
+                    <div class="col-sm-10">
+                        <input type="number" inputmode="decimal" class="form-control" name="sellingPrice" id="inputSellingPrice"
+                               placeholder="enter selling Price">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="button" class="btn btn-primary" id="add-createOrder">Add</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Blank Row -->
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+
+        <!-- Table -->
+        <div class="col-12">
+            <table class="table table-striped" id="createOrder-table">
+                <thead>
+                <tr>
+                    <th scope="col">Barcode</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>Edit | Delete</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>Edit | Delete</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>Edit | Delete</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- CreateOrder Edit Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="edit-createOrder-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit CreateOrder</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" id="createOrder-edit-form">
+						<div class="form-group">
+							<label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="barcode" placeholder="enter barcode">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" name="quantity" placeholder="enter quantity">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputSellingPrice" class="col-sm-2 col-form-label">SellingPrice</label>
+							<div class="col-sm-10">
+								<input type="number" inputmode="decimal" class="form-control" name="sellingPrice" placeholder="enter sellingPrice">
+							</div>
+						</div>
+                        <input type="hidden" name="id">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="update-createOrder">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CreateOrder Edit Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="upload-createOrder-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload CreateOrder</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="createOrder-file">
+                        <input type="file" class="custom-file-input" id="createOrderFile">
+                        <label class="custom-file-label" for="createOrderFile" id="createOrderFileName">Choose file</label>
+                    </div>
+                    <a th:href="@{/sample/employee.tsv}" target="_blank">Download Sample</a>
+                    <br>
+                    Rows: <span id="rowCount">0</span>,
+                    Processed: <span id="processCount">0</span>,
+                    Errors: <span id="errorCount">0</span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="process-data">Upload</button>
+                    <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="submit">
+        <button type="button" class="btn btn-primary" id="placeOrder">Place order</button>
+    </div>
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/createOrder.js}"/>
+</script>
+
+</body>
+
+</html>

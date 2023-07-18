@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container">
+
+    <h3>Brand Report</h3>
+
+    <!-- Blank Row -->
+    <div class="row">
+    </div>
+    <div class="row">
+
+        <!-- Table -->
+        <div class="col-12">
+            <button type="button" class="btn btn-primary" id="download-report" onclick="printReport('brandReport.tsv')">Download Report</button>
+
+            <table class="table table-striped" id="brand-table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Category</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Romil Jain</td>
+                    <td>30</td>
+                    <td>Edit </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Rajul Jain</td>
+                    <td>31</td>
+                    <td>Edit</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Anaisha Jain</td>
+                    <td>7</td>
+                    <td>Edit </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<script th:src="@{/static/brandReport.js}"/></script>
+
+</body>
+
+</html>

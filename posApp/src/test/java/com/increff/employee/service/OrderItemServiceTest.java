@@ -27,10 +27,11 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 		service.add(p);
 
 		OrderItemPojo q= service.get(p.getId());
-		assertEquals(10,q.getOrderId());
-		assertEquals(11,q.getProductId());
+		assertEquals(p,q);
+		assertEquals(10,(long)q.getOrderId());
+		assertEquals(11,(long)q.getProductId());
 		assertEquals(10.8,p.getSellingPrice(),0.0001);
-		assertEquals(10,p.getQuantity());
+		assertEquals(10,(long)p.getQuantity());
 	}
 
 	@Test(expected = ApiException.class)
@@ -149,18 +150,10 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 		q.setQuantity(110);
 		q.setSellingPrice(90.34);
 		service.update(p.getId(),q);
-		assertEquals(10,q.getOrderId());
-		assertEquals(11,q.getProductId());
+		assertEquals(10,(long)q.getOrderId());
+		assertEquals(11,(long)q.getProductId());
 		assertEquals(90.34,p.getSellingPrice(),0.0001);
-		assertEquals(110,p.getQuantity());
+		assertEquals(110,(long)p.getQuantity());
 	}
-
-//	@Test(expected = ApiException.class)
-//	public void testOrderItemExistAdd() throws ApiException {
-//		OrderItemPojo p = new OrderItemPojo();
-//		p.setOrderItem("");
-//		p.setCategory("Shoes");
-//		service.add(p);
-//	}
 
 }

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > EmployeeDao</title>
+  <title>Coverage Report > InventoryDao</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.employee.dao</a>
 </div>
 
-<h1>Coverage Summary for Class: EmployeeDao (com.increff.employee.dao)</h1>
+<h1>Coverage Summary for Class: InventoryDao (com.increff.employee.dao)</h1>
 
 <table class="coverageStats">
 
@@ -37,49 +37,49 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">EmployeeDao</td>
+  <td class="name">InventoryDao</td>
 <td class="coverageStat">
   <span class="percent">
-    42.9%
+    100%
   </span>
   <span class="absValue">
-    (3/7)
+    (6/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    35.7%
+    100%
   </span>
   <span class="absValue">
-    (5/14)
+    (10/10)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">EmployeeDao$$EnhancerBySpringCGLIB$$4572318</td>
+    <td class="name">InventoryDao$$EnhancerBySpringCGLIB$$6acfb302</td>
   </tr>
   <tr>
-    <td class="name">EmployeeDao$$EnhancerBySpringCGLIB$$4572318$$FastClassBySpringCGLIB$$5bf10cf7</td>
+    <td class="name">InventoryDao$$EnhancerBySpringCGLIB$$6acfb302$$FastClassBySpringCGLIB$$1e19c592</td>
   </tr>
   <tr>
-    <td class="name">EmployeeDao$$FastClassBySpringCGLIB$$d78d6152</td>
+    <td class="name">InventoryDao$$FastClassBySpringCGLIB$$1b22ab08</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    42.9%
+    100%
   </span>
   <span class="absValue">
-    (3/7)
+    (6/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    35.7%
+    100%
   </span>
   <span class="absValue">
-    (5/14)
+    (10/10)
   </span>
 </td>
 </tr>
@@ -92,53 +92,42 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.employee.dao;
 &nbsp;
-&nbsp;import com.increff.employee.pojo.EmployeePojo;
+&nbsp;import com.increff.employee.pojo.InventoryPojo;
 &nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
 &nbsp;import javax.persistence.EntityManager;
 &nbsp;import javax.persistence.PersistenceContext;
-&nbsp;import javax.persistence.Query;
 &nbsp;import javax.persistence.TypedQuery;
 &nbsp;import javax.transaction.Transactional;
 &nbsp;import java.util.List;
 &nbsp;
 &nbsp;@Repository
-<b class="fc">&nbsp;public class EmployeeDao extends AbstractDao {</b>
+<b class="fc">&nbsp;public class InventoryDao extends AbstractDao {</b>
+<b class="fc">&nbsp;	private static String SELECT_ID = &quot;select p from InventoryPojo p where id=:id&quot;;</b>
+<b class="fc">&nbsp;	private static String SELECT_ALL = &quot;SELECT p from InventoryPojo p&quot;;</b>
 &nbsp;
-<b class="fc">&nbsp;	private static String delete_id = &quot;delete from EmployeePojo p where id=:id&quot;;</b>
-<b class="fc">&nbsp;	private static String select_id = &quot;select p from EmployeePojo p where id=:id&quot;;</b>
-<b class="fc">&nbsp;	private static String select_all = &quot;select p from EmployeePojo p&quot;;</b>
 &nbsp;
 &nbsp;	@PersistenceContext
 &nbsp;	private EntityManager em;
 &nbsp;
 &nbsp;	@Transactional
-&nbsp;	public void insert(EmployeePojo p) {
+&nbsp;	public void insert(InventoryPojo p) {
 <b class="fc">&nbsp;		em.persist(p);</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	public int delete(int id) {
-<b class="nc">&nbsp;		Query query = em.createQuery(delete_id);</b>
-<b class="nc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
-<b class="nc">&nbsp;		return query.executeUpdate();</b>
+&nbsp;	public InventoryPojo select(int id) {
+<b class="fc">&nbsp;		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ID, InventoryPojo.class);</b>
+<b class="fc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
+<b class="fc">&nbsp;		return getSingle(query);</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	public EmployeePojo select(int id) {
-<b class="nc">&nbsp;		TypedQuery&lt;EmployeePojo&gt; query = getQuery(select_id, EmployeePojo.class);</b>
-<b class="nc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
-<b class="nc">&nbsp;		return getSingle(query);</b>
+&nbsp;	public List&lt;InventoryPojo&gt; selectAll() {
+<b class="fc">&nbsp;		TypedQuery&lt;InventoryPojo&gt; query = getQuery(SELECT_ALL, InventoryPojo.class);</b>
+<b class="fc">&nbsp;		return query.getResultList();</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	public List&lt;EmployeePojo&gt; selectAll() {
-<b class="nc">&nbsp;		TypedQuery&lt;EmployeePojo&gt; query = getQuery(select_all, EmployeePojo.class);</b>
-<b class="nc">&nbsp;		return query.getResultList();</b>
-&nbsp;	}
-&nbsp;
-&nbsp;	public void update(EmployeePojo p) {
-<b class="nc">&nbsp;	}</b>
-&nbsp;
-&nbsp;
-&nbsp;
+&nbsp;	public void update(InventoryPojo p) {
+<b class="fc">&nbsp;	}</b>
 &nbsp;}
 </code>
 </pre>
@@ -163,7 +152,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-17 16:26</div>
+    <div style="float:right;">generated on 2023-07-24 15:03</div>
 </div>
 </body>
 </html>

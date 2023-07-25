@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head th:replace="snippets.html :: name_head"></head>
 
@@ -14,12 +14,6 @@
 
  <!-- Top row with form-->
 <div class="row">
-<!--	 <div class="col-2">-->
-<!--	 	<a th:href="@{/ui/employee}" title="Employees"> <i class="fas fa-users"></i> </a>-->
-<!--	 </div>	-->
-<!--	 <div class="col-2">-->
-<!--	 	<a th:href="@{/ui/admin}" title="Admin"> <i class="fas fa-cog"></i> </a>-->
-<!--	 </div>-->
 	<div class="col-2">
 		<a th:href="@{/ui/brand}" title="Brand"><i class="fa fa-solid fa-circle-b"></i> Brand </a>
 	</div>
@@ -30,13 +24,52 @@
 		<a th:href="@{/ui/inventory}" title="Inventory"><i class="fas fa-inventory"></i> Inventory</i> </a>
 	</div>
 	<div class="col-2">
-		<a th:href="@{/ui/orderItem}" title="Order Item"><i class="fa-brands fa-first-order"></i> Order Item </a>
-	</div>
-	<div class="col-2">
 		<a th:href="@{/ui/createOrder}" title="Create Order"><i class="fa fa-shopping-cart"></i> Create Order </a>
 	</div>
+	<div class="col-2">
+		<a th:href="@{/ui/order}" title="ViewOrder"><i class="fa-brands fa-first-order"></i>View Order </a>
+	</div>
 
-</div> 
+</div>
+
+<!--	<div>-->
+<!--		<link rel="stylesheet" th:href="@{/static/home.css}">-->
+<!--		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">-->
+<!--		<section class="hero-section">-->
+<!--			<div class="card-grid">-->
+<!--				<a class="card" href="#">-->
+<!--					<div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)"></div>-->
+<!--					<div class="card__content">-->
+<!--						<h3 class="card__heading">Brand</h3>-->
+<!--					</div>-->
+<!--				</a>-->
+<!--				<a class="card" href="#">-->
+<!--					<div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557187666-4fd70cf76254?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>-->
+<!--					<div class="card__content">-->
+<!--						<h3 class="card__heading">Product</h3>-->
+<!--					</div>-->
+<!--				</a>-->
+<!--				<a class="card" href="#">-->
+<!--					<div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1556680262-9990363a3e6d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>-->
+<!--					<div class="card__content">-->
+<!--						<h3 class="card__heading">Inventory</h3>-->
+<!--					</div>-->
+<!--				</a>-->
+<!--					<a class="card" href="#">-->
+<!--						<div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557004396-66e4174d7bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>-->
+<!--						<div class="card__content">-->
+<!--							<h3 class="card__heading">Create Order</h3>-->
+<!--						</div>-->
+<!--					</a>-->
+<!--				<a class="card" href="#">-->
+<!--					<div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557004396-66e4174d7bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>-->
+<!--					<div class="card__content">-->
+<!--						<h3 class="card__heading">View Order</h3>-->
+<!--					</div>-->
+<!--				</a>-->
+<!--			</div>-->
+<!--		</section>-->
+<!--	</div>-->
 
 
 

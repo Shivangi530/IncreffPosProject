@@ -61,7 +61,7 @@ function getOrderItemList(){
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayOrderItemList(data);
+	   		displayOrderItemList(data.reverse());
 	   },
 	   error: handleAjaxError
 	});

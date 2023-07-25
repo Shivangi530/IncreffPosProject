@@ -1,16 +1,12 @@
 package com.increff.employee.service;
 
 import com.increff.employee.dao.OrderItemDao;
-import com.increff.employee.model.OrderItemForm;
-import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,18 +16,29 @@ public class OrderItemService {
 	private OrderItemDao dao;
 	@Autowired
 	private InventoryService inventoryService;
+	@Autowired
+	private OrderService orderService;
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderItemPojo p) throws ApiException {
-//		normalize(p);
-//		if(StringUtil.isEmpty(p.getName())) {
-//			throw new ApiException("name cannot be empty");
-//		}
+		if(p.getOrderId()==0){
+			throw new ApiException("Invalid Order Id");
+		}if(p.getProductId()<=0){
+			throw new ApiException("Invalid Product Id");
+		}if(p.getQuantity()<=0){
+			throw new ApiException("Quantity should be positive");
+		}if(p.getSellingPrice()<=0){
+			throw new ApiException("Selling Price should be positive");
+		}
 		dao.insert(p);
 	}
 
 	@Transactional
-	public void delete(int id) {
+	public void delete(int id) throws ApiException {
+		boolean status=orderService.get(get(id).getOrderId()).getStatus();
+		if(status==true){
+			throw new ApiException("Cannot delete OrderItem, Invoice already generated");
+		}
 		dao.delete(id);
 	}
 
@@ -50,15 +57,20 @@ public class OrderItemService {
 	}
 	@Transactional
 	public List<OrderItemPojo> getRelevantAll(List<OrderPojo> p) {
-		return dao.selectRelevent(p);
+		return dao.selectRelevant(p);
 	}
 
 	@Transactional(rollbackOn  = ApiException.class)
 	public void update(int id, OrderItemPojo p) throws ApiException {
-		OrderItemPojo ex = getCheck(id);
-		ex.setQuantity(p.getQuantity());
-		ex.setSellingPrice(p.getSellingPrice());
-		dao.update(ex);
+		if(p.getQuantity()<=0){
+			throw new ApiException("Quantity should be positive");
+		}if(p.getSellingPrice()<=0){
+			throw new ApiException("Selling Price should be positive");
+		}
+		OrderItemPojo existingPojo = getCheck(id);
+		existingPojo.setQuantity(p.getQuantity());
+		existingPojo.setSellingPrice(p.getSellingPrice());
+		dao.update(existingPojo);
 	}
 
 	@Transactional

@@ -24,11 +24,11 @@ public class OrderApiController {
 		return dto.add();
 	}
 	
-	@ApiOperation(value = "Delete an order")
-	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id) {
-		dto.delete(id);
-	}
+//	@ApiOperation(value = "Delete an order")
+//	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.DELETE)
+//	public void delete(@PathVariable int id) {
+//		dto.delete(id);
+//	}
 
 	@ApiOperation(value = "Get an order by ID")
 	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.GET)

@@ -13,7 +13,6 @@ import java.util.List;
 @Api
 @RestController
 public class BrandApiController {
-
 	@Autowired
 	private brandDto brandDto;
 

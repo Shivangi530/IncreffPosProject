@@ -1,7 +1,4 @@
-// Global variables for pagination
-var currentPage = 1;
-var pageSize = 10;
-var totalItems = 0;
+var table;
 
 function getProductUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -33,13 +30,12 @@ function addProduct(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            success("Item added successfully");
+            success("Success");
             getProductList();
             resetFormFields($form);
         },
         error: handleAjaxError
     });
-
     return false;
 }
 
@@ -67,7 +63,6 @@ function updateProduct(event) {
     });
     return false;
 }
-
 
 function getProductList() {
     var url = getProductUrl();
@@ -128,24 +123,26 @@ function readFileDataCallback(results) {
         uploadRows();
     }
 }
+
 function checkHeaderMatch(uploadedHeaders) {
-  // Extract the headers from the object
-  var expectedHeaders = ["id","barcode", "brand", "category", "name", "mrp"];
-  var extractedHeaders = Object.keys(uploadedHeaders).map(header => header.toLowerCase());;
-  // Compare the headers
-  if (extractedHeaders.length !== expectedHeaders.length) {
-    return false;
-  }
-  // Sort the extracted headers and expected headers in lowercase
-    extractedHeaders.sort();
+    var expectedHeaders = ["id", "barcode", "brand", "category", "name", "mrp"];
+    var extractedHeaders = Object.keys(uploadedHeaders).map(header => header.toLowerCase());
+    var filteredArr = extractedHeaders.filter(item => item !== 'error');
+    // Compare the headers
+    if (filteredArr.length !== expectedHeaders.length) {
+        return false;
+    }
+    // Sort the extracted headers and expected headers in lowercase
+    filteredArr = filteredArr.map(header => header.toLowerCase());
+    filteredArr.sort();
     expectedHeaders = expectedHeaders.map(header => header.toLowerCase());
     expectedHeaders.sort();
-  for (var i = 0; i < expectedHeaders.length; i++) {
-    if (extractedHeaders[i]!== expectedHeaders[i]) {
-      return false;
+    for (var i = 0; i < expectedHeaders.length; i++) {
+        if (filteredArr[i] !== expectedHeaders[i]) {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 }
 
 function uploadRows() {
@@ -180,7 +177,7 @@ function uploadRows() {
             uploadRows();
         }
     });
-
+    $("#download-errors").prop('disabled', false);
 }
 
 function downloadErrors() {
@@ -190,36 +187,26 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayProductList(data) {
-    var $tbody = $('#product-table').find('tbody');
-    $tbody.empty();
+    table.clear().draw();
+    var dataRows=[];
     for (var i in data) {
         var e = data[i];
-        var buttonHtml = ' <button onclick="displayEditProduct(' + e.id + ')">edit</button>'
+        var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
+        var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
+        var trimmedName = e.name.length > 30 ? e.name.substring(0, 30) + '...' : e.name;
+        var buttonHtml = ' <button class="btn btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
         var row = '<tr>' +
             '<td>' + e.id + '</td>' +
             '<td>' + e.barcode + '</td>' +
-            '<td>' + e.brand + '</td>' +
-            '<td>' + e.category + '</td>' +
-            '<td>' + e.name + '</td>' +
+            '<td>' + trimmedBrand + '</td>' +
+            '<td>' + trimmedCategory + '</td>' +
+            '<td>' + trimmedName + '</td>' +
             '<td>' + e.mrp + '</td>' +
             '<td>' + buttonHtml + '</td>' +
             '</tr>';
-        $tbody.append(row);
+        dataRows.push([e.id,e.barcode, trimmedBrand, trimmedCategory,trimmedName,e.mrp, buttonHtml]);
     }
-}
-
-function displayPaginationInfo() {
-    var totalPages = Math.ceil(totalItems / pageSize);
-    var $paginationInfo = $('#pagination-info');
-    $paginationInfo.text('Page ' + currentPage + ' of ' + totalPages);
-}
-
-function goToPage(page) {
-    if (page < 1 || page > Math.ceil(totalItems / pageSize)) {
-        return;
-    }
-    currentPage = page;
-    getBrandList();
+    table.rows.add(dataRows).draw();
 }
 
 function displayEditProduct(id) {
@@ -254,12 +241,18 @@ function updateUploadDialog() {
 }
 
 function updateFileName() {
+    processCount = 0;
+    fileData = [];
+    errorData = [];
+    updateUploadDialog();
+    $("#download-errors").prop('disabled', true);
     var $file = $('#productFile');
     var fileName = $file.val();
     $('#productFileName').html(fileName);
 }
 
 function displayUploadData() {
+    $("#download-errors").prop('disabled', true);
     resetUploadDialog();
     $('#upload-product-modal').modal('toggle');
 }
@@ -274,17 +267,36 @@ function displayProduct(data) {
     $('#edit-product-modal').modal('toggle');
 }
 
+function refresh() {
+    getProductList();
+    resetFormFields($('#product-form'));
+}
 
 //INITIALIZATION CODE
 function init() {
     $('#add-product').click(addProduct);
     $('#update-product').click(updateProduct);
-    $('#refresh-data').click(getProductList);
+    $('#refresh-data').click(refresh);
     $('#upload-data').click(displayUploadData);
     $('#process-data').click(processData);
     $('#download-errors').click(downloadErrors);
-    $('#productFile').on('change', updateFileName)
+    $('#productFile').on('change', updateFileName);
+    getProductList();
+    table = $('#product-table').DataTable({
+      columnDefs: [
+        { targets: [6], orderable: false },
+        { targets: [0, 1, 2, 3,4,5,6], className: "text-center" }
+      ],
+      searching: false,
+      info: true,
+      lengthMenu: [
+        [5, 10, 20, -1],
+        [5, 10, 20, 'All']
+      ],
+      deferRender: true,
+      order: [[0, "desc"]]
+    });
 }
 
 $(document).ready(init);
-$(document).ready(getProductList);
+//$(document).ready(getProductList);

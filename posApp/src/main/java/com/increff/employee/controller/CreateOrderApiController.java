@@ -24,15 +24,9 @@ public class CreateOrderApiController {
 	}
 
 	@ApiOperation(value = "Get list of all orders")
-	@RequestMapping(path = "/api/createOrder", method = RequestMethod.GET)
-	public List<CreateOrderData> getAll() {
-		return dto.getAll();
+	@RequestMapping(path = "/api/createOrder/all", method = RequestMethod.POST)
+	public void checkAll(@RequestBody List<CreateOrderForm> formList) throws ApiException{
+		System.out.println("checkAll called");
+		dto.checkAll(formList);
 	}
-
-	@ApiOperation(value = "Update an order")
-	@RequestMapping(path = "/api/createOrder", method = RequestMethod.PUT)
-	public void update(@RequestBody CreateOrderForm form) throws ApiException {
-		dto.update(form);
-	}
-
 }

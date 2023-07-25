@@ -30,17 +30,10 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		q.setId(p.getId());
 		service.add(q);
 
-		int expectedInventory= 10;
+		Integer expectedInventory= 10;
 
 		InventoryPojo r= service.get(p.getId());
 		assertEquals(expectedInventory,q.getQuantity());
-	}
-
-	@Test(expected = ApiException.class)
-	public void testInventoryExistAdd() throws ApiException {
-		InventoryPojo p=new InventoryPojo();
-		p.setQuantity(1);
-		service.add(p);
 	}
 
 	@Test(expected = ApiException.class)
@@ -105,7 +98,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		InventoryPojo q1= service.get(p.getId());
 		q1.setQuantity(120);
 		service.update(p.getId(),q1);
-		int expectedInventory= 120;
+		Integer expectedInventory= 120;
 
 		InventoryPojo r= service.get(p.getId());
 		assertEquals(expectedInventory,r.getQuantity());
@@ -144,8 +137,8 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		q.setId(p.getId());
 		service.add(q);
 
-		int quantity=8;
-		int quantity1= service.checkQuantity(quantity,p.getId());
+		Integer quantity=8;
+		Integer quantity1= service.checkQuantity(quantity,p.getId());
 
 		assertEquals(quantity1,quantity);
 	}
@@ -164,8 +157,8 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		q.setId(p.getId());
 		service.add(q);
 
-		int quantity=-1;
-		int quantity1= service.checkQuantity(quantity,p.getId());
+		Integer quantity=-1;
+		Integer quantity1= service.checkQuantity(quantity,p.getId());
 	}
 
 	@Test(expected = ApiException.class)
@@ -182,8 +175,8 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		q.setId(p.getId());
 		service.add(q);
 
-		int quantity=11;
-		int quantity1= service.checkQuantity(quantity,p.getId());
+		Integer quantity=11;
+		Integer quantity1= service.checkQuantity(quantity,p.getId());
 	}
 
 	@Test(expected = ApiException.class)

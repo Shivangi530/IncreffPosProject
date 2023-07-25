@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ConversionUtil</title>
+  <title>Coverage Report > AboutAppService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.increff.employee.util</a>
+    <a href="../index.html">com.increff.employee.service</a>
 </div>
 
-<h1>Coverage Summary for Class: ConversionUtil (com.increff.employee.util)</h1>
+<h1>Coverage Summary for Class: AboutAppService (com.increff.employee.service)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ConversionUtil</td>
+  <td class="name">AboutAppService</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/5)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/25)
+    (3/3)
   </span>
 </td>
 </tr>
@@ -74,51 +74,27 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.increff.employee.util;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.increff.employee.service;
 &nbsp;
-&nbsp;import com.increff.employee.model.BrandData;
-&nbsp;import com.increff.employee.model.BrandForm;
-&nbsp;import com.increff.employee.model.ProductData;
-&nbsp;import com.increff.employee.model.ProductForm;
-&nbsp;import com.increff.employee.pojo.BrandPojo;
-&nbsp;import com.increff.employee.pojo.ProductPojo;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Service;
 &nbsp;
-<b class="nc">&nbsp;public class ConversionUtil {</b>
+&nbsp;@Service
+<b class="fc">&nbsp;public class AboutAppService {</b>
 &nbsp;
-&nbsp;    public static BrandData convert(BrandPojo p) {
-<b class="nc">&nbsp;        BrandData d = new BrandData();</b>
-<b class="nc">&nbsp;        d.setCategory(p.getCategory());</b>
-<b class="nc">&nbsp;        d.setBrand(p.getBrand());</b>
-<b class="nc">&nbsp;        d.setId(p.getId());</b>
-<b class="nc">&nbsp;        return d;</b>
-&nbsp;    }
+&nbsp;	@Value(&quot;${app.name}&quot;)
+&nbsp;	private String name;
+&nbsp;	@Value(&quot;${app.version}&quot;)
+&nbsp;	
+&nbsp;	private String version;
+&nbsp;	
+&nbsp;	public String getName() {
+<b class="fc">&nbsp;		return name;</b>
+&nbsp;	}
 &nbsp;
-&nbsp;    public static BrandPojo convert(BrandForm f) {
-<b class="nc">&nbsp;        BrandPojo p = new BrandPojo();</b>
-<b class="nc">&nbsp;        p.setCategory(f.getCategory());</b>
-<b class="nc">&nbsp;        p.setBrand(f.getBrand());</b>
-<b class="nc">&nbsp;        return p;</b>
-&nbsp;    }
-&nbsp;    public static ProductData convert(ProductPojo p, String brand, String category) {
-<b class="nc">&nbsp;        ProductData d = new ProductData();</b>
-<b class="nc">&nbsp;        d.setBarcode(p.getBarcode());</b>
-<b class="nc">&nbsp;        d.setBrand_category(p.getBrand_category());</b>
-<b class="nc">&nbsp;        d.setBrand(brand);</b>
-<b class="nc">&nbsp;        d.setCategory(category);</b>
-<b class="nc">&nbsp;        d.setMrp(p.getMrp());</b>
-<b class="nc">&nbsp;        d.setName(p.getName());</b>
-<b class="nc">&nbsp;        d.setId(p.getId());</b>
-<b class="nc">&nbsp;        return d;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public static ProductPojo convert(ProductForm f, int brandCategory) {
-<b class="nc">&nbsp;        ProductPojo p = new ProductPojo();</b>
-<b class="nc">&nbsp;        p.setBarcode(f.getBarcode());</b>
-<b class="nc">&nbsp;        p.setName(f.getName());</b>
-<b class="nc">&nbsp;        p.setMrp(f.getMrp());</b>
-<b class="nc">&nbsp;        p.setBrand_category(brandCategory);</b>
-<b class="nc">&nbsp;        return p;</b>
-&nbsp;    }
+&nbsp;	public String getVersion() {
+<b class="fc">&nbsp;		return version;</b>
+&nbsp;	}
 &nbsp;
 &nbsp;}
 </code>
@@ -144,7 +120,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-17 16:26</div>
+    <div style="float:right;">generated on 2023-07-24 15:03</div>
 </div>
 </body>
 </html>

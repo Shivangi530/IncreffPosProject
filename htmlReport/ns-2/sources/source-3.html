@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > createOrderDto</title>
+  <title>Coverage Report > inventoryDto</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.employee.dto</a>
 </div>
 
-<h1>Coverage Summary for Class: createOrderDto (com.increff.employee.dto)</h1>
+<h1>Coverage Summary for Class: inventoryDto (com.increff.employee.dto)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">createOrderDto</td>
+  <td class="name">inventoryDto</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    25%
+    100%
   </span>
   <span class="absValue">
-    (1/4)
+    (4/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    11.1%
+    100%
   </span>
   <span class="absValue">
-    (1/9)
+    (13/13)
   </span>
 </td>
 </tr>
@@ -76,10 +76,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.employee.dto;
 &nbsp;
-&nbsp;import com.increff.employee.model.CreateOrderData;
-&nbsp;import com.increff.employee.model.CreateOrderForm;
-&nbsp;import com.increff.employee.pojo.OrderItemPojo;
+&nbsp;import com.increff.employee.model.InventoryData;
+&nbsp;import com.increff.employee.model.InventoryForm;
+&nbsp;import com.increff.employee.pojo.InventoryPojo;
 &nbsp;import com.increff.employee.service.ApiException;
+&nbsp;import com.increff.employee.service.BrandService;
 &nbsp;import com.increff.employee.service.InventoryService;
 &nbsp;import com.increff.employee.service.ProductService;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
@@ -87,40 +88,37 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.List;
 &nbsp;
+&nbsp;import static com.increff.employee.util.ConversionUtil.convert;
+&nbsp;
 &nbsp;@Component
-<b class="fc">&nbsp;public class createOrderDto {</b>
+<b class="fc">&nbsp;public class inventoryDto {</b>
+&nbsp;    @Autowired
+&nbsp;    private InventoryService service;
 &nbsp;    @Autowired
 &nbsp;    private ProductService productService;
 &nbsp;    @Autowired
-&nbsp;    private InventoryService inventoryService;
-&nbsp;    public void add(CreateOrderForm f) throws ApiException {
-<b class="nc">&nbsp;        int productId=productService.getIdByBarcode(f.getBarcode());</b>
-<b class="nc">&nbsp;        int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);</b>
-<b class="nc">&nbsp;        double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);</b>
-&nbsp;        // TODO sp&lt;mrp   quantity -ve and 0 and decimal
-&nbsp;        // TODO variable names should be readable
-&nbsp;//        OrderItemPojo op = convert2(f,productId,quantity,sellingPrice);
-&nbsp;    }
-&nbsp;    public List&lt;CreateOrderData&gt; getAll() {
-<b class="nc">&nbsp;        List&lt;CreateOrderData&gt; list2 = new ArrayList&lt;CreateOrderData&gt;();</b>
-<b class="nc">&nbsp;        return list2;</b>
+&nbsp;    private BrandService brandService;
+&nbsp;
+&nbsp;    public InventoryData get(int id) throws ApiException {
+<b class="fc">&nbsp;        InventoryPojo p = service.get(id);</b>
+<b class="fc">&nbsp;        String barcode=productService.selectBarcode(p.getId());</b>
+<b class="fc">&nbsp;        return convert(p,barcode);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void update(CreateOrderForm f) throws ApiException {
-<b class="nc">&nbsp;        int productId=productService.getIdByBarcode(f.getBarcode());</b>
-<b class="nc">&nbsp;        int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);</b>
-<b class="nc">&nbsp;        double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);</b>
-&nbsp;        // TODO remove convert2
-&nbsp;//        OrderItemPojo op = convert2(f,productId,quantity,sellingPrice);
+&nbsp;    public List&lt;InventoryData&gt; getAll() throws ApiException{
+<b class="fc">&nbsp;        List&lt;InventoryPojo&gt; list = service.getAll();</b>
+<b class="fc">&nbsp;        List&lt;InventoryData&gt; list2 = new ArrayList&lt;InventoryData&gt;();</b>
+<b class="fc">&nbsp;        for (InventoryPojo p : list) {</b>
+<b class="fc">&nbsp;            String barcode=productService.selectBarcode(p.getId());</b>
+<b class="fc">&nbsp;            list2.add(convert(p,barcode));</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return list2;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;//    private OrderItemPojo convert2(CreateOrderForm f,int productId,int quantity,double sellingPrice) throws ApiException{
-&nbsp;//        OrderItemPojo p = new OrderItemPojo();
-&nbsp;//        p.setProductId(productId);
-&nbsp;//        p.setQuantity(quantity);
-&nbsp;//        p.setSellingPrice(sellingPrice);
-&nbsp;//        return p;
-&nbsp;//    }
+&nbsp;    public void update(int id, InventoryForm f) throws ApiException {
+<b class="fc">&nbsp;        InventoryPojo p = convert(f);</b>
+<b class="fc">&nbsp;        service.update(id, p);</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -145,7 +143,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-17 16:26</div>
+    <div style="float:right;">generated on 2023-07-24 15:03</div>
 </div>
 </body>
 </html>

@@ -11,6 +11,9 @@
 <div class="container">
 
 	<h3>Inventory Report</h3>
+	<div class="d-flex justify-content-end mb-3">
+		<button type="button" class="btn btn-primary" id="download-report" onclick="printReport()">Download Report</button>
+	</div>
 	<!-- Blank Row -->
 	<div class="row">
 		&nbsp;
@@ -19,7 +22,7 @@
 
 		<!-- Table -->
 		<div class="col-12">
-			<button type="button" class="btn btn-primary" id="download-report" onclick="printReport('inventoryReport.tsv')">Download Report</button>
+<!--			<button type="button" class="btn btn-primary" id="download-report" onclick="printReport()">Download Report</button>-->
 			<table class="table table-striped" id="inventory-table">
 				<thead>
 				<tr>
@@ -49,6 +52,14 @@
 
 		</div>
 	</div>
+	<!-- Pagination -->
+
+	<div class="row">
+		<div class="col-12">
+			<div class="text-center" id="pagination-info">Page 1 of 1</div>
+		</div>
+	</div>
+
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>

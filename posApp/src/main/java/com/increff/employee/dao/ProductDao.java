@@ -12,9 +12,10 @@ import java.util.List;
 @Repository
 public class ProductDao extends AbstractDao {
 
-	private static String select_id = "select p from ProductPojo p where id=:id";
-	private static String select_all = "select p from ProductPojo p";
-	private static String select_barcode = "select p from ProductPojo p where barcode=:barcode";
+	private static String SELECT_ID = "select p from ProductPojo p where id=:id";
+	private static String SELECT_ALL = "select p from ProductPojo p";
+	private static String SELECT_BARCODE = "select p from ProductPojo p where barcode=:barcode";
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -24,35 +25,34 @@ public class ProductDao extends AbstractDao {
 	}
 
 	public ProductPojo select(int id) {
-		TypedQuery<ProductPojo> query = getQuery(select_id, ProductPojo.class);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ID, ProductPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 
 	public ProductPojo checkId(int id) {
-		TypedQuery<ProductPojo> query = getQuery(select_id, ProductPojo.class);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ID, ProductPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
+
 	public ProductPojo checkBarcode(String barcode) {
-		TypedQuery<ProductPojo> query = getQuery(select_barcode, ProductPojo.class);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_BARCODE, ProductPojo.class);
 		query.setParameter("barcode", barcode);
 		return getSingle(query);
 	}
+
 	public String selectBarcode(int id) {
-		TypedQuery<ProductPojo> query = getQuery(select_id, ProductPojo.class);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ID, ProductPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query).getBarcode();
 	}
 
 	public List<ProductPojo> selectAll() {
-		TypedQuery<ProductPojo> query = getQuery(select_all, ProductPojo.class);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ALL, ProductPojo.class);
 		return query.getResultList();
 	}
 
 	public void update(ProductPojo p) {
 	}
-
-
-
 }

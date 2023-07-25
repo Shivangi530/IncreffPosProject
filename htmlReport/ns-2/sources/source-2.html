@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > brandDto</title>
+  <title>Coverage Report > createOrderDto</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.employee.dto</a>
 </div>
 
-<h1>Coverage Summary for Class: brandDto (com.increff.employee.dto)</h1>
+<h1>Coverage Summary for Class: createOrderDto (com.increff.employee.dto)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">brandDto</td>
+  <td class="name">createOrderDto</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    20%
+    25%
   </span>
   <span class="absValue">
-    (1/5)
+    (1/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    6.7%
+    6.2%
   </span>
   <span class="absValue">
-    (1/15)
+    (1/16)
   </span>
 </td>
 </tr>
@@ -76,50 +76,47 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.employee.dto;
 &nbsp;
-&nbsp;import com.increff.employee.model.BrandData;
-&nbsp;import com.increff.employee.model.BrandForm;
-&nbsp;import com.increff.employee.service.BrandService;
-&nbsp;import com.increff.employee.pojo.BrandPojo;
+&nbsp;import com.increff.employee.model.CreateOrderData;
+&nbsp;import com.increff.employee.model.CreateOrderForm;
+&nbsp;import com.increff.employee.pojo.OrderItemPojo;
 &nbsp;import com.increff.employee.service.ApiException;
-&nbsp;import com.increff.employee.util.NormaliseUtil;
+&nbsp;import com.increff.employee.service.InventoryService;
+&nbsp;import com.increff.employee.service.ProductService;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
 &nbsp;import org.springframework.stereotype.Component;
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.List;
 &nbsp;
-&nbsp;import static com.increff.employee.util.ConversionUtil.convert;
-&nbsp;import static com.increff.employee.util.NormaliseUtil.normalize;
-&nbsp;
 &nbsp;@Component
-<b class="fc">&nbsp;public class brandDto {</b>
+<b class="fc">&nbsp;public class createOrderDto {</b>
 &nbsp;    @Autowired
-&nbsp;    private BrandService brandService;
-&nbsp;
-&nbsp;    public void add(BrandForm form) throws ApiException {
-<b class="nc">&nbsp;        normalize(form);</b>
-<b class="nc">&nbsp;        BrandPojo p = convert(form);</b>
-<b class="nc">&nbsp;        brandService.add(p);</b>
+&nbsp;    private ProductService productService;
+&nbsp;    @Autowired
+&nbsp;    private InventoryService inventoryService;
+&nbsp;    public void add(CreateOrderForm f) throws ApiException {
+<b class="nc">&nbsp;        if (f == null) {</b>
+<b class="nc">&nbsp;            throw new ApiException(&quot;Cannot place empty order.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int productId=productService.getIdByBarcode(f.getBarcode());</b>
+<b class="nc">&nbsp;        int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);</b>
+<b class="nc">&nbsp;        double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);</b>
 &nbsp;    }
-&nbsp;    public BrandData getBrand(int id) throws ApiException {
-<b class="nc">&nbsp;        BrandPojo brandPojo = brandService.getCheck(id);</b>
-<b class="nc">&nbsp;        return convert(brandPojo);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public List&lt;BrandData&gt; getAll() {
-<b class="nc">&nbsp;        List&lt;BrandPojo&gt; list = brandService.getAll();</b>
-<b class="nc">&nbsp;        List&lt;BrandData&gt; list2 = new ArrayList&lt;BrandData&gt;();</b>
-<b class="nc">&nbsp;        for (BrandPojo p : list) {</b>
-<b class="nc">&nbsp;            list2.add(convert(p));</b>
+&nbsp;    public void checkAll(List&lt;CreateOrderForm&gt; list) throws ApiException {
+<b class="nc">&nbsp;        for(CreateOrderForm f:list){</b>
+<b class="nc">&nbsp;            if (f == null) {</b>
+<b class="nc">&nbsp;                throw new ApiException(&quot;Cannot place empty order.&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            int productId=productService.getIdByBarcode(f.getBarcode());</b>
+<b class="nc">&nbsp;            int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);</b>
+<b class="nc">&nbsp;            double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return list2;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void update(int id, BrandForm f) throws ApiException {
-<b class="nc">&nbsp;        normalize(f);</b>
-<b class="nc">&nbsp;        BrandPojo p = convert(f);</b>
-<b class="nc">&nbsp;        brandService.update(id, p);</b>
+&nbsp;    public void update(CreateOrderForm f) throws ApiException {
+<b class="nc">&nbsp;        int productId=productService.getIdByBarcode(f.getBarcode());</b>
+<b class="nc">&nbsp;        int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);</b>
+<b class="nc">&nbsp;        double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);</b>
 &nbsp;    }
-&nbsp;
 &nbsp;
 &nbsp;}
 </code>
@@ -145,7 +142,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-17 16:26</div>
+    <div style="float:right;">generated on 2023-07-24 15:03</div>
 </div>
 </body>
 </html>

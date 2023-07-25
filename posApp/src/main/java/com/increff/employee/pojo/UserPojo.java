@@ -1,25 +1,35 @@
 package com.increff.employee.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class UserPojo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
+	@Column(unique = true,nullable = false)
 	private String email;
-	private String password;
-	private String role;
 
-	public int getId() {
+	@Column(nullable = false)
+	private String password;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Role role;
+	// todo: read about criteria builder to build native queries
+
+	public enum Role {
+		operator,
+		supervisor,
+		admin
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -39,12 +49,19 @@ public class UserPojo {
 		this.password = password;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
+//	public String getRole() {
+//		return role;
+//	}
+//
+//	public void setRole(String role) {
+//		this.role = role;
+//	}
 
 }

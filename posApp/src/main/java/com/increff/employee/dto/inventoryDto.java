@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.increff.employee.util.ConversionUtil.convert;
+
 @Component
 public class inventoryDto {
     @Autowired
@@ -24,10 +26,7 @@ public class inventoryDto {
     public InventoryData get(int id) throws ApiException {
         InventoryPojo p = service.get(id);
         String barcode=productService.selectBarcode(p.getId());
-        int brandId=productService.get(id).getBrand_category();
-        String brand= brandService.get(brandId).getBrand();
-        String category= brandService.get(brandId).getCategory();
-        return convert(p,barcode,brand,category);
+        return convert(p,barcode);
     }
 
     public List<InventoryData> getAll() throws ApiException{
@@ -35,10 +34,7 @@ public class inventoryDto {
         List<InventoryData> list2 = new ArrayList<InventoryData>();
         for (InventoryPojo p : list) {
             String barcode=productService.selectBarcode(p.getId());
-            int brandId=productService.get(p.getId()).getBrand_category();
-            String brand= brandService.get(brandId).getBrand();
-            String category= brandService.get(brandId).getCategory();
-            list2.add(convert(p,barcode,brand,category));
+            list2.add(convert(p,barcode));
         }
         return list2;
     }
@@ -46,21 +42,5 @@ public class inventoryDto {
     public void update(int id, InventoryForm f) throws ApiException {
         InventoryPojo p = convert(f);
         service.update(id, p);
-    }
-
-
-    private InventoryData convert(InventoryPojo p,String barcode,String brand,String category) throws ApiException{
-        InventoryData d = new InventoryData();
-        d.setBarcode(barcode);
-        d.setQuantity(p.getQuantity());
-        d.setId(p.getId());
-        d.setBrand(brand);
-        d.setCategory(category);
-        return d;
-    }
-    private static InventoryPojo convert(InventoryForm f) {
-        InventoryPojo p = new InventoryPojo();
-        p.setQuantity(f.getQuantity());
-        return p;
     }
 }

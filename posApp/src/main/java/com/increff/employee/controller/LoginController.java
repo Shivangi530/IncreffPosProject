@@ -62,7 +62,8 @@ public class LoginController {
             newUser.setPassword(f.getPassword());
 
             // Assign role based on email
-            String role = getRoleFromProperties(newUser.getEmail());
+            String roleValue = getRoleFromProperties(newUser.getEmail());
+            UserPojo.Role role = UserPojo.Role.valueOf(roleValue);
             newUser.setRole(role);
 
             // Set other user properties as required
@@ -143,7 +144,10 @@ public class LoginController {
 
         // Create Authorities
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(p.getRole()));
+        UserPojo.Role role = p.getRole();
+        String roleString = role.name();
+        authorities.add(new SimpleGrantedAuthority(roleString));
+
         // you can add more roles if required
 
         // Create Authentication

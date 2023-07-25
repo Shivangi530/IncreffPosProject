@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
+//TODO: transactional to class level
 @Service
 public class BrandService {
 
@@ -25,11 +26,12 @@ public class BrandService {
 			throw new ApiException("Category cannot be empty");
 		}
 		if(dao.checkCombination(p.getBrand(),p.getCategory())!=null) {
-			throw new ApiException("Brand and Category combination already exists");
+			throw new ApiException("Brand:"+p.getBrand()+" and Category:"+p.getCategory()+" combination already exists");
 		}
 		dao.insert(p);
 	}
 
+	//TODO: getCheck should not throw any error
 	@Transactional(rollbackOn = ApiException.class)
 	public BrandPojo get(int id) throws ApiException {
 		return getCheck(id);
@@ -50,13 +52,13 @@ public class BrandService {
 		}
 		if(dao.checkCombination(p.getBrand(),p.getCategory())!=null) {
 			if (id != checkCombination(p.getBrand(),p.getCategory()).getId()) {
-				throw new ApiException("Brand and Category combination already exists");
+				throw new ApiException("Brand:"+p.getBrand()+" and Category:"+p.getCategory()+" combination already exists");
 			}
 		}
-		BrandPojo ex = getCheck(id);
-		ex.setCategory(p.getCategory());
-		ex.setBrand(p.getBrand());
-		dao.update(ex);
+		BrandPojo existingPojo = getCheck(id);
+		existingPojo.setCategory(p.getCategory());
+		existingPojo.setBrand(p.getBrand());
+		dao.update(existingPojo);
 	}
 
 	@Transactional
@@ -67,6 +69,8 @@ public class BrandService {
 		}
 		return p;
 	}
+
+	//Selects brandPojo without throwing any ApiException
 	@Transactional
 	public BrandPojo getValueBrandCategory(int id){
 		return dao.select(id);

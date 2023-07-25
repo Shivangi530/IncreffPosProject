@@ -27,9 +27,6 @@ public class orderDto {
         service.add(p);
         return p.getId();
     }
-    public void delete(int id) {
-        service.delete(id);
-    }
 
     public OrderData get(int id) throws ApiException {
         OrderPojo p = service.get(id);

@@ -6,6 +6,7 @@ import com.increff.employee.model.OrderItem;
 import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,14 +30,12 @@ public class OrderService {
 	@Autowired
 	private ProductService productService;
 
+	@Value("${invoice.url}")
+	private String invoiceUrl;
+
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderPojo p) throws ApiException {
 		dao.insert(p);
-	}
-
-	@Transactional
-	public void delete(int id) {
-		dao.delete(id);
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
@@ -51,10 +50,10 @@ public class OrderService {
 
 	@Transactional(rollbackOn  = ApiException.class)
 	public void update(int id) throws ApiException {
-		OrderPojo ex = getCheck(id);
-		ex.setStatus(true);
-		System.out.println("ex.setStatus: "+ex.getStatus());
-		dao.update(ex);
+		OrderPojo existingPojo = getCheck(id);
+		existingPojo.setStatus(true);
+		System.out.println("existingPojo.setStatus: "+existingPojo.getStatus());
+		dao.update(existingPojo);
 	}
 
 	@Transactional
@@ -76,8 +75,10 @@ public class OrderService {
 	public ResponseEntity<byte[]> getInvoicePDF(Integer id) throws Exception {
 		InvoiceForm invoiceForm = generateInvoiceForOrder(id);
 		RestTemplate restTemplate = new RestTemplate();
-		String url="http://localhost:8085/fop/api/invoice";
-		byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(url, invoiceForm, byte[].class).getBody());
+		System.out.println("invoice url: "+invoiceUrl);
+		String url=invoiceUrl;
+		System.out.println("invoice url: "+url);
+		byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(invoiceUrl, invoiceForm, byte[].class).getBody());
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PDF);
 		String filename = "invoice.pdf";

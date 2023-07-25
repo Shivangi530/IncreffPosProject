@@ -1,6 +1,5 @@
 package com.increff.employee.controller;
 
-import com.increff.employee.dto.ProductDto;
 import com.increff.employee.model.ProductData;
 import com.increff.employee.model.ProductForm;
 import com.increff.employee.service.ApiException;
@@ -15,7 +14,7 @@ import java.util.List;
 public class ProductApiController {
 
 	@Autowired
-	private ProductDto productDto;
+	private com.increff.employee.dto.productDto productDto;
 
 	@ApiOperation(value = "Add a product")
 	@RequestMapping(path = "/api/product", method = RequestMethod.POST)

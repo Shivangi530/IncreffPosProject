@@ -11,16 +11,15 @@
 <div class="container">
 
     <h3>Daily Sales Report</h3>
-
-    <!-- Blank Row -->
-    <div class="row">
-        &nbsp;
+    <div class="d-flex justify-content-end mb-3">
+        <button type="button" class="btn btn-primary" id="download-report" onclick="printReport()">Download Report</button>
     </div>
-    <div class="row">
 
-        <!-- Table -->
+
+    <!-- Table -->
+    <div class="row">
         <div class="col-12">
-            <button type="button" class="btn btn-primary" id="download-report" onclick="printReport('dailySalesReport.tsv')">Download Report</button>
+<!--            <button type="button" class="btn btn-primary" id="download-report" onclick="printReport('dailySalesReport.tsv')">Download Report</button>-->
             <table class="table table-striped" id="invoice-table">
                 <thead>
                 <tr>
@@ -31,29 +30,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Aaina</td>
-                    <td>30</td>
-                    <td>Edit </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Aisha</td>
-                    <td>31</td>
-                    <td>Edit</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Anisha </td>
-                    <td>7</td>
-                    <td>Edit </td>
-                </tr>
+
                 </tbody>
             </table>
 
         </div>
     </div>
+
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>

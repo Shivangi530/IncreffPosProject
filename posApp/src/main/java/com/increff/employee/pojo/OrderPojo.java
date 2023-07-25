@@ -1,30 +1,33 @@
 package com.increff.employee.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class OrderPojo {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderSeqGen")
+//	@SequenceGenerator(name = "orderSeqGen", sequenceName = "orderSeqGen", initialValue = 1001, allocationSize = 1)
 
-	private LocalDateTime dateTime;
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderSeqGen")
+	@SequenceGenerator(name = "orderSeqGen", sequenceName = "orderSeqGen", initialValue = 1001, allocationSize = 1)
+	private Integer id;
+
+	private LocalDateTime dateTime; //TODO: Use zone date times
 	private boolean status;
+	// TODO: Use enums
 	public OrderPojo() {
 		this.dateTime = LocalDateTime.now();
 		this.status= false;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

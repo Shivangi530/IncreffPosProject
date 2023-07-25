@@ -3,6 +3,7 @@ package com.increff.employee.service;
 import com.increff.employee.pojo.OrderPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +12,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class OrderServiceTest extends AbstractUnitTest {
+
+	@Value("${invoice.url}")
+	private String invoiceUrl;
 
 	@Autowired
 	private OrderService service;
@@ -38,14 +42,6 @@ public class OrderServiceTest extends AbstractUnitTest {
 		assertEquals(2, r.size());
 	}
 
-	@Test(expected = ApiException.class)
-	public void testDelete() throws ApiException {
-		OrderPojo p = new OrderPojo();
-		service.add(p);
-		service.delete(p.getId());
-		service.get(p.getId());
-	}
-
 	@Test
 	public void testUpdate() throws ApiException {
 		OrderPojo p = new OrderPojo();
@@ -58,13 +54,17 @@ public class OrderServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testGetOrderDates() throws ApiException {
-		LocalDateTime startDate = LocalDateTime.now();
+
 		OrderPojo p = new OrderPojo();
 		service.add(p);
 
 		OrderPojo q = new OrderPojo();
 		service.add(q);
-		LocalDateTime endDate = LocalDateTime.now();
+
+		service.update(p.getId());
+		service.update(q.getId());
+		LocalDateTime startDate = p.getDateTime().minusDays(1);
+		LocalDateTime endDate = q.getDateTime().plusDays(1);
 
 		List<OrderPojo> r = service.getOrderDates(startDate, endDate);
 		System.out.println("r.size()=" + r.size());

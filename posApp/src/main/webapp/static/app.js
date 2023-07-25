@@ -28,6 +28,33 @@ function readFileData(file, callback){
 	}
 	Papa.parse(file, config);
 }
+function createTsvFile(dataToWrite, headers, fileName) {
+    var config = {
+        quoteChar: '',
+        escapeChar: '',
+        delimiter: "\t"
+    };
+
+    // Prepend the headers to the data array
+    dataToWrite.unshift(headers);
+
+    var data = Papa.unparse(dataToWrite, config);
+    var blob = new Blob([data], { type: 'text/tsv;charset=utf-8;' });
+    var fileUrl = null;
+
+    if (navigator.msSaveBlob) {
+        fileUrl = navigator.msSaveBlob(blob, fileName);
+    } else {
+        fileUrl = window.URL.createObjectURL(blob);
+    }
+
+    var tempLink = document.createElement('a');
+    tempLink.href = fileUrl;
+    tempLink.setAttribute('download', fileName);
+    tempLink.click();
+}
+
+
 
 function writeFileData(arr){
 	var config = {
@@ -52,7 +79,7 @@ function writeFileData(arr){
 }
 // Reset input fields
 function resetFormFields($form) {
-    $form.find('input[type=text],input[type=number]').val('').attr('placeholder', function() {
+    $form.find('input').val('').attr('placeholder', function() {
         return $(this).attr('placeholder');
     });
 }
@@ -71,8 +98,8 @@ window.success=function(message) {
         alertDiv.textContent = message;
 
         alertDiv.style.position = 'fixed';
-        alertDiv.style.top = '5%';
-        alertDiv.style.left = '50%';
+        alertDiv.style.top = '12%';
+        alertDiv.style.right = '0%';
         alertDiv.style.transform = 'translateX(-50%)';
 
     document.body.appendChild(alertDiv);
@@ -88,8 +115,8 @@ window.popup=function(message,text) {
     alertDiv.textContent = message;
 
     alertDiv.style.position = 'fixed';
-    alertDiv.style.top = '5%';
-    alertDiv.style.left = '50%';
+    alertDiv.style.top = '12%';
+    alertDiv.style.right = '0%';
     alertDiv.style.transform = 'translateX(-50%)';
     alertDiv.style.zIndex = '9999';
 

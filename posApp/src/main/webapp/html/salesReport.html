@@ -1,70 +1,136 @@
 <!doctype html>
-
 <html lang="en">
-
 <head th:replace="snippets.html :: name_head"></head>
-
 <body>
-
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
-
 <div class="container">
-
     <h3>Sales Report</h3>
-
     <!-- Top row with form-->
     <div class="row">
         <div class="col-12">
-            <form class="form-inline" id="orderItem-form">
-                <div class="form-group">
-                    <label for="inputStartDate" class="col-sm-2 col-form-label">Start Date</label>
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="enter startDate" value="">
+            <form id="orderItem-form">
+                <!-- First Row -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputStartDate" class="col-form-label">Start Date</label>
+                            <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="Enter Start Date" value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputEndDate" class="col-form-label">End Date</label>
+                            <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="Enter End Date" value="">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputEndDate" class="col-sm-2 col-form-label">End Date</label>
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="enter product Id" value="">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="enter brand">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="category" id="inputCategory" placeholder="enter category">
-                    </div>
-                </div>
-                &nbsp;
-                <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-                &nbsp;
-                <button type="button" class="btn btn-primary" id="upload-data">Find</button>
-                <br>
-                <button type="button" class="btn btn-primary" id="download-report" onclick="printReport('salesReport.tsv')">Download Report</button>
 
+                <!-- Second Row -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputBrand" class="col-form-label">Brand</label>
+                            <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputCategory" class="col-form-label">Category</label>
+                            <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Third Row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button> &nbsp;
+                        <button type="button" class="btn btn-primary" id="upload-data">Find</button> &nbsp;
+                        <button type="button" class="btn btn-primary" id="download-report" onclick="printReport()">Download Report</button>
+                    </div>
+                </div>
             </form>
+
+            <!--            <form class="form-inline" id="orderItem-form">-->
+<!--                <div class="form-group">-->
+<!--                    <label for="inputStartDate" class="col-sm-2 col-form-label">Start Date</label>-->
+<!--                    <div class="col-sm-10">-->
+<!--                        <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="enter startDate" value="">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="inputEndDate" class="col-sm-2 col-form-label">End Date</label>-->
+<!--                    <div class="col-sm-10">-->
+<!--                        <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="enter product Id" value="">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>-->
+<!--                    <div class="col-sm-10">-->
+<!--                        <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="enter brand">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>-->
+<!--                    <div class="col-sm-10">-->
+<!--                        <input type="text" class="form-control" name="category" id="inputCategory" placeholder="enter category">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-12">-->
+<!--                        <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button> &nbsp;-->
+<!--                        <button type="button" class="btn btn-primary" id="upload-data">Find</button> &nbsp;-->
+<!--                        <button type="button" class="btn btn-primary" id="download-report" onclick="printReport()">Download Report</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+                <!--                <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>-->
+                <!--                &nbsp;-->
+                <!--                <button type="button" class="btn btn-primary" id="upload-data">Find</button>-->
+                <!--                -->
+                <!--                <button type="button" class="btn btn-primary" id="download-report" onclick="printReport()">Download Report</button>-->
+
+            <!--                <form class="form-inline" id="orderItem-form">-->
+            <!--                    <div class="form-row ">-->
+            <!--                        <div class="form-group col-md-6">-->
+            <!--                            <label for="inputStartDate">Start Date</label>-->
+            <!--                            <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="Enter Start Date" value="">-->
+            <!--                        </div>-->
+            <!--                        <div class="form-group col-md-6">-->
+            <!--                            <label for="inputEndDate">End Date</label>-->
+            <!--                            <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="Enter End Date" value="">-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                    <div class="form-row ">-->
+            <!--                        <div class="form-group col-md-6">-->
+            <!--                            <label for="inputBrand">Brand</label>-->
+            <!--                            <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">-->
+            <!--                        </div>-->
+            <!--                        <div class="form-group col-md-6">-->
+            <!--                            <label for="inputCategory">Category</label>-->
+            <!--                            <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                    <div class="form-row">-->
+            <!--                        <div class="col-sm-12">-->
+            <!--                            <button type="button" class="btn btn-primary" id="add-product">Add</button>-->
+            <!--                            &nbsp;-->
+            <!--                            <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>-->
+            <!--                            &nbsp;-->
+            <!--                            <button type="button" class="btn btn-primary" id="upload-data">Upload</button>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </form>-->
         </div>
     </div>
-
-
-
     <!-- Blank Row -->
+    <div class="row"> &nbsp; </div>
     <div class="row">
-        &nbsp;
-    </div>
-    <div class="row">
-
         <!-- Table -->
         <div class="col-12">
             <table class="table table-striped" id="brand-table">
                 <thead>
                 <tr>
-                    <th scope="col">Date</th>
                     <th scope="col">Brand</th>
                     <th scope="col">Category</th>
                     <th scope="col">Quantity</th>
@@ -72,35 +138,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Aaina</td>
-                    <td>30</td>
-                    <td>Edit </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Aisha</td>
-                    <td>31</td>
-                    <td>Edit</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Anisha </td>
-                    <td>7</td>
-                    <td>Edit </td>
-                </tr>
+
                 </tbody>
             </table>
-
         </div>
     </div>
-</div> <!-- Container end-->
-
+</div>
+<!-- Container end-->
 <footer th:replace="snippets.html :: name_footer"></footer>
-
-<script th:src="@{/static/salesReport.js}"/></script>
-
+<script th:src="@{/static/salesReport.js}" />
+</script>
 </body>
-
 </html>

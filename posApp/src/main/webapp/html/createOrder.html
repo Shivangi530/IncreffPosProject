@@ -10,42 +10,95 @@
 
 <div class="container">
 
-    <h3>CreateOrders</h3>
+    <h3>Create Order</h3>
 
     <!-- Top row with form-->
     <div class="row">
         <div class="col-12">
-            <form class="form-inline" id="createOrder-form">
+<!--            <form id="createOrder-form">-->
+<!--                <div class="form-inline">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="inputBarcode">Barcode</label>-->
+<!--                        <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="inputQuantity">Quantity</label>-->
+<!--                        <input type="number" class="form-control" name="quantity" id="inputQuantity" placeholder="Enter Quantity">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="inputSellingPrice">MRP</label>-->
+<!--                        <input type="number" inputmode="decimal" class="form-control" name="sellingPrice" id="inputSellingPrice" placeholder="Enter Selling Price">-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div class="form-group">
-                    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="enter barcode">
+<!--                <div class="buttons">-->
+<!--                    <button type="button" class="btn btn-primary" id="add-createOrder">Add</button>-->
+<!--                    &nbsp;-->
+<!--                    <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>-->
+<!--                    &nbsp;-->
+<!--                    <button type="button" class="btn btn-primary" id="upload-data">Upload</button>-->
+<!--                </div>-->
+<!--            </form>-->
+            <form id="createOrder-form">
+<!--                <div class="form-row">-->
+<!--                    <div class="form-group col-md-4">-->
+<!--                        <label for="inputBarcode">Barcode</label>-->
+<!--                        <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">-->
+<!--                    </div>-->
+<!--                    <div class="form-group col-md-4">-->
+<!--                        <label for="inputQuantity">Quantity</label>-->
+<!--                        <input type="number" class="form-control" name="quantity" id="inputQuantity" placeholder="Enter Quantity">-->
+<!--                    </div>-->
+<!--                    <div class="form-group col-md-4">-->
+<!--                        <label for="inputSellingPrice">MRP</label>-->
+<!--                        <input type="number" inputmode="decimal" class="form-control" name="sellingPrice" id="inputSellingPrice" placeholder="Enter Selling Price">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-row">-->
+<!--                    <div class="form-group col-md-4 mb-3">-->
+<!--                        <label for="inputBarcode">Barcode</label>-->
+<!--                        <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">-->
+<!--                    </div>-->
+<!--                    <div class="form-group col-md-4 mb-3">-->
+<!--                        <label for="inputQuantity">Quantity</label>-->
+<!--                        <input type="number" class="form-control" name="quantity" id="inputQuantity" placeholder="Enter Quantity">-->
+<!--                    </div>-->
+<!--                    <div class="form-group col-md-4 mb-3">-->
+<!--                        <label for="inputSellingPrice">MRP</label>-->
+<!--                        <input type="number" inputmode="decimal" class="form-control" name="sellingPrice" id="inputSellingPrice" placeholder="Enter Selling Price">-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputBarcode">Barcode</label>
+                            <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" name="quantity" id="inputQuantity" placeholder="enter quantity">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputQuantity">Quantity</label>
+                            <input type="number" class="form-control" name="quantity" id="inputQuantity" placeholder="Enter Quantity">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputSellingPrice" class="col-sm-2 col-form-label">Mrp</label>
-                    <div class="col-sm-10">
-                        <input type="number" inputmode="decimal" class="form-control" name="sellingPrice" id="inputSellingPrice"
-                               placeholder="enter selling Price">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inputSellingPrice">Selling Price</label>
+                            <input type="number" inputmode="decimal" class="form-control" name="sellingPrice" id="inputSellingPrice" placeholder="Enter Selling Price">
+                        </div>
                     </div>
-                </div>
-                <div class="buttons">
-                    <button type="button" class="btn btn-primary" id="add-createOrder">Add</button>
-                    &nbsp;
-                    <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-                    &nbsp;
-                    <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
                 </div>
 
+
+                <div class="form-row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" id="add-createOrder">Add</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+                    </div>
+                </div>
             </form>
-        </div>
+    </div>
     </div>
 
 
@@ -96,17 +149,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit CreateOrder</h5>
+                    <h5 class="modal-title">Edit Order Line Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-inline" id="createOrder-edit-form">
+                    <form id="createOrder-edit-form">
 						<div class="form-group">
 							<label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="barcode" placeholder="enter barcode">
+								<input type="text" class="form-control" name="barcode" placeholder="enter barcode" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -133,7 +186,35 @@
     </div>
 
 
-    <!-- CreateOrder Edit Modal -->
+    <!-- CreateOrder Success Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="success-createOrder-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <br>
+                    <br>
+                    <h5>Order placed successfully</h5>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="redirectToViewOrder">View Order</button>
+                    <button type="button" class="btn btn-primary" id="generateInvoice" >Generate Invoice</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CreateOrder Upload Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="upload-createOrder-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

@@ -25,8 +25,8 @@ public class OrderItemApiController {
 
 	@ApiOperation(value = "Delete an orderItem")
 	@RequestMapping(path = "/api/orderItem/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id) {
-		dto.delete(id);
+	public void delete(@PathVariable int id,@RequestBody OrderItemForm form) throws ApiException {
+		dto.delete(id,form);
 	}
 
 	@ApiOperation(value = "Get an orderItem by ID")
@@ -42,7 +42,7 @@ public class OrderItemApiController {
 
 	@ApiOperation(value = "Get list of all orderItems")
 	@RequestMapping(path = "/api/orderItem", method = RequestMethod.GET)
-	public List<OrderItemData> getAll() {
+	public List<OrderItemData> getAll() throws ApiException{
 		return dto.getAll();
 	}
 

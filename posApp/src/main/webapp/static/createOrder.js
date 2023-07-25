@@ -2,6 +2,23 @@ function getCreateOrderUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     return baseUrl + "/api/createOrder";
 }
+function getCreateOrderUrl2() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/createOrder/all";
+}
+function getOrderUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/order";
+}
+function getOrderUrl2() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/ui/order";
+}
+function getInvoiceUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content");
+    return baseUrl + "/api/invoice";
+}
+
 var createOrderData = [];
 
 function getCreateOrderList() {
@@ -10,12 +27,40 @@ function getCreateOrderList() {
     displayCreateOrderList(data);
 }
 
+function initialChecks(json1){
+    if(json1.barcode === ""){
+        warning("Barcode cannot be empty");
+        return false;
+    }
+    if(json1.quantity === ""){
+        warning("Quantity cannot be empty");
+        return false;
+    }
+    if(parseFloat(json1.quantity)-parseInt(json1.quantity)>0){
+        danger("Quantity should be of integer type");
+        return;
+    }
+    if(json1.sellingPrice === ""){
+        warning("Mrp cannot be empty");
+        return false;
+    }
+    if(json1.sellingPrice <=0){
+        warning("Mrp should be positive");
+        return false;
+    }
+}
+
 //BUTTON ACTIONS
 function addCreateOrder(event) {
+
     //Set the values to update
     var $form = $("#createOrder-form");
     var json = toJson($form);
     var json1 = JSON.parse(json);
+    json1.barcode= json1.barcode.toLowerCase().trim();
+    if (initialChecks(json1) === false) {
+        return false;
+    }
     var url = getCreateOrderUrl();
     var data = createOrderData;
     console.log("data is: ", data);
@@ -37,24 +82,22 @@ function addCreateOrder(event) {
             var pa = json1;
             pa.id = generateUniqueId();
             console.log("json id= ", pa.id);
+            var flag=false;
             for (var i = 0; i < createOrderData.length; i++) {
                 if (createOrderData[i].barcode === pa.barcode) {
-                    createOrderData.splice(i, 1);
+                    createOrderData[i].quantity= pa.quantity;
+                    flag=true;
                     break;
                 }
             }
-            createOrderData.push(pa);
+            if(flag==false){
+                createOrderData.push(pa);}
             getCreateOrderList();
             resetFormFields($form);
         },
         error: handleAjaxError
     });
     return false;
-}
-
-function showError(message) {
-    errorContainer.textContent = message; // Update the error message content
-    errorContainer.style.display = 'block'; // Show the error message element
 }
 
 function updateCreateOrder(event) {
@@ -65,8 +108,13 @@ function updateCreateOrder(event) {
 
     //Set the values to update
     var $form = $("#createOrder-edit-form");
+
     var json = toJson($form);
     json = JSON.parse(json);
+    if (initialChecks(json) === false) {
+       return false;
+    }
+
     var data = createOrderData;
     console.log("The data is: ", data);
     // Find the object with the matching ID
@@ -79,7 +127,7 @@ function updateCreateOrder(event) {
         objectToUpdate.barcode = json.barcode;
         objectToUpdate.quantity = json.quantity;
         objectToUpdate.sellingPrice = json.sellingPrice;
-
+        success("Object updated.")
         console.log("Object with ID " + id + " is updated:");
         console.log(objectToUpdate);
     } else {
@@ -87,28 +135,54 @@ function updateCreateOrder(event) {
     }
     $.ajax({
         url: url,
-        type: 'PUT',
+        type: 'POST',
         data: JSON.stringify(objectToUpdate),
         headers: {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-
             getCreateOrderList();
         },
         error: handleAjaxError
     });
-
     return false;
 }
 
+function displaySuccessCreateOrder(event) {
+    var url = getCreateOrderUrl();
+    $('#success-createOrder-modal').modal('toggle');
+}
+
+function checkCreateOrder() {
+    var url = getCreateOrderUrl2();
+    var data = createOrderData;
+    console.log("The data is: ", data);
+    // Find the object with the matching ID
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: JSON.stringify(createOrderData),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function(response) {
+            getCreateOrderList();
+            return true;
+        },
+        error:function(response) {
+             handleAjaxError;
+             return false;
+        }
+    });
+    return false;
+}
 
 function OrderItemFunction(json2) {
     //Set the values to update
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     var urlOrderItem = baseUrl + "/api/orderItem";
     console.log("placing the order");
-    //////  Function call to enter data into orderItem.
+    //  Function call to enter data into orderItem.
     $.ajax({
         url: urlOrderItem,
         type: 'POST',
@@ -123,15 +197,21 @@ function OrderItemFunction(json2) {
         },
         error: handleAjaxError
     });
-
     return false;
 }
 
-function placeOrder(event) {
+function createOrder() {
     //Set the values to update
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     var urlOrder = baseUrl + "/api/order";
     var generatedId;
+
+    if(createOrderData.length==0){
+        danger("Cannot place empty order");
+        return;
+    }
+
+    // FUNCTION
     console.log("placing the order");
     //OrderForm form
     var json;
@@ -147,6 +227,8 @@ function placeOrder(event) {
             generatedId = response;
             console.log("generatedId= ", generatedId);
             console.log("Created order successfully");
+
+            //FUNCTION
             var json2 = createOrderData;
             console.log("createOrderData", createOrderData);
             json2.forEach(function(e) {
@@ -156,65 +238,78 @@ function placeOrder(event) {
             });
             createOrderData = [];
             getCreateOrderList();
+            $('#success-createOrder-modal').modal('toggle');
+            $('#generateInvoice').click(function() {
+                 printOrder(generatedId)});
+            $('#redirectToViewOrder').click(function() {
+                            redirectToViewOrder()});
         },
         error: handleAjaxError
     });
 
     return false;
 }
-// FILE UPLOAD METHODS
-var fileData = [];
-var errorData = [];
-var processCount = 0;
 
-
-function processData() {
-    var file = $('#createOrderFile')[0].files[0];
-    readFileData(file, readFileDataCallback);
-}
-
-function readFileDataCallback(results) {
-    fileData = results.data;
-    uploadRows();
-}
-
-function uploadRows() {
-    //Update progress
-    updateUploadDialog();
-    //If everything processed then return
-    if (processCount == fileData.length) {
+function placeOrder(event) {
+    if(createOrderData.length==0){
+        danger("Cannot place empty order");
         return;
     }
+    var url = getCreateOrderUrl2();
+    var data = createOrderData;
+        console.log("The data is: ", data);
+        // Find the object with the matching ID
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+            console.log("success in place order "+url);
 
-    //Process next row
-    var row = fileData[processCount];
-    processCount++;
+                getCreateOrderList();
+                createOrder();
+                return true;
+            },
+            error:function(response) {
+            console.log("error in place order "+url);
+            console.log(response);
+            console.log(response.responseJSON.message);
+            danger(response.responseJSON.message);
+                 handleAjaxError;
+                 return false;
+            }
+        });
+        return false;
+}
 
-    var json = JSON.stringify(row);
-    var url = getCreateOrderUrl();
+function redirectToViewOrder() {
+    window.location.href = getOrderUrl2();
+}
+function printOrder(id) {
+    window.location.href = getInvoiceUrl() + "/" + id;
+    console.log("in print order");
+    updateOrder(id);
+}
 
-    //Make ajax call
+function updateOrder(id) {
+    var url = getOrderUrl() + "/" + id;
+    console.log(url);
     $.ajax({
         url: url,
-        type: 'POST',
-        data: json,
+        type: 'PUT',
+        //        data: json,
         headers: {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            uploadRows();
+            console.log("update called successfully.");
         },
-        error: function(response) {
-            row.error = response.responseText
-            errorData.push(row);
-            uploadRows();
-        }
+        error: handleAjaxError
     });
-
-}
-
-function downloadErrors() {
-    writeFileData(errorData);
+    return false;
 }
 
 // Function to generate a unique ID
@@ -228,14 +323,12 @@ function generateUniqueId() {
 //UI DISPLAY METHODS
 
 function displayCreateOrderList(parsedArray) {
+    parsedArray.reverse();
     var $tbody = $('#createOrder-table').find('tbody');
     $tbody.empty();
     console.log(parsedArray);
-    //        var parsedArray = data.map(function(jsonString) {
-    //            return JSON.parse(jsonString);
-    //       });
     // Accessing the parsed objects
-    parsedArray.forEach(function(e) {
+    parsedArray.forEach(function(e,index) {
         if (!e.id) {
             e.id = generateUniqueId();
         }
@@ -244,9 +337,8 @@ function displayCreateOrderList(parsedArray) {
         console.log(e.barcode);
         console.log(e.quantity);
         console.log(e.sellingPrice);
-
-        var buttonHtml = '<button onclick="deleteCreateOrder(' + e.id + ')">delete</button>'
-        buttonHtml += ' <button onclick="displayEditCreateOrder(' + e.id + ')">edit</button>'
+        var buttonHtml = '<button class="btn btn-outline-primary" onclick="deleteCreateOrder(' + index + ')">Delete</button>'
+        buttonHtml += ' <button class="btn btn-outline-primary" onclick="displayEditCreateOrder(' + index + ')">Edit</button>'
 
         var row = '<tr>' +
             '<td>' + e.barcode + '</td>' +
@@ -259,69 +351,35 @@ function displayCreateOrderList(parsedArray) {
 }
 
 function displayEditCreateOrder(id) {
-    var url = getCreateOrderUrl();
-    var id = id;
-    $.ajax({
-        url: url,
-        type: 'GET',
-        success: function(data) {
-            console.log(data.id);
-            data.id = id;
-            displayCreateOrder(data);
-        },
-        error: handleAjaxError
-    });
+    console.log(createOrderData);
+    console.log("id=",id);
+    console.log(createOrderData[0]);
+    console.log(createOrderData[0].barcode);
+    console.log("The edit button");
+    var data=createOrderData[id];
+    if (!data) {
+        console.error('Item not found at index:', id);
+        return;
+    }
+    displayCreateOrder(data);
 }
 
-function deleteCreateOrder(id) {
+function deleteCreateOrder(index) {
     console.log("The delete button");
-    var url = getCreateOrderUrl();
-    var data = createOrderData;
-    console.log("The data is: ", data);
-    var idString = id.toString();
-    var index = createOrderData.findIndex(function(obj) {
-        console.log("obj id= ", obj.id, "id = ", idString);
-        return obj.id === idString;
-    });
-
-    if (index !== -1) {
-        // Remove the create order object from the array
-        createOrderData.splice(index, 1);
-        console.log("Order with ID " + idString + " is deleted.");
-    } else {
-        console.log("Order with ID " + idString + " not found.");
-    }
+    console.log("index=",index);
+    var data=createOrderData[index];
+        if (!data) {
+            console.error('Item not found at index:', index);
+            return;
+        }
+      // Remove the element at the specified index
+    createOrderData.splice(index, 1);
     getCreateOrderList();
 }
 
-function resetUploadDialog() {
-    //Reset file name
-    var $file = $('#createOrderFile');
-    $file.val('');
-    $('#createOrderFileName').html("Choose File");
-    //Reset various counts
-    processCount = 0;
-    fileData = [];
-    errorData = [];
-    //Update counts
-    updateUploadDialog();
-}
-
-function updateUploadDialog() {
-    $('#rowCount').html("" + fileData.length);
-    $('#processCount').html("" + processCount);
-    $('#errorCount').html("" + errorData.length);
-}
-
-function updateFileName() {
-    var $file = $('#createOrderFile');
-    var fileName = $file.val();
-    $('#createOrderFileName').html(fileName);
-}
-
-function displayUploadData() {
-    resetUploadDialog();
-    $('#upload-createOrder-modal').modal('toggle');
+function refresh() {
+    getCreateOrderList();
+    resetFormFields($('#createOrder-form'));
 }
 
 function displayCreateOrder(data) {
@@ -330,6 +388,7 @@ function displayCreateOrder(data) {
     $("#createOrder-edit-form input[name=quantity]").val(data.quantity);
     $("#createOrder-edit-form input[name=sellingPrice]").val(data.sellingPrice);
     $('#edit-createOrder-modal').modal('toggle');
+
 }
 
 
@@ -337,12 +396,8 @@ function displayCreateOrder(data) {
 function init() {
     $('#add-createOrder').click(addCreateOrder);
     $('#update-createOrder').click(updateCreateOrder);
-    $('#refresh-data').click(getCreateOrderList);
-    $('#upload-data').click(displayUploadData);
-    $('#process-data').click(processData);
-    $('#download-errors').click(downloadErrors);
+    $('#refresh-data').click(refresh);
     $('#placeOrder').click(placeOrder);
-    $('#createOrderFile').on('change', updateFileName)
 }
 
 $(document).ready(init);

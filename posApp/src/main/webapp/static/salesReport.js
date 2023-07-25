@@ -1,36 +1,9 @@
-var data = [];
+var table;
+
+var salesData = [];
 function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/report/salesReport";
-}
-function getOrderUrl2(){
-	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/report/salesReport/relevent";
-}
-function getOrderList(){
-	var url = getOrderUrl();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(response) {
-	        data=response;
-	        console.log(data);
-	   		displayOrderList(response);
-	   },
-	   error: handleAjaxError
-	});
-}
-function getReleventOrderList(){
-	var url = getOrderUrl2();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(response) {
-	        data=response;
-	   		displayOrderList(response);
-	   },
-	   error: handleAjaxError
-	});
 }
 
 function getOrderListByFilter(){
@@ -38,24 +11,27 @@ function getOrderListByFilter(){
 	var $form = $("#orderItem-form");
     var json1 = toJson($form);
     var json = JSON.parse(json1);
-    console.log("json:",json);
-    console.log("json.startDate:",json.startDate);
-    if(json1.startDate===undefined){
+
+    const startDate = new Date(json.startDate);
+    const endDate = new Date(json.endDate);
+
+    if (startDate > endDate) {
+      danger("startDate:"+startDate.toISOString().split("T")[0]+" cannot be later than endDate:"+endDate.toISOString().split("T")[0]);
+      return;
+    }
+//    console.log("Hey there",startDate,endDate);
+    if(json.startDate===""){
       var currentDate = new Date();
       var oneMonthAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate());
       var formattedDate = oneMonthAgo.toISOString().split('T')[0];
         document.getElementById("inputStartDate").value=formattedDate;
         json.startDate=formattedDate;
-        console.log("formattedDate:",formattedDate);
-        console.log("json.startDate:",json.startDate);
     }
-    if(json1.endDate===undefined){
+    if(json.endDate===""){
           var currentDate = new Date();
           var formattedDate = currentDate.toISOString().split('T')[0];
             document.getElementById("inputEndDate").value=formattedDate;
             json.endDate=formattedDate;
-            console.log("formattedDate:",formattedDate);
-            console.log("json.startDate:",json.startDate);
         }
     console.log("json is:",json);
     $.ajax({
@@ -66,10 +42,8 @@ function getOrderListByFilter(){
            	'Content-Type': 'application/json'
            },
     	   success: function(response) {
-    	        console.log("Success........");
-//    	        console.log("response=======",response);
+    	        salesData=response.reverse();
     	        displayOrderList(response);
-    	        console.log("Completed!!!!!!");
     	   },
     	   error: handleAjaxError
     	});
@@ -78,11 +52,12 @@ function getOrderListByFilter(){
 //UI DISPLAY METHODS
 
 function displayOrderList(data){
-	var $tbody = $('#brand-table').find('tbody');
-	$tbody.empty();
-	console.log("displayBrandList.............");
-	for(var i in data){
-		var e = data[i];
+    table.clear().draw();
+    var dataRows=[];
+    for (var i in data) {
+        var e = data[i];
+        var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
+        var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
 		var row = '<tr>'
 		+ '<td>' + e.date + '</td>'
 		+ '<td>' + e.brand + '</td>'
@@ -90,23 +65,43 @@ function displayOrderList(data){
 		+ '<td>' + e.quantity + '</td>'
 		+ '<td>'  + e.revenue + '</td>'
 		+ '</tr>';
-        $tbody.append(row);
-	}
+        dataRows.push([ trimmedBrand, trimmedCategory, e.quantity,e.revenue]);
+    }
+    table.rows.add(dataRows).draw();
+}
+
+function printReport() {
+    // Check if data is empty or undefined
+    if (!salesData || salesData.length === 0) {
+        console.error('No data available to generate the report.');
+        return;
+    }
+
+
+    var filteredData = salesData.map(({date,	brand,	category,	quantity,	revenue }) => ({date,	brand,	category,	quantity,	revenue}));
+
+    // Prepare headers and TSV data for the writeFileData function
+    var headers = [	'Brand',	'Category',	'Quantity',	'Revenue'];
+    var tsvData = filteredData.map(obj => [	obj.brand,	obj.category,	obj.quantity,	obj.revenue]);
+
+    // Call the createTsvFile function with the filtered TSV data and file name
+    createTsvFile(tsvData, headers, 'SalesReport.tsv');
 }
 
 //function printReport(fileName) {
-//     // Check if data is empty or undefined
-//        if (!data || data.length === 0) {
-//            console.error('No data available to generate the report.');
+//        console.log(salesData);
+//     // Check if salesData is empty or undefined
+//        if (!salesData || salesData.length === 0) {
+//            console.error('No salesData available to generate the report.');
 //            return;
 //        }
 //     // Exclude startDate and endDate fields from headers
-//       var headers = Object.keys(data[0]).filter(function(key) {
+//       var headers = Object.keys(salesData[0]).filter(function(key) {
 //         return key !== 'startDate' && key !== 'endDate';
 //       });
 //
 //       // Exclude startDate and endDate fields from dataArray
-//       var dataArray = data.map(function(obj) {
+//       var dataArray = salesData.map(function(obj) {
 //         return headers.map(function(header) {
 //           return obj[header];
 //         });
@@ -136,8 +131,22 @@ function displayOrderList(data){
 function init(){
 	$('#refresh-data').click(getOrderListByFilter);
 	$('#upload-data').click(getOrderListByFilter);
+	getOrderListByFilter();
+    table = $('#brand-table').DataTable({
+      columnDefs: [
+        { targets: [3], orderable: false },
+        { targets: [0, 1, 2, 3], className: "text-center" }
+      ],
+      searching: true,
+      info: true,
+      lengthMenu: [
+        [5, 10, 20, -1],
+        [5, 10, 20, 'All']
+      ],
+      deferRender: true,
+      order: [[0, "desc"]]
+    });
 }
 
 $(document).ready(init);
-$(document).ready(getOrderListByFilter);
 

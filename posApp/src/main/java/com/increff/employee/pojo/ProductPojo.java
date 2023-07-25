@@ -1,32 +1,28 @@
 package com.increff.employee.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-//@Table(name = "ProductPojo")
+// TODO: Add index for the column
 public class ProductPojo {
 
+//	@Id
+//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	//@Column(name = "id", columnDefinition = "int")
-	private int id;
-	//@Column(name = "barcode", columnDefinition = "VARCHAR(255")
+	private Integer id;
+	@Column(nullable = false, unique = true)
 	private String barcode;
-	//@Column(name = "brand_category", columnDefinition = "int")
-	private int brand_category;
-	//@Column(name = "name", columnDefinition = "VARCHAR(255")
+	private Integer brand_category;
+	@Column(nullable = false)
 	private String name;
-	//@Column(name = "mrp", columnDefinition = "double")
 	private double mrp;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -38,11 +34,11 @@ public class ProductPojo {
 		this.barcode = barcode;
 	}
 
-	public int getBrand_category() {
+	public Integer getBrand_category() {
 		return brand_category;
 	}
 
-	public void setBrand_category(int brand_category) {
+	public void setBrand_category(Integer brand_category) {
 		this.brand_category = brand_category;
 	}
 

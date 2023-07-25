@@ -11,17 +11,17 @@ public class DayOnDaySalesPojo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private LocalDate date;
-    private int orderCount;
-    private int itemCount;
+    private Integer orderCount;
+    private Integer itemCount;
     private double revenue;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -33,19 +33,19 @@ public class DayOnDaySalesPojo {
 		this.date = date;
 	}
 
-	public int getOrderCount() {
+	public Integer getOrderCount() {
 		return orderCount;
 	}
 
-	public void setOrderCount(int orderCount) {
+	public void setOrderCount(Integer orderCount) {
 		this.orderCount = orderCount;
 	}
 
-	public int getItemCount() {
+	public Integer getItemCount() {
 		return itemCount;
 	}
 
-	public void setItemCount(int itemCount) {
+	public void setItemCount(Integer itemCount) {
 		this.itemCount = itemCount;
 	}
 

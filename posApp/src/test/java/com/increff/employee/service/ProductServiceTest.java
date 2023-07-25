@@ -24,7 +24,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 
 		ProductPojo q= service.get(p.getId());
 		String expectedBarcode= "ndejf";
-		int expectedBrand_Category= 1;
+		Integer expectedBrand_Category= 1;
 		double expectedMrp = 10.7;
 		String expectedName= "Fanta 200 ml";
 		assertEquals(expectedBarcode,q.getBarcode());
@@ -167,14 +167,13 @@ public class ProductServiceTest extends AbstractUnitTest {
 		service.add(p);
 
 		ProductPojo q=new ProductPojo();
-		q.setBarcode("dasfddfsas");
+		q.setBarcode("dasfdsgfds");
 		q.setBrand_category(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
 		service.add(q);
 
-		ProductPojo r= service.get(q.getId());
-		r.setBarcode("dasfds");
+//		ProductPojo r= service.get(q.getId());
 		service.update(q.getId(),p);
 	}
 
@@ -189,10 +188,12 @@ public class ProductServiceTest extends AbstractUnitTest {
 
 		ProductPojo q= service.checkId(p.getId());;
 		String expectedBarcode= service.selectBarcode(p.getId());
-		int expectedBrand_Category= 1;
+		Integer expectedBrand_Category= 1;
 		double expectedMrp = 10.7;
 		String expectedName= "Fanta 200 ml";
-		assertEquals(q.getId(),service.getIdByBarcode("ndejf"));
+		Integer expectedId=p.getId();
+		Integer qId= service.getIdByBarcode("ndejf");
+		assertEquals(expectedId,qId);
 		assertEquals(expectedBarcode,q.getBarcode());
 		assertEquals(expectedBrand_Category,q.getBrand_category());
 		assertEquals(expectedMrp,q.getMrp(),0.0001);
@@ -264,7 +265,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 
 	@Test(expected = ApiException.class)
 	public void testGetIdByBarcodeInvalid() throws ApiException{
-		int id=service.getIdByBarcode("gfdg");
+		Integer id=service.getIdByBarcode("gfdg");
 	}
 
 //		ProductPojo p=new ProductPojo();

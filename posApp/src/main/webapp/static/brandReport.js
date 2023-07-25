@@ -1,7 +1,7 @@
-var data = [];
-
+var table;
+var data;
 function getBrandUrl() {
-    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    var baseUrl = $("meta[name=baseUrl]").attr("content");
     return baseUrl + "/api/brand";
 }
 
@@ -11,72 +11,79 @@ function getBrandList() {
         url: url,
         type: 'GET',
         success: function(response) {
-            data = response;
+            data=response;
             displayBrandList(response);
         },
         error: handleAjaxError
     });
 }
 
-
-//UI DISPLAY METHODS
+// UI DISPLAY METHODS
 
 function displayBrandList(data) {
-    var $tbody = $('#brand-table').find('tbody');
-    $tbody.empty();
+    table.clear().draw();
+    var dataRows = [];
     for (var i in data) {
         var e = data[i];
-        var truncatedFields = {};
-        Object.keys(e).forEach(function(key) {
-            var value = e[key];
-            if (typeof value === 'string' && value.length > 15) {
-                value = value.substring(0, 15)+"...";
-            }
-            truncatedFields[key] = value;
-        });
+        var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
+        var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
         var row = '<tr>' +
-            '<td>' + truncatedFields.id + '</td>' +
-            '<td>' + truncatedFields.brand + '</td>' +
-            '<td>' + truncatedFields.category + '</td>' +
+            '<td>' + trimmedBrand + '</td>' +
+            '<td>' + trimmedCategory + '</td>' +
             '</tr>';
-
-        $tbody.append(row);
+        dataRows.push([trimmedBrand, trimmedCategory]);
     }
+    table.rows.add(dataRows).draw();
 }
 
-function printReport(fileName) {
+function printReport() {
     // Check if data is empty or undefined
     if (!data || data.length === 0) {
         console.error('No data available to generate the report.');
         return;
     }
-    var headers = Object.keys(data[0]);
-    var dataArray = data.map(obj => Object.values(obj));
 
-    var tsvData = [headers, ...dataArray];
-    var tsvContent = tsvData.map(row => row.join('\t')).join('\n');
+    // Extract only the "brand" and "category" fields from the data
+    var filteredData = data.map(({ brand, category }) => ({ brand, category }));
 
-    var blob = new Blob([tsvContent], {
-        type: 'text/tab-separated-values'
-    });
-    var url = URL.createObjectURL(blob);
+    // Prepare headers and TSV data for the writeFileData function
+    var headers = ['Brand', 'Category'];
+    var tsvData = filteredData.map(obj => [obj.brand, obj.category]);
 
-    var link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    link.style.display = 'none';
-
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    // Call the createTsvFile function with the filtered TSV data and file name
+    createTsvFile(tsvData, headers, 'BrandReport.tsv');
 }
-//INITIALIZATION CODE
+
+// INITIALIZATION CODE
 function init() {
     $('#refresh-data').click(getBrandList);
+    // Initial data fetch
+    getBrandList();
+    table = $('#brand-table').DataTable({
+        columnDefs: [
+            { targets: [0, 1], className: "text-center" }
+        ],
+        searching: true,
+        info: true,
+        lengthMenu: [
+            [5, 10, 20, -1],
+            [5, 10, 20, 'All']
+        ],
+        deferRender: true,
+        pagingType: 'full',
+        language: {
+            paginate: {
+                first: '&laquo;',
+                previous: '&lsaquo;',
+                next: '&rsaquo;',
+                last: '&raquo;'
+            }
+        },
+//        dom: '<"pagination-wrapper d-flex justify-content-center"t><"mt-2"p>'
+    });
 }
 
-
-$(document).ready(init);
-$(document).ready(getBrandList);
+$(document).ready(function() {
+    init();
+    getBrandList();
+});

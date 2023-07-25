@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public class DayOnDaySalesDao extends AbstractDao {
 
-	private static String delete_id = "delete from DayOnDaySalesPojo p where id=:id";
-	private static String select_id = "select p from DayOnDaySalesPojo p where id=:id";
-	private static String select_all = "select p from DayOnDaySalesPojo p";
+	private static String DELETE_ID = "delete from DayOnDaySalesPojo p where id=:id";
+	private static String SELECT_ID = "select p from DayOnDaySalesPojo p where id=:id";
+	private static String SELECT_ALL = "select p from DayOnDaySalesPojo p";
 
 	@PersistenceContext
 	private EntityManager em;
@@ -26,25 +26,22 @@ public class DayOnDaySalesDao extends AbstractDao {
 	}
 
 	public int delete(int id) {
-		Query query = em.createQuery(delete_id);
+		Query query = em.createQuery(DELETE_ID);
 		query.setParameter("id", id);
 		return query.executeUpdate();
 	}
 
 	public DayOnDaySalesPojo select(int id) {
-		TypedQuery<DayOnDaySalesPojo> query = getQuery(select_id, DayOnDaySalesPojo.class);
+		TypedQuery<DayOnDaySalesPojo> query = getQuery(SELECT_ID, DayOnDaySalesPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 
 	public List<DayOnDaySalesPojo> selectAll() {
-		TypedQuery<DayOnDaySalesPojo> query = getQuery(select_all, DayOnDaySalesPojo.class);
+		TypedQuery<DayOnDaySalesPojo> query = getQuery(SELECT_ALL, DayOnDaySalesPojo.class);
 		return query.getResultList();
 	}
 
 	public void update(DayOnDaySalesPojo p) {
 	}
-
-
-
 }

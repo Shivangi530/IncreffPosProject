@@ -1,11 +1,10 @@
 package com.increff.employee.util;
 
-import com.increff.employee.model.BrandData;
-import com.increff.employee.model.BrandForm;
-import com.increff.employee.model.ProductData;
-import com.increff.employee.model.ProductForm;
+import com.increff.employee.model.*;
 import com.increff.employee.pojo.BrandPojo;
+import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.ProductPojo;
+import com.increff.employee.service.ApiException;
 
 public class ConversionUtil {
 
@@ -44,4 +43,16 @@ public class ConversionUtil {
         return p;
     }
 
+    public static InventoryData convert(InventoryPojo p, String barcode) throws ApiException {
+        InventoryData d = new InventoryData();
+        d.setBarcode(barcode);
+        d.setQuantity(p.getQuantity());
+        d.setId(p.getId());
+        return d;
+    }
+    public static InventoryPojo convert(InventoryForm f) {
+        InventoryPojo p = new InventoryPojo();
+        p.setQuantity(f.getQuantity());
+        return p;
+    }
 }

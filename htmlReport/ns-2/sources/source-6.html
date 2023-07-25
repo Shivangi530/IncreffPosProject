@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > orderItemDto</title>
+  <title>Coverage Report > productDto</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.employee.dto</a>
 </div>
 
-<h1>Coverage Summary for Class: orderItemDto (com.increff.employee.dto)</h1>
+<h1>Coverage Summary for Class: productDto (com.increff.employee.dto)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">orderItemDto</td>
+  <td class="name">productDto</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    9.1%
+    100%
   </span>
   <span class="absValue">
-    (1/11)
+    (5/5)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    1.8%
+    100%
   </span>
   <span class="absValue">
-    (1/55)
+    (31/31)
   </span>
 </td>
 </tr>
@@ -76,122 +76,73 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.employee.dto;
 &nbsp;
-&nbsp;import com.increff.employee.model.BrandData;
-&nbsp;import com.increff.employee.model.BrandForm;
-&nbsp;import com.increff.employee.model.OrderItemData;
-&nbsp;import com.increff.employee.model.OrderItemForm;
-&nbsp;import com.increff.employee.pojo.BrandPojo;
+&nbsp;import com.increff.employee.model.ProductData;
+&nbsp;import com.increff.employee.model.ProductForm;
 &nbsp;import com.increff.employee.pojo.InventoryPojo;
-&nbsp;import com.increff.employee.pojo.OrderItemPojo;
-&nbsp;import com.increff.employee.service.*;
-&nbsp;import io.swagger.annotations.ApiOperation;
+&nbsp;import com.increff.employee.pojo.ProductPojo;
+&nbsp;import com.increff.employee.service.ApiException;
+&nbsp;import com.increff.employee.service.BrandService;
+&nbsp;import com.increff.employee.service.InventoryService;
+&nbsp;import com.increff.employee.service.ProductService;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
 &nbsp;import org.springframework.stereotype.Component;
-&nbsp;import org.springframework.web.bind.annotation.PathVariable;
-&nbsp;import org.springframework.web.bind.annotation.RequestBody;
-&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
-&nbsp;import org.springframework.web.bind.annotation.RequestMethod;
-&nbsp;
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.List;
+&nbsp;import static com.increff.employee.util.ConversionUtil.convert;
+&nbsp;import static com.increff.employee.util.NormaliseUtil.normalize;
+&nbsp;import static com.increff.employee.util.ValidateUtil.validate;
 &nbsp;
 &nbsp;@Component
-<b class="fc">&nbsp;public class orderItemDto {</b>
+<b class="fc">&nbsp;public class productDto {</b>
 &nbsp;    @Autowired
-&nbsp;    private OrderItemService service;
+&nbsp;    private ProductService service;
+&nbsp;    @Autowired
+&nbsp;    private BrandService brandService;
 &nbsp;    @Autowired
 &nbsp;    private InventoryService inventoryService;
-&nbsp;    @Autowired
-&nbsp;    private ProductService productService;
 &nbsp;
-&nbsp;    public void add( OrderItemForm form) throws ApiException {
-<b class="nc">&nbsp;        int productId=productService.getIdByBarcode(form.getBarcode());</b>
-<b class="nc">&nbsp;        OrderItemPojo p = convert(form,productId);</b>
-<b class="nc">&nbsp;        InventoryPojo i=inventoryService.get(p.getProductId());</b>
-<b class="nc">&nbsp;        i.setQuantity(i.getQuantity()-p.getQuantity());</b>
-<b class="nc">&nbsp;        inventoryService.update(i.getId(),i);</b>
-<b class="nc">&nbsp;        service.add(p);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public void delete( int id) {
-<b class="nc">&nbsp;        service.delete(id);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @ApiOperation(value = &quot;Get an orderItem by ID&quot;)
-&nbsp;    @RequestMapping(path = &quot;/api/orderItem/{id}&quot;, method = RequestMethod.GET)
-&nbsp;    public OrderItemData get( int id) throws ApiException {
-<b class="nc">&nbsp;        OrderItemPojo p = service.get(id);</b>
-<b class="nc">&nbsp;        return convert(p);</b>
-&nbsp;    }
-&nbsp;    @ApiOperation(value = &quot;Get the list of orderItem by orderID&quot;)
-&nbsp;    @RequestMapping(path = &quot;/api/orderItem/view/{id}&quot;, method = RequestMethod.GET)
-&nbsp;    public List&lt;OrderItemData&gt; getOrderList( int id) throws ApiException {
-<b class="nc">&nbsp;        List&lt;OrderItemPojo&gt; list = service.getOrderList(id);;</b>
-<b class="nc">&nbsp;        List&lt;OrderItemData&gt; list2 = new ArrayList&lt;OrderItemData&gt;();</b>
-<b class="nc">&nbsp;        for (OrderItemPojo p : list) {</b>
-<b class="nc">&nbsp;            String barcode=productService.get(p.getProductId()).getBarcode();</b>
-<b class="nc">&nbsp;            String productName=productService.get(p.getProductId()).getName();</b>
-<b class="nc">&nbsp;            list2.add(convert2(p,productName,barcode));</b>
-<b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return list2;</b>
+&nbsp;    public void add(ProductForm f) throws ApiException {
+<b class="fc">&nbsp;        normalize(f);</b>
+<b class="fc">&nbsp;        validate(f);</b>
+<b class="fc">&nbsp;        int brandCategoryId = 0;</b>
+<b class="fc">&nbsp;        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {</b>
+<b class="fc">&nbsp;            brandCategoryId = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ProductPojo p = convert(f, brandCategoryId);</b>
+<b class="fc">&nbsp;        service.add(p);</b>
+<b class="fc">&nbsp;        InventoryPojo pi = new InventoryPojo();</b>
+<b class="fc">&nbsp;        pi.setId(p.getId());</b>
+<b class="fc">&nbsp;        pi.setQuantity(0);</b>
+<b class="fc">&nbsp;        inventoryService.add(pi);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @ApiOperation(value = &quot;Get list of all orderItems&quot;)
-&nbsp;    @RequestMapping(path = &quot;/api/orderItem&quot;, method = RequestMethod.GET)
-&nbsp;    public List&lt;OrderItemData&gt; getAll() {
-<b class="nc">&nbsp;        List&lt;OrderItemPojo&gt; list = service.getAll();</b>
-<b class="nc">&nbsp;        List&lt;OrderItemData&gt; list2 = new ArrayList&lt;OrderItemData&gt;();</b>
-<b class="nc">&nbsp;        for (OrderItemPojo p : list) {</b>
-<b class="nc">&nbsp;            list2.add(convert(p));</b>
-<b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return list2;</b>
+&nbsp;    public ProductData get(int id) throws ApiException {
+<b class="fc">&nbsp;        ProductPojo p = service.get(id);</b>
+<b class="fc">&nbsp;        String brand = brandService.get(p.getBrand_category()).getBrand();</b>
+<b class="fc">&nbsp;        String category = brandService.get(p.getBrand_category()).getCategory();</b>
+<b class="fc">&nbsp;        return convert(p, brand, category);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @ApiOperation(value = &quot;Updates an orderItem&quot;)
-&nbsp;    @RequestMapping(path = &quot;/api/orderItem/{id}&quot;, method = RequestMethod.PUT)
-&nbsp;    public void update( int id,  OrderItemForm f) throws ApiException {
-<b class="nc">&nbsp;        OrderItemPojo p = service.get(id);</b>
-<b class="nc">&nbsp;        OrderItemPojo newp= convert3(f,p);</b>
-<b class="nc">&nbsp;        InventoryPojo i=inventoryService.get(p.getProductId());</b>
-<b class="nc">&nbsp;        i.setQuantity(i.getQuantity()-f.getInventoryQty());</b>
-<b class="nc">&nbsp;        inventoryService.update(i.getId(),i);</b>
-<b class="nc">&nbsp;        service.update(id, newp);</b>
+&nbsp;    public List&lt;ProductData&gt; getAll() {
+<b class="fc">&nbsp;        List&lt;ProductPojo&gt; list = service.getAll();</b>
+<b class="fc">&nbsp;        List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (ProductPojo p : list) {</b>
+<b class="fc">&nbsp;            String brand = brandService.getValueBrandCategory(p.getBrand_category()).getBrand();</b>
+<b class="fc">&nbsp;            String category = brandService.getValueBrandCategory(p.getBrand_category()).getCategory();</b>
+<b class="fc">&nbsp;            list2.add(convert(p, brand, category));</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return list2;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;
-&nbsp;    private static OrderItemData convert(OrderItemPojo p) {
-<b class="nc">&nbsp;        OrderItemData d = new OrderItemData();</b>
-<b class="nc">&nbsp;        d.setOrderId(p.getOrderId());</b>
-<b class="nc">&nbsp;        d.setProductId(p.getProductId());</b>
-<b class="nc">&nbsp;        d.setQuantity(p.getQuantity());</b>
-<b class="nc">&nbsp;        d.setSellingPrice(p.getSellingPrice());</b>
-<b class="nc">&nbsp;        d.setId(p.getId());</b>
-<b class="nc">&nbsp;        return d;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    private OrderItemPojo convert(OrderItemForm f,int productId){
-<b class="nc">&nbsp;        OrderItemPojo p = new OrderItemPojo();</b>
-<b class="nc">&nbsp;        p.setOrderId(f.getOrderId());</b>
-<b class="nc">&nbsp;        p.setProductId(productId);</b>
-<b class="nc">&nbsp;        p.setQuantity(f.getQuantity());</b>
-<b class="nc">&nbsp;        p.setSellingPrice(f.getSellingPrice());</b>
-<b class="nc">&nbsp;        return p;</b>
-&nbsp;    }
-&nbsp;    private OrderItemData convert2(OrderItemPojo p,String productName, String barcode){
-<b class="nc">&nbsp;        OrderItemData d = new OrderItemData();</b>
-<b class="nc">&nbsp;        d.setOrderId(p.getOrderId());</b>
-<b class="nc">&nbsp;        d.setProductId(p.getProductId());</b>
-<b class="nc">&nbsp;        d.setQuantity(p.getQuantity());</b>
-<b class="nc">&nbsp;        d.setSellingPrice(p.getSellingPrice());</b>
-<b class="nc">&nbsp;        d.setId(p.getId());</b>
-<b class="nc">&nbsp;        d.setProductName(productName);</b>
-<b class="nc">&nbsp;        d.setBarcode(barcode);</b>
-<b class="nc">&nbsp;        return d;</b>
-&nbsp;    }
-&nbsp;    private OrderItemPojo convert3(OrderItemForm f,OrderItemPojo p){
-<b class="nc">&nbsp;        p.setQuantity(f.getQuantity());</b>
-<b class="nc">&nbsp;        p.setSellingPrice(f.getSellingPrice());</b>
-<b class="nc">&nbsp;        return p;</b>
+&nbsp;    public void update(int id, ProductForm f) throws ApiException {
+<b class="fc">&nbsp;        normalize(f);</b>
+<b class="fc">&nbsp;        validate(f);</b>
+<b class="fc">&nbsp;        int brandCategory = 0;</b>
+<b class="fc">&nbsp;        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {</b>
+<b class="fc">&nbsp;            brandCategory = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ProductPojo p = convert(f, brandCategory);</b>
+<b class="fc">&nbsp;        service.update(id, p);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -217,7 +168,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-17 16:26</div>
+    <div style="float:right;">generated on 2023-07-24 15:03</div>
 </div>
 </body>
 </html>

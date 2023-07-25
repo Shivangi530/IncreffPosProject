@@ -1,7 +1,4 @@
-// Global variables for pagination
-var currentPage = 1;
-var pageSize = 10;
-var totalItems = 0;
+var table;
 var inventoryData = [];
 
 function getInventoryUrl() {
@@ -19,7 +16,7 @@ function updateInventory(event) {
     var $form = $("#inventory-edit-form");
     var json = toJson($form);
     var json1 = JSON.parse(json);
-    if((parseFloat(json1.quantity)- parseInt(json1.quantity))>0){
+    if ((parseFloat(json1.quantity) - parseInt(json1.quantity)) > 0) {
         warning("Quantity should be of integer type.");
         return;
     }
@@ -47,26 +44,12 @@ function getInventoryList() {
         url: url,
         type: 'GET',
         success: function(data) {
-            console.log(data);
-            displayInventoryList(data);
-            inventoryData = data;
+            inventoryData = data.reverse();
+            displayInventoryList(inventoryData);
         },
         error: handleAjaxError
     });
 }
-
-//function deleteInventory(id){
-//	var url = getInventoryUrl() + "/" + id;
-//
-//	$.ajax({
-//	   url: url,
-//	   type: 'DELETE',
-//	   success: function(data) {
-//	   		getInventoryList();
-//	   },
-//	   error: handleAjaxError
-//	});
-//}
 
 // FILE UPLOAD METHODS
 var fileData = [];
@@ -108,7 +91,9 @@ function readFileDataCallback(results) {
 function checkHeaderMatch(uploadedHeaders) {
     // Extract the headers from the object
     var expectedHeaders = ["barcode", "quantity"];
+
     var extractedHeaders = Object.keys(uploadedHeaders);
+    extractedHeaders = extractedHeaders.filter(item => item !== 'error');
     // Compare the headers
     if (extractedHeaders.length !== expectedHeaders.length) {
         return false;
@@ -125,6 +110,11 @@ function checkHeaderMatch(uploadedHeaders) {
     return true;
 }
 
+function ajaxFxn(data) {
+    //Make ajax call
+
+}
+
 function uploadRows() {
     //Update progress
     updateUploadDialog();
@@ -132,48 +122,48 @@ function uploadRows() {
     if (processCount == fileData.length) {
         return;
     }
-
     //Process next row
     var row = fileData[processCount];
     processCount++;
     var id = -1;
-    var barcode = row.barcode;
-    var quantity= row.quantity;
+    var barcode = row.barcode.toLowerCase();
+    var quantity = row.quantity;
     for (var i in inventoryData) {
         if (inventoryData[i].barcode === barcode) {
             id = inventoryData[i].id;
-            quantity= parseInt(quantity)+parseInt(inventoryData[i].quantity);
+            quantity = parseInt(quantity) + parseInt(inventoryData[i].quantity);
             break;
         }
     }
-    if (id == -1) {
-        row.error = "Barcode: "+barcode+" does not exist";
+    console.log("True id:", id);
+    if (id === -1) {
+        row.error = "Barcode: " + barcode + " does not exist";
         errorData.push(row);
         uploadRows();
-        return;
+    } else {
+        console.log("True id:", id);
+        var jsonData = {
+            id: id,
+            quantity: quantity
+        };
+        var json = JSON.stringify(jsonData);
+        var url = getInventoryUrl() + "/" + id;
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            data: json,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                uploadRows();
+                getInventoryList();
+            }
+        });
     }
-    console.log("id====",id);
-    var json = JSON.stringify({id:id, quantity:quantity});
-    var url = getInventoryUrl() + "/" + id;
-    //Make ajax call
-    $.ajax({
-        url: url,
-        type: 'PUT',
-        data: json,
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        success: function(response) {
-            uploadRows();
-            getInventoryList();
-        },
-        error: function(response) {
-            row.error = response.responseText
-            errorData.push(row);
-            uploadRows();
+    console.log("id====", id);
 
-        }
-    });
+    $("#download-errors").prop('disabled', false);
 }
 
 function downloadErrors() {
@@ -183,20 +173,20 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayInventoryList(data) {
-    var $tbody = $('#inventory-table').find('tbody');
-    $tbody.empty();
+    table.clear().draw();
+    var dataRows=[];
     for (var i in data) {
         var e = data[i];
-        console.log(e);
         //var buttonHtml = '<button onclick="deleteInventory(' + e.id + ')">delete</button>'
-        var buttonHtml = ' <button onclick="displayEditInventory(' + e.id + ')">edit</button>'
+        var buttonHtml = ' <button class="btn btn-outline-primary" onclick="displayEditInventory(' + e.id + ')">Edit</button>'
         var row = '<tr>' +
             '<td>' + e.barcode + '</td>' +
             '<td>' + e.quantity + '</td>' +
             '<td>' + buttonHtml + '</td>' +
             '</tr>';
-        $tbody.append(row);
+        dataRows.push([e.barcode, e.quantity, buttonHtml]);
     }
+    table.rows.add(dataRows).draw();
 }
 
 function displayEditInventory(id) {
@@ -231,12 +221,18 @@ function updateUploadDialog() {
 }
 
 function updateFileName() {
+    processCount = 0;
+    fileData = [];
+    errorData = [];
+    updateUploadDialog();
+    $("#download-errors").prop('disabled', true);
     var $file = $('#inventoryFile');
     var fileName = $file.val();
     $('#inventoryFileName').html(fileName);
 }
 
 function displayUploadData() {
+    $("#download-errors").prop('disabled', true);
     resetUploadDialog();
     $('#upload-inventory-modal').modal('toggle');
 }
@@ -256,7 +252,21 @@ function init() {
     $('#upload-data').click(displayUploadData);
     $('#process-data').click(processData);
     $('#download-errors').click(downloadErrors);
-    $('#inventoryFile').on('change', updateFileName)
+    $('#inventoryFile').on('change', updateFileName);
+    getInventoryList();
+   table = $('#inventory-table').DataTable({
+      columnDefs: [
+        { targets: [2], orderable: false },
+        { targets: [0, 1, 2], className: "text-center" }
+      ],
+      searching: true,
+      info: true,
+      lengthMenu: [
+        [5, 10, 20, -1],
+        [5, 10, 20, 'All']
+      ],
+      deferRender: true,
+    });
 }
 
 $(document).ready(init);

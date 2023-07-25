@@ -6,29 +6,25 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="InventoryPojo")
 public class InventoryPojo {
 
 	@Id
-	@Column(name = "id", columnDefinition = "int")
-	private int id;
+	private Integer id;
+	private Integer quantity;
 
-	@Column(name = "quantity", columnDefinition = "VARCHAR(255)")
-	private int quantity;
-
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity= quantity;
 	}
 

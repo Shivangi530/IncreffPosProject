@@ -17,9 +17,6 @@ public class InventoryService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo p) throws ApiException {
-        if (productService.checkId(p.getId())==null) {
-            throw new ApiException("Inventory with given id does not exist");
-        }
         if(p.getQuantity()<0){
             throw new ApiException("Quantity can not be negative");
         }
@@ -38,12 +35,12 @@ public class InventoryService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void update(int id, InventoryPojo p) throws ApiException {
-        InventoryPojo ex = getCheck(id);
+        InventoryPojo existingPojo = getCheck(id);
         if(p.getQuantity()<0){
             throw new ApiException("Quantity can not be negative");
         }
-        ex.setQuantity(p.getQuantity());
-        dao.update(ex);
+        existingPojo.setQuantity(p.getQuantity());
+        dao.update(existingPojo);
     }
 
     @Transactional
@@ -60,7 +57,7 @@ public class InventoryService {
             throw new ApiException("Quantity should be positive");
         }
         if(dao.select(id).getQuantity()<quantity) {
-            throw new ApiException("Selected quantity is more than that of inventory. ");
+            throw new ApiException("Selected quantity:"+quantity+" is more than that of inventory: "+dao.select(id).getQuantity()+" for barcode:"+productService.get(id).getBarcode());
         }return quantity;
     }
 }

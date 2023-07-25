@@ -25,31 +25,20 @@
 				<tr>
 					<th scope="col">ID</th>
 					<th scope="col">Time</th>
-					<th scope="col">Actions</th>
+					<th scope="col">Status</th>
+					<th scope="col">Action</th>
 					<th scope="col">Download</th>
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<td>1</td>
-					<td>30</td>
-					<td>Edit </td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>31</td>
-					<td>Edit</td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>7</td>
-					<td>Edit </td>
-				</tr>
+
 				</tbody>
 			</table>
 
 		</div>
 	</div>
+
+
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
@@ -99,25 +88,25 @@
 						<div class="form-group">
 							<label for="inputOrderId" class="col-sm-2 col-form-label">OrderId</label>
 							<div class="col-sm-10">
-								<input type="number" class="form-control" name="orderId" placeholder="enter orderId">
+								<input type="number" class="form-control" id="inputOrderId" name="orderId" placeholder="enter orderId">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputProductId" class="col-sm-2 col-form-label">ProductId</label>
 							<div class="col-sm-10">
-								<input type="number" class="form-control" name="productId" placeholder="enter product Id">
+								<input type="number" class="form-control" id="inputProductId" name="productId" placeholder="enter product Id">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
 							<div class="col-sm-10">
-								<input type="number" class="form-control" name="quantity" placeholder="enter quantity">
+								<input type="number" class="form-control" id="inputQuantity" name="quantity" placeholder="enter quantity">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputSellingPrice" class="col-sm-2 col-form-label">SellingPrice</label>
 							<div class="col-sm-10">
-								<input type="number" inputmode="decimal" class="form-control" name="sellingPrice" placeholder="enter sellingPrice">
+								<input type="number" inputmode="decimal" id="inputSellingPrice" class="form-control" name="sellingPrice" placeholder="enter sellingPrice">
 							</div>
 						</div>
 						<input type="hidden" name="id">

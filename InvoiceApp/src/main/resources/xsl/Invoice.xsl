@@ -36,8 +36,11 @@
                   <fo:table-cell padding-left="5pt" padding-top="5pt">
                     <fo:block>
                       c/o Increff&#x2028;
-                      Sector 6, HSR Layout&#x2028;
-                      Bengaluru
+                      The Hub Unit 1&#x2028;
+                      Sarjapur - Marathahalli Rd&#x2028;
+                      Bellandur&#x2028;
+                      Bengaluru&#x2028;
+                      Karnataka 560103
                     </fo:block>
                   </fo:table-cell>
                 </fo:table-row>

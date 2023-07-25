@@ -1,31 +1,179 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
-<html lang="en">
-
-<head th:replace="snippets.html :: name_head"></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Our Point of Sales Website</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
 
 <body>
 
-<nav th:replace="snippets.html :: name_site_navbar"></nav>
-
-<div class="container">
-<div class="row">
-<div class="col-6">
- 
-<div class="jumbotron">
-  <h1 class="display-4">Hello, world!</h1>
-  <p class="lead">Welcome to Increff Spring Tutorial</p>
-  <hr class="my-4">
-  <p>This application teaches you Spring concepts and creating awesome web applications</p>
-  <a class="btn btn-primary btn-lg" th:href="@{/site/login}" role="button">Get Started</a>
-</div>
-
-</div>
-</div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="jumbotron">
+        <h1 class="display-4">Welcome to Our Point of Sales Website!</h1>
+        <p class="lead">Unlocking Simplicity and Efficiency in Sales</p>
+        <hr class="my-4">
+        <p>Our website is dedicated to providing you with the best point of sales solutions. We believe in
+          delivering exceptional user experiences and streamlining your sales process.</p>
+        <a class="btn btn-primary btn-lg" th:href="@{/site/login}" role="button">Get Started</a>
+      </div>
+    </div>
+    <div class="col-md-6">
+<!--      <img th:src="@{/static/homepage.jpg}" class="img-fluid" alt="">-->
+    </div>
+  </div>
 </div> <!--Container-->
 
-<footer th:replace="snippets.html :: name_footer"></footer>
+<footer>
+  <!-- Add your footer content here -->
+</footer>
+
+<!-- Bootstrap JS (optional if you want to add some interactivity) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Welcome to Point of Sales</title>-->
+<!--  &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--  <style>-->
+<!--    body {-->
+<!--      background: url('src/main/webapp/images/homepage.jpg') no-repeat center center fixed;-->
+<!--      background-size: cover;-->
+<!--      height: 100vh;-->
+<!--      display: flex;-->
+<!--      justify-content: center;-->
+<!--      align-items: center;-->
+<!--    }-->
+<!--    .welcome-container {-->
+<!--      text-align: center;-->
+<!--      background-color: rgba(255, 255, 255, 0.8);-->
+<!--      padding: 20px;-->
+<!--      border-radius: 10px;-->
+<!--    }-->
+<!--    h1 {-->
+<!--      font-size: 3rem;-->
+<!--    }-->
+<!--    p {-->
+<!--      font-size: 1.5rem;-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container welcome-container">-->
+<!--  <h1>Welcome to Point of Sales</h1>-->
+<!--  <p>We are here to help you manage your sales and inventory efficiently!</p>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Bootstrap JS (optional if you want to add some interactivity) &ndash;&gt;-->
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Welcome to Point of Sales</title>-->
+<!--  &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--&lt;!&ndash; Navbar &ndash;&gt;-->
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-primary">-->
+<!--  <div class="container">-->
+<!--    <a class="navbar-brand" href="#">Point of Sales</a>-->
+<!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"-->
+<!--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--      <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--      <ul class="navbar-nav ms-auto">-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="#">Home</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="#">About</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="#">Contact</a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+
+<!--&lt;!&ndash; Jumbotron &ndash;&gt;-->
+<!--<div class="jumbotron text-center">-->
+<!--  <h1 class="display-4">Welcome to Point of Sales</h1>-->
+<!--  <p class="lead">Providing the best solutions for your business.</p>-->
+<!--  <a class="btn btn-primary btn-lg" th:href="@{/site/login}" role="button">Get Started</a>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Bootstrap JS (optional) &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--</body>-->
+
+<!--</html>-->
+
+
+
+
+
+
+<!--/////////Previous-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head th:replace="snippets.html :: name_head">-->
+<!--  &lt;!&ndash; Include your CSS and Bootstrap stylesheets here &ndash;&gt;-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<nav th:replace="snippets.html :: name_site_navbar"></nav>-->
+
+<!--<div class="container mt-5">-->
+<!--  <div class="row">-->
+<!--    <div class="col-md-6">-->
+<!--      <div class="jumbotron">-->
+<!--        <h1 class="display-4">Welcome to Our Point of Sales Website!</h1>-->
+<!--        <p class="lead">Unlocking Simplicity and Efficiency in Sales</p>-->
+<!--        <hr class="my-4">-->
+<!--        <p>Our website is dedicated to providing you with the best point of sales solutions. We believe in-->
+<!--          delivering-->
+<!--          exceptional user experiences and streamlining your sales process.</p>-->
+<!--        <a class="btn btn-primary btn-lg" th:href="@{/site/login}" role="button">Get Started</a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="col-md-6">-->
+<!--      &lt;!&ndash; You can add an image or other content here to complement the welcome message &ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div> &lt;!&ndash;Container&ndash;&gt;-->
+
+<!--<footer th:replace="snippets.html :: name_footer"></footer>-->
+
+<!--</body>-->
+
+<!--</html>-->

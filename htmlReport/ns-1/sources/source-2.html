@@ -56,10 +56,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$3eb62bf9</td>
+    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$2ac61d01</td>
   </tr>
   <tr>
-    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$3eb62bf9$$FastClassBySpringCGLIB$$dc16a005</td>
+    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$2ac61d01$$FastClassBySpringCGLIB$$a250eb52</td>
   </tr>
   <tr>
     <td class="name">BrandDao$$FastClassBySpringCGLIB$$f3bfcdfd</td>
@@ -105,10 +105,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;@Repository
 <b class="fc">&nbsp;public class BrandDao extends AbstractDao {</b>
 &nbsp;
-<b class="fc">&nbsp;	private static String delete_id = &quot;delete from BrandPojo p where id=:id&quot;;</b>
-<b class="fc">&nbsp;	private static String select_id = &quot;select p from BrandPojo p where id=:id&quot;;</b>
-<b class="fc">&nbsp;	private static String select_all = &quot;select p from BrandPojo p order by id&quot;;</b>
-&nbsp;
+<b class="fc">&nbsp;	private static String DELETE_ID = &quot;delete from BrandPojo p where id=:id&quot;;</b>
+<b class="fc">&nbsp;	private static String SELECT_ID = &quot;select p from BrandPojo p where id=:id&quot;;</b>
+<b class="fc">&nbsp;	private static String SELECT_ALL = &quot;select p from BrandPojo p order by id&quot;;</b>
 <b class="fc">&nbsp;	private static String checkCombination = &quot;select p from BrandPojo p where brand=:brand and category=:category&quot;;</b>
 &nbsp;
 &nbsp;	@PersistenceContext
@@ -120,13 +119,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;	}
 &nbsp;
 &nbsp;	public int delete(int id) {
-<b class="nc">&nbsp;		Query query = em.createQuery(delete_id);</b>
+<b class="nc">&nbsp;		Query query = em.createQuery(DELETE_ID);</b>
 <b class="nc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
 <b class="nc">&nbsp;		return query.executeUpdate();</b>
 &nbsp;	}
 &nbsp;
 &nbsp;	public BrandPojo select(int id) {
-<b class="fc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(select_id, BrandPojo.class);</b>
+<b class="fc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ID, BrandPojo.class);</b>
 <b class="fc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
 <b class="fc">&nbsp;		return getSingle(query);</b>
 &nbsp;	}
@@ -138,14 +137,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;		return getSingle(query);</b>
 &nbsp;	}
 &nbsp;	public BrandPojo checkCategory(int id) {
-<b class="nc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(select_id, BrandPojo.class);</b>
+<b class="nc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ID, BrandPojo.class);</b>
 <b class="nc">&nbsp;		query.setParameter(&quot;id&quot;,id);</b>
 <b class="nc">&nbsp;		return getSingle(query);</b>
 &nbsp;	}
 &nbsp;
 &nbsp;
 &nbsp;	public List&lt;BrandPojo&gt; selectAll() {
-<b class="fc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(select_all, BrandPojo.class);</b>
+<b class="fc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</b>
 <b class="fc">&nbsp;		return query.getResultList();</b>
 &nbsp;	}
 &nbsp;
@@ -178,7 +177,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-17 16:26</div>
+    <div style="float:right;">generated on 2023-07-24 15:03</div>
 </div>
 </body>
 </html>

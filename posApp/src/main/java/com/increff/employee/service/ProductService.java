@@ -66,7 +66,7 @@ public class ProductService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void update(int id, ProductPojo p) throws ApiException {// TODO MAX LENGTH SET TO 255 characters for name, brand, category
-        ProductPojo ex = get(id);
+        ProductPojo existingPojo = get(id);
         if (StringUtil.isEmpty(p.getName())) {
             throw new ApiException("Name cannot be empty");
         }
@@ -81,11 +81,12 @@ public class ProductService {
         if (p.getMrp() <= 0) {
             throw new ApiException("Mrp should be positive");
         }
-
-        ex.setBarcode(p.getBarcode());
-        ex.setName(p.getName());
-        ex.setMrp(p.getMrp());
-        dao.update(ex);
+        //TODO: Barcode should not be updated
+        //TODO: to send fields in parameter instead of pojo in update function
+        existingPojo.setBarcode(p.getBarcode());
+        existingPojo.setName(p.getName());
+        existingPojo.setMrp(p.getMrp());
+        dao.update(existingPojo);
     }
 
     @Transactional
@@ -102,6 +103,4 @@ public class ProductService {
     public String selectBarcode(int id) {
         return dao.selectBarcode(id);
     }
-
-
 }

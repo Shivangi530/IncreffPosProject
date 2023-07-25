@@ -7,6 +7,7 @@ import com.increff.employee.model.OrderItemForm;
 import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.OrderItemPojo;
+import com.increff.employee.pojo.OrderPojo;
 import com.increff.employee.service.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import java.util.List;
 
 @Component
 public class orderItemDto {
+    @Autowired
+    private OrderService orderService;
     @Autowired
     private OrderItemService service;
     @Autowired
@@ -37,7 +40,11 @@ public class orderItemDto {
         service.add(p);
     }
 
-    public void delete( int id) {
+    public void delete( int id,OrderItemForm f) throws ApiException {
+        OrderItemPojo p = service.get(id);
+        InventoryPojo i=inventoryService.get(p.getProductId());
+        i.setQuantity(i.getQuantity()-f.getInventoryQty());
+        inventoryService.update(i.getId(),i);
         service.delete(id);
     }
 
@@ -45,7 +52,8 @@ public class orderItemDto {
     @RequestMapping(path = "/api/orderItem/{id}", method = RequestMethod.GET)
     public OrderItemData get( int id) throws ApiException {
         OrderItemPojo p = service.get(id);
-        return convert(p);
+        String barcode= productService.get(p.getProductId()).getBarcode();
+        return convert(p,barcode);
     }
     @ApiOperation(value = "Get the list of orderItem by orderID")
     @RequestMapping(path = "/api/orderItem/view/{id}", method = RequestMethod.GET)
@@ -62,11 +70,12 @@ public class orderItemDto {
 
     @ApiOperation(value = "Get list of all orderItems")
     @RequestMapping(path = "/api/orderItem", method = RequestMethod.GET)
-    public List<OrderItemData> getAll() {
+    public List<OrderItemData> getAll() throws ApiException{
         List<OrderItemPojo> list = service.getAll();
         List<OrderItemData> list2 = new ArrayList<OrderItemData>();
         for (OrderItemPojo p : list) {
-            list2.add(convert(p));
+            String barcode= productService.get(p.getProductId()).getBarcode();
+            list2.add(convert(p,barcode));
         }
         return list2;
     }
@@ -75,17 +84,26 @@ public class orderItemDto {
     @RequestMapping(path = "/api/orderItem/{id}", method = RequestMethod.PUT)
     public void update( int id,  OrderItemForm f) throws ApiException {
         OrderItemPojo p = service.get(id);
-        OrderItemPojo newp= convert3(f,p);
-        InventoryPojo i=inventoryService.get(p.getProductId());
-        i.setQuantity(i.getQuantity()-f.getInventoryQty());
-        inventoryService.update(i.getId(),i);
-        service.update(id, newp);
+        boolean status= orderService.get(p.getOrderId()).getStatus();
+        if(status==false) {
+            OrderItemPojo newp = convert3(f, p);
+            InventoryPojo i = inventoryService.get(p.getProductId());
+            if(f.getInventoryQty()>0) {
+                inventoryService.checkQuantity(f.getInventoryQty(), i.getId());
+            }
+            i.setQuantity(i.getQuantity() - f.getInventoryQty());
+            inventoryService.update(i.getId(), i);
+            service.update(id, newp);
+        }else{
+            throw new ApiException("Invalid Operation: Invoice has been generated for the order. ");
+        }
     }
 
 
-    private static OrderItemData convert(OrderItemPojo p) {
+    private static OrderItemData convert(OrderItemPojo p,String barcode) {
         OrderItemData d = new OrderItemData();
         d.setOrderId(p.getOrderId());
+        d.setBarcode(barcode);
         d.setProductId(p.getProductId());
         d.setQuantity(p.getQuantity());
         d.setSellingPrice(p.getSellingPrice());

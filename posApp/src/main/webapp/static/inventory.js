@@ -75,9 +75,11 @@ function readFileDataCallback(results) {
     if (fileData.length == 0) {
         console.log("File Empty");
         warning("File Empty");
+        return;
     } else if (fileData.length > 5000) {
         console.log("File size exceeds limit");
         warning("The file size (" + fileData.length + ") exceeds the limit of 5000.");
+        return;
     } else {
         if (!checkHeaderMatch(fileData[0])) {
             console.log("File headers do not match the expected format");
@@ -92,7 +94,7 @@ function checkHeaderMatch(uploadedHeaders) {
     // Extract the headers from the object
     var expectedHeaders = ["barcode", "quantity"];
 
-    var extractedHeaders = Object.keys(uploadedHeaders);
+    var extractedHeaders = Object.keys(uploadedHeaders).map(header => header.toLowerCase());
     extractedHeaders = extractedHeaders.filter(item => item !== 'error');
     // Compare the headers
     if (extractedHeaders.length !== expectedHeaders.length) {
@@ -156,6 +158,7 @@ function uploadRows() {
                 'Content-Type': 'application/json'
             },
             success: function(response) {
+                console.log("success");
                 uploadRows();
                 getInventoryList();
             }

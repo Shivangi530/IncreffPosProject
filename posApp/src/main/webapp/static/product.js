@@ -125,9 +125,12 @@ function readFileDataCallback(results) {
 }
 
 function checkHeaderMatch(uploadedHeaders) {
-    var expectedHeaders = ["id", "barcode", "brand", "category", "name", "mrp"];
+    var expectedHeaders = [ "barcode", "brand", "category", "name", "mrp"];
     var extractedHeaders = Object.keys(uploadedHeaders).map(header => header.toLowerCase());
     var filteredArr = extractedHeaders.filter(item => item !== 'error');
+//    var filteredArr = extractedHeaders.filter(item => item.trim() !== '');
+    console.log(extractedHeaders);
+    console.log(expectedHeaders);
     // Compare the headers
     if (filteredArr.length !== expectedHeaders.length) {
         return false;
@@ -170,6 +173,7 @@ function uploadRows() {
         },
         success: function(response) {
             uploadRows();
+            refresh();
         },
         error: function(response) {
             row.error = response.responseText

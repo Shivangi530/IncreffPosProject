@@ -11,10 +11,10 @@ function getBrandUrl() {
 }
 //BUTTON ACTIONS
 function addBrand(event) {
-    //Set the values to update
     var $form = $("#brand-form");
     var json = toJson($form);
     var url = getBrandUrl();
+    console.log(url);
     var json1 = JSON.parse(json);
     if (json1.brand == "") {
         warning("Brand cannot be empty");

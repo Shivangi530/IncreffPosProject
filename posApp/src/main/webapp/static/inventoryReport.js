@@ -67,20 +67,10 @@ function init(){
         searching: true,
         info: true,
         lengthMenu: [
-            [5, 10, 20, -1],
-            [5, 10, 20, 'All']
+            [ 10, 20, -1],
+            [ 10, 20, 'All']
         ],
         deferRender: true,
-        pagingType: 'full',
-        language: {
-            paginate: {
-                first: '&laquo;',
-                previous: '&lsaquo;',
-                next: '&rsaquo;',
-                last: '&raquo;'
-            }
-        },
-//        dom: '<"pagination-wrapper d-flex justify-content-center"t><"mt-2"p>'
     });
 }
 

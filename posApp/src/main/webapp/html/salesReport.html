@@ -11,41 +11,51 @@
             <form id="orderItem-form">
                 <!-- First Row -->
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label for="inputStartDate" class="col-form-label">Start Date</label>
                             <input type="date" class="form-control" name="startDate" id="inputStartDate" placeholder="Enter Start Date" value="">
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label for="inputEndDate" class="col-form-label">End Date</label>
                             <input type="date" class="form-control" name="endDate" id="inputEndDate" placeholder="Enter End Date" value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 d-flex align-items-center">
+                        <div class="col-sm-4 ">
+                            <button type="button" class="btn btn-primary " id="upload-data">Find</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Second Row -->
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label for="inputBrand" class="col-form-label">Brand</label>
                             <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label for="inputCategory" class="col-form-label">Category</label>
                             <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">
                         </div>
                     </div>
+                    <div class="col-sm-4 d-flex align-items-center">
+                        <div class="col-sm-4 ">
+                            <button type="button" class="btn btn-primary " id="find-brand-data">Find</button>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Third Row -->
                 <div class="row">
                     <div class="col-sm-12">
                         <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button> &nbsp;
-                        <button type="button" class="btn btn-primary" id="upload-data">Find</button> &nbsp;
                         <button type="button" class="btn btn-primary" id="download-report" onclick="printReport()">Download Report</button>
                     </div>
                 </div>

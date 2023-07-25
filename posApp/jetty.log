@@ -6598,3 +6598,13 @@ Caused by: java.lang.ClassNotFoundException: com.increff.employee.pojo.BrandPojo
 2023-07-25 11:14:20 INFO  SecurityConfig:38 - Configuration complete
 2023-07-25 11:15:48 INFO  SecurityConfig:38 - Configuration complete
 2023-07-25 11:18:39 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 12:49:18 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 12:51:44 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 12:54:51 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 12:57:30 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 12:58:50 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 13:00:36 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 13:03:51 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 13:04:52 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 13:12:26 INFO  SecurityConfig:38 - Configuration complete
+2023-07-25 13:31:22 INFO  SecurityConfig:38 - Configuration complete

@@ -113,7 +113,7 @@ public class reportsDto {
         String brand= form.getBrand();
         String category= form.getCategory();
         System.out.println("startDate= "+startDate+" + endDate= " + endDate);
-        List<SalesReportData> l=getReleventAll(startDate,endDate);//,brand,category);
+        List<SalesReportData> l=getReleventAll(startDate,endDate);
         return l;
     }
 

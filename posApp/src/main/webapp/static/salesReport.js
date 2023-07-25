@@ -19,7 +19,6 @@ function getOrderListByFilter(){
       danger("startDate:"+startDate.toISOString().split("T")[0]+" cannot be later than endDate:"+endDate.toISOString().split("T")[0]);
       return;
     }
-//    console.log("Hey there",startDate,endDate);
     if(json.startDate===""){
       var currentDate = new Date();
       var oneMonthAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate());
@@ -58,13 +57,6 @@ function displayOrderList(data){
         var e = data[i];
         var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
         var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
-		var row = '<tr>'
-		+ '<td>' + e.date + '</td>'
-		+ '<td>' + e.brand + '</td>'
-		+ '<td>'  + e.category + '</td>'
-		+ '<td>' + e.quantity + '</td>'
-		+ '<td>'  + e.revenue + '</td>'
-		+ '</tr>';
         dataRows.push([ trimmedBrand, trimmedCategory, e.quantity,e.revenue]);
     }
     table.rows.add(dataRows).draw();
@@ -76,61 +68,37 @@ function printReport() {
         console.error('No data available to generate the report.');
         return;
     }
-
-
     var filteredData = salesData.map(({date,	brand,	category,	quantity,	revenue }) => ({date,	brand,	category,	quantity,	revenue}));
 
-    // Prepare headers and TSV data for the writeFileData function
+    // Headers and TSV data for the writeFileData function
     var headers = [	'Brand',	'Category',	'Quantity',	'Revenue'];
     var tsvData = filteredData.map(obj => [	obj.brand,	obj.category,	obj.quantity,	obj.revenue]);
 
-    // Call the createTsvFile function with the filtered TSV data and file name
     createTsvFile(tsvData, headers, 'SalesReport.tsv');
 }
+// Search brandCategory
+function searchInTwoColumns(columnIndex1, searchValue1, columnIndex2, searchValue2) {
+console.log(columnIndex1, searchValue1, columnIndex2, searchValue2);
+    table.columns().search('').draw(); // Clear existing search
+    table.columns(columnIndex1).search(searchValue1, true, false).draw();
+    table.columns(columnIndex2).search(searchValue2, true, false).draw();
+}
+function findBrandCategory(){
+    var $form = $("#orderItem-form");
+    var json1 = toJson($form);
+    var json = JSON.parse(json1);
 
-//function printReport(fileName) {
-//        console.log(salesData);
-//     // Check if salesData is empty or undefined
-//        if (!salesData || salesData.length === 0) {
-//            console.error('No salesData available to generate the report.');
-//            return;
-//        }
-//     // Exclude startDate and endDate fields from headers
-//       var headers = Object.keys(salesData[0]).filter(function(key) {
-//         return key !== 'startDate' && key !== 'endDate';
-//       });
-//
-//       // Exclude startDate and endDate fields from dataArray
-//       var dataArray = salesData.map(function(obj) {
-//         return headers.map(function(header) {
-//           return obj[header];
-//         });
-//       });
-//
-//       var tsvData = [headers, ...dataArray];
-//       var tsvContent = tsvData.map(function(row) {
-//         return row.join('\t');
-//       }).join('\n');
-//
-//       var blob = new Blob([tsvContent], { type: 'text/tab-separated-values' });
-//       var url = URL.createObjectURL(blob);
-//
-//       var link = document.createElement('a');
-//       link.href = url;
-//       link.download = fileName;
-//       link.style.display = 'none';
-//
-//       document.body.appendChild(link);
-//       link.click();
-//
-//       document.body.removeChild(link);
-//       URL.revokeObjectURL(url);
-//}
+    var brand = json.brand.toLowerCase().trim();
+    var category = json.category.toLowerCase().trim();
+    console.log(brand,category);
+    searchInTwoColumns(0, brand, 1, category);
+}
 
 //INITIALIZATION CODE
 function init(){
 	$('#refresh-data').click(getOrderListByFilter);
 	$('#upload-data').click(getOrderListByFilter);
+	$('#find-brand-data').click(findBrandCategory);
 	getOrderListByFilter();
     table = $('#brand-table').DataTable({
       columnDefs: [

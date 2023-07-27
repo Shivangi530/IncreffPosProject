@@ -12,14 +12,12 @@
 
 	<h3>Orders</h3>
 
-	<!-- Blank Row -->
 	<div class="row">
-		&nbsp;
-	</div>
-	<div class="row">
-
-		<!-- Table -->
 		<div class="col-12">
+			<a th:href="@{/ui/createOrder}" >
+				<button type="button" class="btn btn-primary mt-2 mb-3"  >Create Order</button>
+			</a>
+			<!-- Table -->
 			<table class="table table-striped" id="order-table">
 				<thead>
 				<tr>

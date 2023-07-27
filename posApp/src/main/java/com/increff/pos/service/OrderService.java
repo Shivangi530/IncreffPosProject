@@ -49,11 +49,20 @@ public class OrderService {
 	}
 
 	@Transactional(rollbackOn  = ApiException.class)
-	public void update(int id) throws ApiException {
+	public void update(int id, String status) throws ApiException {
+		System.out.println("service: "+status);
 		OrderPojo existingPojo = getCheck(id);
-		existingPojo.setStatus(true);
-		System.out.println("existingPojo.setStatus: "+existingPojo.getStatus());
-		dao.update(existingPojo);
+		if(status.equals("invoiced")){
+			System.out.println("in if statement: "+status);
+			existingPojo.setStatus(OrderPojo.Status.invoiced);
+			System.out.println("existingPojo.setStatus: " + existingPojo.getStatus());
+		}
+		if(status.equals("deleted")){
+			System.out.println("in if statement: "+status);
+			existingPojo.setStatus(OrderPojo.Status.deleted);
+			System.out.println("existingPojo.setStatus: " + existingPojo.getStatus());
+		}
+		System.out.println("outside if statement: "+status);
 	}
 
 	@Transactional
@@ -72,7 +81,9 @@ public class OrderService {
 	public List<OrderItemPojo> selectByOrderId(Integer orderId) {
 		return orderItemService.selectByOrderId(orderId);
 	}
-	public ResponseEntity<byte[]> getInvoicePDF(Integer id) throws Exception {
+
+
+	public ResponseEntity<byte[]> getInvoicePDF(Integer id) throws Exception {	//todo: create a seperate helper function
 		InvoiceForm invoiceForm = generateInvoiceForOrder(id);
 		RestTemplate restTemplate = new RestTemplate();
 		System.out.println("invoice url: "+invoiceUrl);
@@ -92,7 +103,7 @@ public class OrderService {
 		InvoiceForm invoiceForm = new InvoiceForm();
 		OrderPojo orderPojo = get(orderId);
 		invoiceForm.setOrderId(orderPojo.getId());
-		invoiceForm.setPlacedDate(orderPojo.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")).toString());
+		invoiceForm.setPlacedDate(orderPojo.getDateTime().toString());
 		List<OrderItemPojo> orderItemPojoList = selectByOrderId(orderPojo.getId());
 		List<OrderItem> orderItemList = new ArrayList<>();
 		for(OrderItemPojo p: orderItemPojoList) {

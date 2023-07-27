@@ -37,21 +37,22 @@ public class orderDto {
         return list2;
     }
 
-    public void update(@PathVariable int id) throws ApiException {
-        service.update(id);
+    public void update(int id,String status) throws ApiException {
+        System.out.println("dto: "+status);
+        service.update(id,status);
     }
 
     private static OrderData convert(OrderPojo p) {
         OrderData d = new OrderData();
         d.setId(p.getId());
-        d.setStatus(p.getStatus());
+        d.setStatus(String.valueOf(p.getStatus()));
         d.setDateTime(p.getDateTime());
         return d;
     }
 
     private static OrderPojo convert(OrderForm f) {
         OrderPojo p = new OrderPojo();
-        p.setStatus(true);
+        p.setStatus(OrderPojo.Status.valueOf(f.getStatus()));
         return p;
     }
 

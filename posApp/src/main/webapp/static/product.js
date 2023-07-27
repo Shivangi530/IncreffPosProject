@@ -16,8 +16,28 @@ function addProduct(event) {
         warning("Brand cannot be empty");
         return false;
     }
-    if (json1.category == "") {
+    if(json1.barcode === ""){
+        warning("Barcode cannot be empty");
+        return false;
+    }
+    if(json1.brand === ""){
+        warning("Brand cannot be empty");
+        return false;
+    }
+    if(json1.category === ""){
         warning("Category cannot be empty");
+        return false;
+    }
+    if(json1.name === ""){
+        warning("Name cannot be empty");
+        return false;
+    }
+    if(json1.mrp === ""){
+        warning("Mrp cannot be empty");
+        return false;
+    }
+    if(parseFloat(json1.mrp)>1000000000){
+        warning("Mrp entered is too large");
         return false;
     }
     console.log(json);
@@ -48,6 +68,35 @@ function updateProduct(event) {
     //Set the values to update
     var $form = $("#product-edit-form");
     var json = toJson($form);
+    var json1 = JSON.parse(json);
+    if (json1.brand == "") {
+        warning("Brand cannot be empty");
+        return false;
+    }
+    if(json1.barcode === ""){
+        warning("Barcode cannot be empty");
+        return false;
+    }
+    if(json1.brand === ""){
+        warning("Brand cannot be empty");
+        return false;
+    }
+    if(json1.category === ""){
+        warning("Category cannot be empty");
+        return false;
+    }
+    if(json1.name === ""){
+        warning("Name cannot be empty");
+        return false;
+    }
+    if(json1.mrp === ""){
+        warning("Mrp cannot be empty");
+        return false;
+    }
+    if(parseFloat(json1.mrp)>1000000000){
+        warning("Mrp entered is too large");
+        return false;
+    }
     console.log(json);
     $.ajax({
         url: url,

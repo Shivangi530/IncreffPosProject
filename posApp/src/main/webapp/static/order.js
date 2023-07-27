@@ -1,475 +1,3 @@
-//var currentPage = 1;
-//var pageSize = 10;
-//var totalItems = 0;
-//var totalPages = 0;
-//
-//function getOrderUrl() {
-//    var baseUrl = $("meta[name=baseUrl]").attr("content")
-//    return baseUrl + "/api/order";
-//}
-//
-//function getOrderItemUrl() {
-//    var baseUrl = $("meta[name=baseUrl]").attr("content")
-//    return baseUrl + "/api/orderItem";
-//}
-//
-//function getInvoiceUrl() {
-//    var baseUrl = $("meta[name=baseUrl]").attr("content");
-//    return baseUrl + "/api/invoice";
-//}
-//
-//
-////BUTTON ACTIONS
-//function addOrder(event) {
-//    //Set the values to update
-//    var $form = $("#order-form");
-//    var json = toJson($form);
-//    var url = getOrderUrl();
-//
-//    $.ajax({
-//        url: url,
-//        type: 'POST',
-//        data: json,
-//        headers: {
-//            'Content-Type': 'application/json'
-//        },
-//        success: function(response) {
-//            getOrderList();
-//        },
-//        error: handleAjaxError
-//    });
-//    return false;
-//}
-//
-//function updateOrder(event) {
-//    $('#edit-order-modal').modal('toggle');
-//    //Get the ID
-//    var id = $("#order-edit-form input[name=id]").val();
-//    var url = getOrderUrl() + "/" + id;
-//
-//    //Set the values to update
-//    var $form = $("#order-edit-form");
-//    var json = toJson($form);
-//
-//    $.ajax({
-//        url: url,
-//        type: 'PUT',
-//        data: json,
-//        headers: {
-//            'Content-Type': 'application/json'
-//        },
-//        success: function(response) {
-//            getOrderList();
-//        },
-//        error: handleAjaxError
-//    });
-//    return false;
-//}
-//
-//
-//function getOrderList() {
-//    var url = getOrderUrl();
-//    $.ajax({
-//        url: url,
-//        type: 'GET',
-//        success: function(data) {
-//            displayOrderList(data.reverse());
-//        },
-//        error: handleAjaxError
-//    });
-//}
-//
-//function deleteOrder(id) {
-//    var url = getOrderUrl() + "/" + id;
-//
-//    $.ajax({
-//        url: url,
-//        type: 'DELETE',
-//        success: function(data) {
-//            getOrderList();
-//        },
-//        error: handleAjaxError
-//    });
-//}
-//
-//function viewOrder(id,status) {
-//    var url = getOrderItemUrl() + "/view/" + id;
-//    console.log("get called");
-//    $.ajax({
-//        url: url,
-//        type: 'GET',
-//        success: function(data) {
-//            viewOrderList(data,status);
-//            console.log("get successful");
-//        },
-//        error: handleAjaxError
-//    });
-//}
-//
-//// FILE UPLOAD METHODS
-//var fileData = [];
-//var errorData = [];
-//var processCount = 0;
-//
-//
-//function processData() {
-//    var file = $('#orderFile')[0].files[0];
-//    readFileData(file, readFileDataCallback);
-//}
-//
-//function readFileDataCallback(results) {
-//    fileData = results.data;
-//    uploadRows();
-//}
-//
-//function uploadRows() {
-//    //Update progress
-//    updateUploadDialog();
-//    //If everything processed then return
-//    if (processCount == fileData.length) {
-//        return;
-//    }
-//
-//    //Process next row
-//    var row = fileData[processCount];
-//    processCount++;
-//
-//    var json = JSON.stringify(row);
-//    var url = getOrderUrl();
-//
-//    //Make ajax call
-//    $.ajax({
-//        url: url,
-//        type: 'POST',
-//        data: json,
-//        headers: {
-//            'Content-Type': 'application/json'
-//        },
-//        success: function(response) {
-//            uploadRows();
-//        },
-//        error: function(response) {
-//            row.error = response.responseText
-//            errorData.push(row);
-//            uploadRows();
-//        }
-//    });
-//
-//}
-//
-//function downloadErrors() {
-//    writeFileData(errorData);
-//}
-//
-////UI DISPLAY METHODS
-//// Function to pad single-digit numbers with leading zero
-//function padZero(number) {
-//    return number.toString().padStart(2, '0');
-//}
-//
-//function displayOrderList(data) {
-//    var startIndex = (currentPage - 1) * pageSize;
-//    var endIndex = startIndex + pageSize;
-//    var paginatedData = data.slice(startIndex, endIndex);
-//    var $tbody = $('#order-table').find('tbody');
-//    $tbody.empty();
-//    for (var i in paginatedData) {
-//        var e = paginatedData[i];
-//        console.log(e);
-//        var date = e.dateTime;
-//        var formattedDatetime = date.slice(2, 3).join('-') + '-' +
-//            padZero(date[1]) + '-' + date[0] + ' ' +
-//            padZero(date[3]) + ':' + padZero(date[4]) + ':' +
-//            padZero(date[5]);
-//
-//        var buttonHtml1 = '<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" onclick="viewOrder(' + e.id + ','+e.status+')" >View Order</button>'
-//        var buttonHtml2 = ' <button type="button" class="btn btn-secondary" onclick="printOrder(' + e.id + ')">Invoice</button>'
-//
-//        var status;
-//                if (!e.status) {
-//                    status = "created";
-//                } else status = "invoiced";
-//        var row = '<tr>' +
-//            '<td>' + e.id + '</td>' +
-//            '<td>' + formattedDatetime + '</td>' +
-//            '<td>' + status + '</td>' +
-//            '<td>' + buttonHtml1 + '</td>' +
-//            '<td>' + buttonHtml2 + '</td>' +
-//            '</tr>';
-//        $tbody.append(row);
-//    }
-//}
-//
-//function viewOrderList(data,status) {
-//    var $tbody = $('#view-order-table').find('tbody');
-//    $tbody.empty();
-//    var totalSellingPrice = 0;
-//    for (var i in data) {
-//        var e = data[i];
-//        console.log(e);
-//        console.log("e.id=");
-//        console.log(e.id);
-//        var buttonHtml1 = '<button type="button" class="btn btn-secondary"';
-//        if (status == false) {
-//          buttonHtml1 += ' onclick="updateOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ','+status+')"';
-//        } else {
-//          buttonHtml1 += ' disabled';
-//        }
-//        buttonHtml1 += '>Edit</button>';
-//
-//        var buttonHtml2 = '<button type="button" class="btn btn-secondary"';
-//                if (status == false) {
-//                  buttonHtml2 += ' onclick="updateOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ','+status+')"';
-//                } else {
-//                  buttonHtml2 += ' disabled';
-//                }
-//                buttonHtml2 += '>Delete</button>';
-//
-////        var buttonHtml2 = '<button type="button" class="btn btn-secondary">Delete</button>'
-//        var rowid = "row-" + e.id;
-//        var row = '<tr id=' + rowid + '>' +
-//            '<td>' + e.barcode + '</td>' +
-//            '<td>' + e.productName + '</td>' +
-//            '<td><input type="number" class="form-control" name="quantity" placeholder="enter product Id" value="' + e.quantity + '"></td>' +
-//            '<td><input type="number" inputmode="decimal" class="form-control" name="sellingPrice" placeholder="enter sellingPrice" value="' + e.sellingPrice + '"></td>' +
-//            '<td>' + e.sellingPrice * e.quantity + '</td>' +
-//            '<td>' + buttonHtml1 + '</td>' +
-//            '<td>' + buttonHtml2 + '</td>' +
-//            '</tr>';
-//        $tbody.append(row);
-//        //        console.log("row is",row);
-//        //        console.log("viewOrderList rowid= ",rowid);
-//        totalSellingPrice += (e.sellingPrice * e.quantity);
-//    }
-//    var $sellingPrice = $('#modal-footer').find('h6');
-//    $sellingPrice.text('Total Selling Price : ' + totalSellingPrice);
-//}
-//
-//function displayEditOrder(id) {
-//    var url = getOrderUrl() + "/" + id;
-//    $.ajax({
-//        url: url,
-//        type: 'GET',
-//        success: function(data) {
-//            displayOrder(data);
-//        },
-//        error: handleAjaxError
-//    });
-//}
-//
-//function resetUploadDialog() {
-//    //Reset file name
-//    var $file = $('#orderFile');
-//    $file.val('');
-//    $('#orderFileName').html("Choose File");
-//    //Reset various counts
-//    processCount = 0;
-//    fileData = [];
-//    errorData = [];
-//    //Update counts
-//    updateUploadDialog();
-//}
-//
-//function updateUploadDialog() {
-//    $('#rowCount').html("" + fileData.length);
-//    $('#processCount').html("" + processCount);
-//    $('#errorCount').html("" + errorData.length);
-//}
-//
-//function updateFileName() {
-//    var $file = $('#orderFile');
-//    var fileName = $file.val();
-//    $('#orderFileName').html(fileName);
-//}
-//
-//function displayUploadData() {
-//    resetUploadDialog();
-//    $('#upload-order-modal').modal('toggle');
-//}
-//
-//function displayOrder(data) {
-//    $("#order-edit-form input[name=dateTime]").val(data.dateTime);
-//    $("#order-edit-form input[name=id]").val(data.id);
-//    $('#edit-order-modal').modal('toggle');
-//}
-//
-//function printOrder(id) {
-//    window.location.href = getInvoiceUrl() + "/" + id;
-//    console.log("in print order");
-//    updateOrder(id);
-//}
-//function updateOrder(id) {
-//    var url = getOrderUrl() + "/" + id;
-//    console.log(url);
-//    $.ajax({
-//        url: url,
-//        type: 'PUT',
-////        data: json,
-//        headers: {
-//            'Content-Type': 'application/json'
-//        },
-//        success: function(response) {
-//            getOrderList();
-//            console.log("update called successfully.");
-//        },
-//        error: handleAjaxError
-//    });
-//    return false;
-//}
-//
-//function updateOrderItem(id, orderId, prevQty,status) {
-//    var rowid = '#row-' + id;
-//    var $row = $(rowid);
-//    // Find the input fields within the row and get their values
-//    var quantity = $row.find('td input[name="quantity"]').val();
-//    var sellingPrice = $row.find('td input[name="sellingPrice"]').val();
-//    console.log("Quantity: " + quantity - prevQty);
-//    console.log("Selling Price: " + sellingPrice);
-//
-//    //Set the values to update
-//    var json = {
-//        "orderId": "",
-//        "productId": "",
-//        "quantity": quantity,
-//        "sellingPrice": sellingPrice,
-//        "id": id,
-//        "inventoryQty": quantity - prevQty
-//    };
-//    console.log("json is: ", json);
-//
-//    var url = getOrderItemUrl() + "/" + id;
-//    $.ajax({
-//        url: url,
-//        type: 'PUT',
-//        data: JSON.stringify(json),
-//        headers: {
-//            'Content-Type': 'application/json'
-//        },
-//        success: function(response) {
-//            console.log("updated");
-//            console.log("id=", id);
-//            viewOrder(orderId,status);
-//        },
-//        error: handleAjaxError
-//    });
-//
-//    return false;
-//}
-//function updateInventory(id){
-//    var url = getOrderUrl() + "/" + id;
-//    var json={
-//            "orderId": "",
-//            "productId": "",
-//            }
-//
-//    $.ajax({
-//        url: url,
-//        type: 'PUT',
-//        data: json,
-//        headers: {
-//            'Content-Type': 'application/json'
-//        },
-//        success: function(response) {
-//            getOrderList();
-//        },
-//        error: handleAjaxError
-//    });
-//    return false;
-//}
-//
-//function deleteOrderItem(id, orderId, prevQty) {
-//    var rowid = '#row-' + id;
-//        var $row = $(rowid);
-//        // Find the input fields within the row and get their values
-//        var quantity = $row.find('td input[name="quantity"]').val();
-//        var sellingPrice = $row.find('td input[name="sellingPrice"]').val();
-//        console.log("Quantity: " + quantity - prevQty);
-//        console.log("Selling Price: " + sellingPrice);
-//
-//        //Set the values to update
-//        var json = {
-//            "orderId": "",
-//            "productId": "",
-//            "quantity": quantity,
-//            "sellingPrice": sellingPrice,
-//            "id": id,
-//            "inventoryQty": quantity - prevQty
-//        };
-//        console.log("json is: ", json);
-//
-//        var url = getOrderItemUrl() + "/" + id;
-//        $.ajax({
-//            url: url,
-//            type: 'DELETE',
-//            data: JSON.stringify(json),
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            success: function(response) {
-//                console.log("updated");
-//                console.log("id=", id);
-//                viewOrder(orderId,status);
-//            },
-//            error: handleAjaxError
-//        });
-//    return false;
-//}
-//
-//function displayOrderItem(data) {
-//    $("#orderItem-edit-form input[name=orderId]").val(data.orderId);
-//    $("#orderItem-edit-form input[name=productId]").val(data.productId);
-//    $("#orderItem-edit-form input[name=quantity]").val(data.quantity);
-//    $("#orderItem-edit-form input[name=sellingPrice]").val(data.sellingPrice);
-//    $("#orderItem-edit-form input[name=id]").val(data.id);
-//    $('#edit-orderItem-modal').modal('toggle');
-//}
-////  Pagination
-//function displayPaginationInfo() {
-//    totalPages = Math.ceil(totalItems / pageSize);
-//    var $paginationInfo = $('#pagination-info');
-//    $paginationInfo.text('Page ' + currentPage + ' of ' + totalPages);
-//}
-//
-//function goToPage(page) {
-//    if (page < 1 || page > Math.ceil(totalItems / pageSize)) {
-//        return;
-//    }
-//    currentPage = page;
-//    getBrandList();
-//}
-////INITIALIZATION CODE
-//function init() {
-//    $('#add-order').click(addOrder);
-//    $('#update-order').click(updateOrder);
-//    //	$('#update-orderItem').click(updateOrderItem);
-//    $('#refresh-data').click(getOrderList);
-//    $('#upload-data').click(displayUploadData);
-//    $('#process-data').click(processData);
-//    $('#download-errors').click(downloadErrors);
-//    $('#orderFile').on('change', updateFileName);
-//        $('#first-page').click(function() {
-//            goToPage(1);
-//        });
-//
-//        $('#prev-page').click(function() {
-//            goToPage(currentPage - 1);
-//        });
-//
-//        $('#next-page').click(function() {
-//            goToPage(currentPage + 1);
-//        });
-//
-//        $('#last-page').click(function() {
-//            goToPage(totalPages);
-//        });
-//}
-//
-//$(document).ready(init);
-//$(document).ready(getOrderList);
-
-
-//  NEW
-
 var table;
 
 function getOrderUrl() {
@@ -488,32 +16,6 @@ function getInvoiceUrl() {
 }
 
 //BUTTON ACTIONS
-function updateOrder(event) {
-    $('#edit-order-modal').modal('toggle');
-    //Get the ID
-    var id = $("#order-edit-form input[name=id]").val();
-    var url = getOrderUrl() + "/" + id;
-
-    //Set the values to update
-    var $form = $("#order-edit-form");
-    var json = toJson($form);
-
-    $.ajax({
-        url: url,
-        type: 'PUT',
-        data: json,
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        success: function(response) {
-            getOrderList();
-        },
-        error: handleAjaxError
-    });
-    return false;
-}
-
-
 function getOrderList() {
     var url = getOrderUrl();
     $.ajax({
@@ -522,9 +24,8 @@ function getOrderList() {
         success: function(data) {
 //            data=data.reverse();
 //            totalItems = data.length;
+            console.log(data);
             displayOrderList(data);
-//            displayPaginationInfo();
-
         },
         error: handleAjaxError
     });
@@ -545,14 +46,20 @@ function deleteOrder(id) {
 
 function viewOrder(id, status) {
     var url = getOrderItemUrl() + "/view/" + id;
-    console.log("get called");
     $.ajax({
         url: url,
         type: 'GET',
         success: function(data) {
+            console.log("data.length(): ",data.length);
+            if(data.length==0){
+
+                updateOrder(id,"deleted");
+            }
             data=data.reverse();
+            console.log("in view order:",status);
+            var $header = $('#exampleModalLabel');
+            $header.text("Order :" + id);
             viewOrderList(data, status);
-            console.log("get successful");
         },
         error: handleAjaxError
     });
@@ -571,55 +78,91 @@ function displayOrderList(data) {
     for (var i in data) {
         var e = data[i];
         var date = e.dateTime;
-        var formattedDatetime = date; //.slice(2, 3).join('-') + '-' +
-        //            padZero(date[1]) + '-' + date[0] + ' ' +
-        //            padZero(date[3]) + ':' + padZero(date[4]) + ':' +
-        //            padZero(date[5]);
+        var formattedDatetime = date.slice(2, 3).join('-') + '-' +
+                    padZero(date[1]) + '-' + date[0] + ' ' +
+                    padZero(date[3]) + ':' + padZero(date[4]) + ':' +
+                    padZero(date[5]);
+        console.log("displayOrderList",e.status);
+        var status=e.status;
+        var buttonHtml1 = '<button type="button" class="btn ';
+         if (status === "created") {
+                    buttonHtml1 += 'btn-outline-primary" ';
+                } else if (status === "invoiced") {
+                    buttonHtml1 += 'btn-outline-success" ';
+                } else if (status === "deleted") {
+                    buttonHtml1 += 'btn-outline-dark" ';
+                } else {
+                    buttonHtml1 += 'btn-outline-secondary" '; // Default class if status is not recognized
+                }
 
-        var buttonHtml1 = '<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" onclick="viewOrder(' + e.id + ',' + e.status + ')" >View Order</button>'
-        var buttonHtml2 = ' <button type="button" class="btn btn-outline-primary" onclick="printOrder(' + e.id + ')">Invoice</button>'
-        var status;
-        if (!e.status) {
-            status = "created";
-        } else status = "invoiced";
+        if (e.status === "deleted") {
+            buttonHtml1 += ' disabled';
+        } else {
+            buttonHtml1 += ' data-toggle="modal" data-target="#exampleModal" onclick="viewOrder(' + e.id + ',\'' + e.status + '\')"';
+        }
+        buttonHtml1 += '>View Order</button>';
+
+        var buttonHtml2 = '<button type="button" class="btn ';
+        if (status === "created") {
+            buttonHtml2 += 'btn-outline-primary" ';
+        } else if (status === "invoiced") {
+            buttonHtml2 += 'btn-outline-success" ';
+        } else if (status === "deleted") {
+            buttonHtml2 += 'btn-outline-dark" ';
+        } else {
+            buttonHtml2 += 'btn-outline-secondary" '; // Default class if status is not recognized
+        }
+        if (e.status === "deleted") {
+            buttonHtml2 += ' disabled';
+        } else {
+            buttonHtml2 += ' onclick="printOrder(' + e.id + ', \'' + e.status + '\')"';
+        }
+        buttonHtml2 += '>Invoice</button>';
+
         var row = '<tr>' +
             '<td>' + e.id + '</td>' +
             '<td>' + formattedDatetime + '</td>' +
-            '<td>' + status + '</td>' +
+            '<td>' + e.status + '</td>' +
             '<td>' + buttonHtml1 + '</td>' +
             '<td>' + buttonHtml2 + '</td>' +
             '</tr>';
-        dataRows.push([e.id, formattedDatetime, status, buttonHtml1,buttonHtml2]);
+        console.log(e.id, formattedDatetime, e.status);
+        dataRows.push([e.id, formattedDatetime, e.status, buttonHtml1,buttonHtml2]);
     }
     table.rows.add(dataRows).draw();
 }
 
 function viewOrderList(data, status) {
+console.log("in vieworderlist: ",status);
+//    var $header = $('#exampleModalLabel');
+//    $header.append(":" + data[0].orderId);
     var $tbody = $('#view-order-table').find('tbody');
     $tbody.empty();
     var totalSellingPrice = 0;
     for (var i in data) {
         var e = data[i];
         console.log(e);
-        console.log("e.id=");
-        console.log(e.id);
-        var buttonHtml1 = '<button type="button" class="btn btn-outline-primary"';
-        if (status == false) {
-            buttonHtml1 += ' onclick="updateOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',' + status + ')"';
+        var buttonHtml1 = '<button type="button" class="btn btn-outline-primary" ';
+
+        if (status === "created") {
+            buttonHtml1 += ' onclick="updateOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
         } else {
             buttonHtml1 += ' disabled';
         }
         buttonHtml1 += '>Edit</button>';
 
-        var buttonHtml2 = '<button type="button" class="btn btn-outline-primary"';
-        if (status == false) {
-            buttonHtml2 += ' onclick="deleteOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',' + status + ')"';
+
+        var buttonHtml2 = '<button type="button" class="btn btn-outline-primary" ';
+
+        if (status === "created") {
+            buttonHtml2 += ' onclick="deleteOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
         } else {
             buttonHtml2 += ' disabled';
         }
         buttonHtml2 += '>Delete</button>';
 
-        //        var buttonHtml2 = '<button type="button" class="btn btn-secondary">Delete</button>'
+        console.log(buttonHtml1);
+
         var rowid = "row-" + e.id;
         var row = '<tr id=' + rowid + '>' +
             '<td>' + e.barcode + '</td>' +
@@ -639,21 +182,6 @@ function viewOrderList(data, status) {
     $sellingPrice.text('Total Selling Price : ' + totalSellingPrice);
 }
 
-////  Pagination
-//function displayPaginationInfo() {
-//    totalPages = Math.ceil(totalItems / pageSize);
-//    var $paginationInfo = $('#pagination-info');
-//    $paginationInfo.text('Page ' + currentPage + ' of ' + totalPages);
-//}
-//
-//function goToPage(page) {
-//    if (page < 1 || page > Math.ceil(totalItems / pageSize)) {
-//        return;
-//    }
-//    currentPage = page;
-//    getOrderList();
-//}
-
 function displayEditOrder(id) {
     var url = getOrderUrl() + "/" + id;
     $.ajax({
@@ -666,36 +194,6 @@ function displayEditOrder(id) {
     });
 }
 
-//function resetUploadDialog() {
-//    //Reset file name
-//    var $file = $('#orderFile');
-//    $file.val('');
-//    $('#orderFileName').html("Choose File");
-//    //Reset various counts
-//    processCount = 0;
-//    fileData = [];
-//    errorData = [];
-//    //Update counts
-//    updateUploadDialog();
-//}
-//
-//function updateUploadDialog() {
-//    $('#rowCount').html("" + fileData.length);
-//    $('#processCount').html("" + processCount);
-//    $('#errorCount').html("" + errorData.length);
-//}
-//
-//function updateFileName() {
-//    var $file = $('#orderFile');
-//    var fileName = $file.val();
-//    $('#orderFileName').html(fileName);
-//}
-//
-//function displayUploadData() {
-//    resetUploadDialog();
-//    $('#upload-order-modal').modal('toggle');
-//}
-
 function displayOrder(data) {
     $("#order-edit-form input[name=dateTime]").val(data.dateTime);
     $("#order-edit-form input[name=id]").val(data.id);
@@ -705,16 +203,16 @@ function displayOrder(data) {
 function printOrder(id) {
     window.location.href = getInvoiceUrl() + "/" + id;
     console.log("in print order");
-    updateOrder(id);
+    updateOrder(id,"invoiced");
 }
 
-function updateOrder(id) {
+function updateOrder(id,status) {
     var url = getOrderUrl() + "/" + id;
     console.log(url);
     $.ajax({
         url: url,
         type: 'PUT',
-        //        data: json,
+        data: status,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -728,6 +226,7 @@ function updateOrder(id) {
 }
 
 function updateOrderItem(id, orderId, prevQty, status) {
+    console.log("updateOrderItem: ",status );
     var rowid = '#row-' + id;
     var $row = $(rowid);
     // Find the input fields within the row and get their values
@@ -735,6 +234,27 @@ function updateOrderItem(id, orderId, prevQty, status) {
     var sellingPrice = $row.find('td input[name="sellingPrice"]').val();
     console.log("Quantity: " + quantity - prevQty);
     console.log("Selling Price: " + sellingPrice);
+    if(quantity==""){
+        warning("Quantity cannot be empty");
+        return false;
+    }
+    if(parseFloat(quantity)-parseInt(quantity)>0){
+        warning("Quantity should be of integer type");
+        return false;
+    }
+    if(quantity>1000000000){
+        danger("Quantity entered is too large");
+        return false;
+    }
+    if(sellingPrice==""){
+            warning("Selling Price cannot be empty");
+            return false;
+        }
+    if(sellingPrice>1000000000){
+        danger("Selling Price entered is too large");
+        return false;
+    }
+
 
     //Set the values to update
     var json = {
@@ -757,7 +277,6 @@ function updateOrderItem(id, orderId, prevQty, status) {
         },
         success: function(response) {
             console.log("updated");
-            console.log("id=", id);
             viewOrder(orderId, status);
         },
         error: handleAjaxError
@@ -837,13 +356,8 @@ function displayOrderItem(data) {
 
 //INITIALIZATION CODE
 function init() {
-    $('#update-order').click(updateOrder);
-    //	$('#update-orderItem').click(updateOrderItem);
+    $('#update-orderItem').click(updateOrderItem);
     $('#refresh-data').click(getOrderList);
-//    $('#upload-data').click(displayUploadData);
-//    $('#process-data').click(processData);
-//    $('#download-errors').click(downloadErrors);
-//    $('#orderFile').on('change', updateFileName);
     getOrderList();
         table = $('#order-table').DataTable({
           columnDefs: [
@@ -862,4 +376,3 @@ function init() {
 }
 
 $(document).ready(init);
-//$(document).ready(getOrderList);

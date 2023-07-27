@@ -10,29 +10,91 @@
 
 <div class="container">
 
-<h3>Home</h3>
 
- <!-- Top row with form-->
-<div class="row">
-	<div class="col-2">
-		<a th:href="@{/ui/brand}" title="Brand"><i class="fa fa-solid fa-circle-b"></i> Brand </a>
-	</div>
-	<div class="col-2">
-		<a th:href="@{/ui/product}" title="Products"><i class="fa fa-product-hunt" aria-hidden="true"></i> Products </a>
-	</div>
-	<div class="col-2">
-		<a th:href="@{/ui/inventory}" title="Inventory"><i class="fas fa-inventory"></i> Inventory</i> </a>
-	</div>
-	<div class="col-2">
-		<a th:href="@{/ui/createOrder}" title="Create Order"><i class="fa fa-shopping-cart"></i> Create Order </a>
-	</div>
-	<div class="col-2">
-		<a th:href="@{/ui/order}" title="ViewOrder"><i class="fa-brands fa-first-order"></i>View Order </a>
+	<div class="container custom-link mt-5">
+		<div class="row d-flex justify-content-between">
+			<div class="m-1 text-center">
+				<a th:href="@{/ui/brand}" title="Brand">
+					<img th:src="@{/static/images/branding.png}" alt="brand" width="150" height="150">
+					<br>Brand
+				</a>
+			</div>
+			<div class="m-1 text-center">
+				<a th:href="@{/ui/product}" title="Products">
+					<img th:src="@{/static/images/product.png}" alt="brand" width="150" height="150">
+					<br>Product
+				</a>
+			</div>
+			<div class="m-1 text-center">
+				<a th:href="@{/ui/inventory}" title="Inventory">
+					<img th:src="@{/static/images/inventory.png}" alt="brand" width="150" height="150">
+					<br>Inventory
+				</a>
+			</div>
+			<div class="m-1 text-center">
+				<a th:href="@{/ui/order}" title="ViewOrder">
+					<img th:src="@{/static/images/order.png}" alt="brand" width="150" height="150">
+					<br>Order
+				</a>
+			</div>
+		</div>
 	</div>
 
-</div>
 
-<!--	<div>-->
+
+	<!-- Top row with form-->
+<!--<div class="row">-->
+<!--	<div class="col-2">-->
+<!--		<a th:href="@{/ui/brand}" title="Brand"> Brand </a>-->
+<!--	</div>-->
+<!--	<div class="col-2">-->
+<!--		<a th:href="@{/ui/product}" title="Products"> Products </a>-->
+<!--	</div>-->
+<!--	<div class="col-2">-->
+<!--		<a th:href="@{/ui/inventory}" title="Inventory"> Inventory </a>-->
+<!--	</div>-->
+<!--	<div class="col-2">-->
+<!--		<a th:href="@{/ui/createOrder}" title="Create Order"> Create Order </a>-->
+<!--	</div>-->
+<!--	<div class="col-2">-->
+<!--		<a th:href="@{/ui/order}" title="ViewOrder">View Order </a>-->
+<!--	</div>-->
+<!--</div>-->
+
+<!--	<div class="container">-->
+<!--		<div class="row">-->
+<!--			<div class="col-md-3 text-center">-->
+<!--				<a th:href="@{/ui/brand}" title="Brand">-->
+<!--				<button type="button" class="btn btn-primary btn-square">-->
+<!--					<i class="fas fa-tags fa-3x"></i><br>Brand-->
+<!--				</button>-->
+<!--				</a>-->
+<!--			</div>-->
+<!--			<div class="col-md-3 text-center">-->
+<!--				<a th:href="@{/ui/product}" title="Products">-->
+<!--				<button type="button" class="btn btn-primary btn-square">-->
+<!--					<i class="fas fa-box-open fa-3x"></i><br>Product-->
+<!--				</button>-->
+<!--				</a>-->
+<!--			</div>-->
+<!--			<div class="col-md-3 text-center">-->
+<!--				<a th:href="@{/ui/inventory}" title="Inventory">-->
+<!--				<button type="button" class="btn btn-primary btn-square">-->
+<!--					<i class="fas fa-clipboard-list fa-3x"></i><br>Inventory-->
+<!--				</button>-->
+<!--				</a>-->
+<!--			</div>-->
+<!--			<div class="col-md-3 text-center">-->
+<!--				<a th:href="@{/ui/order}" title="ViewOrder">-->
+<!--				<button type="button" class="btn btn-primary btn-square">-->
+<!--					<i class="fas fa-shopping-cart fa-3x"></i><br>Order-->
+<!--				</button>-->
+<!--				</a>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+
+	<!--	<div>-->
 <!--		<link rel="stylesheet" th:href="@{/static/home.css}">-->
 <!--		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">-->
 <!--		<section class="hero-section">-->
@@ -55,12 +117,6 @@
 <!--						<h3 class="card__heading">Inventory</h3>-->
 <!--					</div>-->
 <!--				</a>-->
-<!--					<a class="card" href="#">-->
-<!--						<div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557004396-66e4174d7bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>-->
-<!--						<div class="card__content">-->
-<!--							<h3 class="card__heading">Create Order</h3>-->
-<!--						</div>-->
-<!--					</a>-->
 <!--				<a class="card" href="#">-->
 <!--					<div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557004396-66e4174d7bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)"></div>-->
 <!--					<div class="card__content">-->

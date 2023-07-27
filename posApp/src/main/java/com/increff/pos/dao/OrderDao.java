@@ -16,7 +16,7 @@ public class OrderDao extends AbstractDao {
 //	private static String DELETE_ID = "delete from OrderPojo p where id=:id";
 	private static String SELECT_ID = "select p from OrderPojo p where id=:id";
 	private static String SELECT_ALL = "select p from OrderPojo p";
-	private static String SELECT_DATES = "SELECT p FROM OrderPojo p WHERE dateTime BETWEEN :startDate AND :endDate AND status = true";
+	private static String SELECT_DATES = "SELECT p FROM OrderPojo p WHERE dateTime BETWEEN :startDate AND :endDate AND status = 'invoiced'";
 //	private static String SELECT_DISTINCT_DATES = "select distinct p.dateTime FROM OrderPojo p";
 
 	@PersistenceContext

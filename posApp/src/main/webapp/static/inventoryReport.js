@@ -71,6 +71,11 @@ function init(){
             [ 10, 20, 'All']
         ],
         deferRender: true,
+        columns: [
+                { searchable: true },  // Column 0 - Searchable
+                { searchable: true },  // Column 1 - Searchable
+                { searchable: false }, // Column 2 - Not searchable
+            ],
     });
 }
 

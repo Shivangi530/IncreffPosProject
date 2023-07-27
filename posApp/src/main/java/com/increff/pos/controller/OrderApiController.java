@@ -2,6 +2,7 @@ package com.increff.pos.controller;
 
 import com.increff.pos.model.OrderData;
 import com.increff.pos.dto.orderDto;
+import com.increff.pos.model.OrderForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,8 +44,8 @@ public class OrderApiController {
 
 	@ApiOperation(value = "Update an order")
 	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id ) throws ApiException {
-		dto.update(id);
+	public void update(@PathVariable int id, @RequestBody String status) throws ApiException {
+		dto.update(id,status);
 	}
 
 	@ApiOperation(value = "Download Invoice")

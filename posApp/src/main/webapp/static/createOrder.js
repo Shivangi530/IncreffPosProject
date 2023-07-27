@@ -52,7 +52,6 @@ function initialChecks(json1){
 
 //BUTTON ACTIONS
 function addCreateOrder(event) {
-
     //Set the values to update
     var $form = $("#createOrder-form");
     var json = toJson($form);
@@ -114,7 +113,6 @@ function updateCreateOrder(event) {
     if (initialChecks(json) === false) {
        return false;
     }
-
     var data = createOrderData;
     console.log("The data is: ", data);
     // Find the object with the matching ID
@@ -332,6 +330,7 @@ function displayCreateOrderList(parsedArray) {
         if (!e.id) {
             e.id = generateUniqueId();
         }
+        e.sellingPrice=parseFloat(e.sellingPrice).toFixed(2);
         console.log("e.id");
         console.log(e.id);
         console.log(e.barcode);
@@ -372,7 +371,7 @@ function deleteCreateOrder(index) {
             console.error('Item not found at index:', index);
             return;
         }
-      // Remove the element at the specified index
+    // Remove the element at the specified index
     createOrderData.splice(index, 1);
     getCreateOrderList();
 }

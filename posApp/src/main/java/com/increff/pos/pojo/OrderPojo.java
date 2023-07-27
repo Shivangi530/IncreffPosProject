@@ -3,6 +3,8 @@ package com.increff.pos.pojo;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+// todo: read about criteria builder to build native queries
+
 @Entity
 public class OrderPojo {
 
@@ -15,12 +17,23 @@ public class OrderPojo {
 	@SequenceGenerator(name = "orderSeqGen", sequenceName = "orderSeqGen", initialValue = 1001, allocationSize = 1)
 	private Integer id;
 
+	@Column(nullable = false)
 	private LocalDateTime dateTime; //TODO: Use zone date times
-	private boolean status;
-	// TODO: Use enums
+//	private boolean status;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Status status;
+
+	//todo: enums should be present in model
+	public static enum Status {
+		created,
+		invoiced,
+		deleted
+	}
+
 	public OrderPojo() {
 		this.dateTime = LocalDateTime.now();
-		this.status= false;
+		this.status = Status.created;
 	}
 
 	public Integer getId() {
@@ -39,11 +52,11 @@ public class OrderPojo {
 		this.dateTime = dateTime;
 	}
 
-	public boolean getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 }

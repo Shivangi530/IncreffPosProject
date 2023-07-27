@@ -35,7 +35,7 @@ public class BrandDtoTest2 extends AbstractUnitTest {
         assertEquals(expectedCategory,p.getCategory());
     }
 
-    @Test(expected = ApiException.class)
+    @Test(expected = ApiException.class) //todo: use try, catch, fail in api exceptions
     public void testEmptyBrandAdd() throws ApiException{
         BrandForm f= new BrandForm();
         f.setBrand("");

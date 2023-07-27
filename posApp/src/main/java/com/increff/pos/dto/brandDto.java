@@ -22,7 +22,7 @@ public class brandDto {
     public void add(BrandForm form) throws ApiException {
         normalize(form);
         validate(form);
-        BrandPojo p = convert(form);
+        BrandPojo p = convert(form);// todo: to use copy bean and create a generic function
         brandService.add(p);
     }
     public BrandData getBrand(int id) throws ApiException {
@@ -30,6 +30,7 @@ public class brandDto {
         return convert(brandPojo);
     }
 
+    // todo: implement pagination
     public List<BrandData> getAll() {
         List<BrandPojo> list = brandService.getAll();
         List<BrandData> list2 = new ArrayList<BrandData>();

@@ -4,6 +4,7 @@ import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.service.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,12 @@ public class orderItemDto {
         service.add(p);
     }
 
-    public void delete( int id,OrderItemForm f) throws ApiException {
+    public void delete( int id,OrderItemForm f) throws ApiException { //todo: Check order status-invoiced before deletion
         OrderItemPojo p = service.get(id);
+        OrderPojo.Status status= orderService.get(p.getOrderId()).getStatus();
+        if(status== OrderPojo.Status.invoiced) {
+            throw new ApiException("Invalid Operation: Invoice has been generated for the order. ");
+        }
         InventoryPojo i=inventoryService.get(p.getProductId());
         i.setQuantity(i.getQuantity()-f.getInventoryQty());
         inventoryService.update(i.getId(),i);
@@ -52,8 +57,8 @@ public class orderItemDto {
     @ApiOperation(value = "Get the list of orderItem by orderID")
     @RequestMapping(path = "/api/orderItem/view/{id}", method = RequestMethod.GET)
     public List<OrderItemData> getOrderList( int id) throws ApiException {
-        List<OrderItemPojo> list = service.getOrderList(id);;
-        List<OrderItemData> list2 = new ArrayList<OrderItemData>();
+        List<OrderItemPojo> list = service.getOrderList(id);
+        List<OrderItemData> list2 = new ArrayList<>();
         for (OrderItemPojo p : list) {
             String barcode=productService.get(p.getProductId()).getBarcode();
             String productName=productService.get(p.getProductId()).getName();
@@ -78,8 +83,8 @@ public class orderItemDto {
     @RequestMapping(path = "/api/orderItem/{id}", method = RequestMethod.PUT)
     public void update( int id,  OrderItemForm f) throws ApiException {
         OrderItemPojo p = service.get(id);
-        boolean status= orderService.get(p.getOrderId()).getStatus();
-        if(status==false) {
+        OrderPojo.Status status= orderService.get(p.getOrderId()).getStatus();
+        if(status== OrderPojo.Status.created) {
             OrderItemPojo newp = convert3(f, p);
             InventoryPojo i = inventoryService.get(p.getProductId());
             if(f.getInventoryQty()>0) {
@@ -88,8 +93,10 @@ public class orderItemDto {
             i.setQuantity(i.getQuantity() - f.getInventoryQty());
             inventoryService.update(i.getId(), i);
             service.update(id, newp);
-        }else{
+        }else if(status== OrderPojo.Status.invoiced){
             throw new ApiException("Invalid Operation: Invoice has been generated for the order. ");
+        }else{
+            throw new ApiException("Invalid Operation: Empty order. ");
         }
     }
 
@@ -124,7 +131,7 @@ public class orderItemDto {
         d.setBarcode(barcode);
         return d;
     }
-    private OrderItemPojo convert3(OrderItemForm f,OrderItemPojo p){
+    private OrderItemPojo convert3(OrderItemForm f,OrderItemPojo p){    //todo: create a generic convert function
         p.setQuantity(f.getQuantity());
         p.setSellingPrice(f.getSellingPrice());
         return p;

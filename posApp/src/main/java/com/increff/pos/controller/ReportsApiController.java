@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Api
@@ -34,7 +35,7 @@ public class ReportsApiController {
     // SALES REPORT
 //    @ApiOperation(value = "Get list of all orders")
 //    @RequestMapping(path = "/api/report/salesReport/relevent", method = RequestMethod.GET)
-//    public List<SalesReportData> getReleventAll(LocalDate startDate1,LocalDate endDate1){//,String brand,String category) {
+//    public List<SalesReportData> getReleventAll(LocalDate startDate1, LocalDate endDate1){//,String brand,String category) {
 //        return dto.getReleventAll(startDate1,endDate1);
 //    }
 //

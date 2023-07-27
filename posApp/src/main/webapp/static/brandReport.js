@@ -70,6 +70,7 @@ function init() {
             [5, 10, 20, 'All']
         ],
         deferRender: true,
+
     });
 }
 

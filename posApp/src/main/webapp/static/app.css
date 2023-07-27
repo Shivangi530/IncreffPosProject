@@ -53,3 +53,8 @@ body {
   color: #fff;
   cursor: pointer;
 }
+
+.custom-link {
+    text-decoration: none;
+    color: black;
+  }

@@ -35,5 +35,8 @@ public class ValidateUtil {
         if (nameLength>255){
             throw new ApiException("Name size: "+ nameLength +" is more than 255 characters");
         }
+        if(p.getMrp()>1000000000){
+            throw new ApiException("Mrp entered is too large");
+        }
     }
 }

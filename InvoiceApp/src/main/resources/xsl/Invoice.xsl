@@ -27,7 +27,7 @@
                     </fo:block>
                   </fo:table-cell>
                   <fo:table-cell>
-                    <fo:block text-align="right">
+                    <fo:block text-align="center">
                       INVOICE
                     </fo:block>
                   </fo:table-cell>
@@ -35,11 +35,10 @@
                 <fo:table-row>
                   <fo:table-cell padding-left="5pt" padding-top="5pt">
                     <fo:block>
-                      c/o Increff&#x2028;
-                      The Hub Unit 1&#x2028;
-                      Sarjapur - Marathahalli Rd&#x2028;
-                      Bellandur&#x2028;
-                      Bengaluru&#x2028;
+                      c/o Increff,&#x2028;
+                      The Hub Unit, 1&#x2028;
+                      Sarjapur - Marathahalli Rd, &#x2028;
+                      Bellandur, Bengaluru&#x2028;
                       Karnataka 560103
                     </fo:block>
                   </fo:table-cell>
@@ -65,8 +64,8 @@
           <fo:table-row>
             <fo:table-cell>
               <fo:block text-align="left">
-                <fo:inline font-weight="bold">Invoice #</fo:inline>&#x2028;
-                <fo:inline font-weight="bold">Invoice Date</fo:inline>&#x2028;
+                <fo:inline font-weight="bold">Invoice Number: </fo:inline>&#x2028;
+                <fo:inline font-weight="bold">Invoice Date:</fo:inline>&#x2028;
               </fo:block>
             </fo:table-cell>
             <fo:table-cell>

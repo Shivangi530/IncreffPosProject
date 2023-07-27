@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class SalesReportData {
-
+//todo: set not null conditions for startDate and endDate
     private int id;
     private LocalDate date;
     private LocalDate startDate;

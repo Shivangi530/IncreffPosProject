@@ -9,5 +9,5 @@ import java.time.LocalDateTime;
 @Setter
 public class OrderForm {
 	private LocalDateTime dateTime;
-	private boolean status;
+	private String status;
 }

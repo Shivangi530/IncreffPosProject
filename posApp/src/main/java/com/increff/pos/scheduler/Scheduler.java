@@ -16,7 +16,7 @@ public class Scheduler {
     @Autowired
     private DayOnDaySalesService service;
 
-    @Scheduled(cron = "0 2 11 * * ?") // Runs every day at 9AM//    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 3600000) // @Scheduled(fixedDelay = 5000)(cron = "0 23 13 * * ?")
     public void scheduledTask() throws ApiException {
         LocalDateTime l = LocalDateTime.now();
         System.out.println(l);

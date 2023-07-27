@@ -27,6 +27,8 @@ public class InvoiceDto {
         service.generateInvoice(form);
         String _filename = "./generated/invoice_"+form.getOrderId() +".pdf";
         Path pdfPath = Paths.get("./generated/invoice.pdf");
+        System.out.println("PlacedDate: "+form.getPlacedDate());
+        System.out.println("Order Id: "+form.getOrderId());
 
         byte[] contents = Base64.getEncoder().encode(Files.readAllBytes(pdfPath));
 

@@ -35,8 +35,8 @@ public class OrderItemService {
 
 	@Transactional
 	public void delete(int id) throws ApiException {
-		boolean status=orderService.get(get(id).getOrderId()).getStatus();
-		if(status==true){
+		OrderPojo.Status status=orderService.get(get(id).getOrderId()).getStatus();
+		if(status== OrderPojo.Status.invoiced){
 			throw new ApiException("Cannot delete OrderItem, Invoice already generated");
 		}
 		dao.delete(id);

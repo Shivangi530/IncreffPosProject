@@ -30,7 +30,7 @@ public class BrandService {
 		dao.insert(p);
 	}
 
-	//TODO: getCheck should not throw any error
+	//TODO: remove the get function
 	@Transactional(rollbackOn = ApiException.class)
 	public BrandPojo get(int id) throws ApiException {
 		return getCheck(id);
@@ -41,8 +41,9 @@ public class BrandService {
 		return dao.selectAll();
 	}
 
+
 	@Transactional(rollbackOn  = ApiException.class)
-	public void update(int id, BrandPojo p) throws ApiException {
+	public void update(int id, BrandPojo p) throws ApiException { //todo: dont use pojo for updating
 		if(StringUtil.isEmpty(p.getBrand())) {
 			throw new ApiException("Brand cannot be empty");
 		}
@@ -79,3 +80,4 @@ public class BrandService {
 		return dao.checkCombination(brand,category);
 	}
 }
+// todo: use integer instead of int

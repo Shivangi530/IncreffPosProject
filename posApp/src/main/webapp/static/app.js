@@ -137,3 +137,20 @@ window.popup=function(message,text) {
 
 }
 
+// Format date
+function formatDate(inputDate) {
+  // Step 1: Convert input date string to a JavaScript Date object
+  var dateParts = inputDate.split(',');
+  var year = parseInt(dateParts[0], 10);
+  var month = parseInt(dateParts[1], 10);
+  var day = parseInt(dateParts[2], 10);
+
+  // Step 2: Create a new Date object (months are 0-based in JavaScript Date)
+  var date = new Date(year, month - 1, day);
+
+  // Step 3: Format the date components into "dd-mm-yyyy" format
+  var formattedDate = ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear();
+
+  // Step 4: Return the formatted date string
+  return formattedDate;
+}

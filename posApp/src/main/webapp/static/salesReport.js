@@ -112,7 +112,13 @@ function init(){
         [5, 10, 20, 'All']
       ],
       deferRender: true,
-      order: [[0, "desc"]]
+      order: [[0, "desc"]],
+      columns: [
+              { searchable: true },  // Column 0 - Searchable
+              { searchable: true },  // Column 1 - Searchable
+              { searchable: false }, // Column 2 - Not searchable
+              { searchable: false },
+          ],
     });
 }
 

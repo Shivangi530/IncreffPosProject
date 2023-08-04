@@ -20,7 +20,7 @@
               <fo:table-column column-width="8.5cm"/>
               <fo:table-column column-width="8.5cm"/>
               <fo:table-body>
-                <fo:table-row font-size="18pt" line-height="30px" background-color="#3e73b9" color="white">
+                <fo:table-row font-size="15pt" line-height="30px" background-color="#3e73b9" color="white">
                   <fo:table-cell padding-left="5pt">
                     <fo:block>
                       Increff
@@ -88,19 +88,19 @@
         <fo:table-header>
           <fo:table-row background-color="#f5f5f5" text-align="center" font-weight="bold">
             <fo:table-cell border="1px solid #b8b6b6">
-              <fo:block>ID</fo:block>
+              <fo:block>Id</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
               <fo:block>Name</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
-              <fo:block>QTY</fo:block>
+              <fo:block>Quantity</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
               <fo:block>Unit Price</fo:block>
             </fo:table-cell>
             <fo:table-cell border="1px solid #b8b6b6">
-              <fo:block>AMOUNT</fo:block>
+              <fo:block>Amount</fo:block>
             </fo:table-cell>
           </fo:table-row>
         </fo:table-header>

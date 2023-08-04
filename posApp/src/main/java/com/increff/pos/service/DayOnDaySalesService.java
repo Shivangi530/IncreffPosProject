@@ -22,18 +22,12 @@ public class DayOnDaySalesService {
     private BrandService brandService;
     @Autowired
     private DayOnDaySalesDao dao;
-//    @Autowired
-//    private BrandDao brandDao;
-//    @Autowired
-//    private OrderDao orderDao;
-//    @Autowired
-//    private ProductDao productDao;
 
 
     @Transactional(rollbackOn = ApiException.class)
     public void add() throws ApiException {
 
-        LocalDate date= LocalDate.now();//.minusDays(1);
+        LocalDate date= LocalDate.now();
         List<DayOnDaySalesPojo> salesList= getAll();
 
         LocalDateTime startDate = date.atStartOfDay();

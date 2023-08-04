@@ -1,12 +1,14 @@
 package com.increff.pos.service;
 
 import com.increff.pos.pojo.BrandPojo;
+import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class BrandServiceTest extends AbstractUnitTest {
 
@@ -28,21 +30,43 @@ public class BrandServiceTest extends AbstractUnitTest {
 		assertEquals(expectedCategory,q.getCategory());
 	}
 
-	@Test(expected = ApiException.class)
-	public void testBrandExistAdd() throws ApiException {
+	@Test
+	public void testAddNullBrand() {
+		BrandPojo p = new BrandPojo();
+		p.setCategory("Shoes");
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Brand cannot be empty", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testAddEmptyBrand() {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("");
 		p.setCategory("Shoes");
-		service.add(p);
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Brand cannot be empty", e.getMessage());
+		}
 	}
-	@Test(expected = ApiException.class)
-	public void testCategoryExistAdd() throws ApiException {
+	@Test
+	public void testAddEmptyCategory() {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("dsfds");
 		p.setCategory("");
-		service.add(p);
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Category cannot be empty", e.getMessage());
+		}
 	}
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBrandCategoryExistAdd() throws ApiException {
 		BrandPojo p = new BrandPojo();
 		p.setBrand("nestle");
@@ -52,7 +76,12 @@ public class BrandServiceTest extends AbstractUnitTest {
 		BrandPojo q = new BrandPojo();
 		q.setBrand("nestle");
 		q.setCategory("dairy");
-		service.add(q);
+		try {
+			service.add(q);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Brand:nestle and Category:dairy combination already exists", e.getMessage());
+		}
 	}
 	@Test
 	public void testUpdate() throws ApiException{
@@ -69,55 +98,60 @@ public class BrandServiceTest extends AbstractUnitTest {
 		String expectedCategory= "shoes";
 		BrandPojo r= service.checkCombination(p.getBrand(), p.getCategory());
 
-		service.update(r.getId(),q);
+		service.update(r.getId(),"adidas","shoes");
 
-		BrandPojo s= service.get(r.getId());
+		BrandPojo s= service.getValueBrandCategory(r.getId());
 
 		assertEquals(expectedBrand,s.getBrand());
 		assertEquals(expectedCategory,s.getCategory());
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBrandEmptyUpdate() throws ApiException{
 		BrandPojo p=new BrandPojo();
 		p.setBrand("Puma");
 		p.setCategory("Sneakers");
 		service.add(p);
 
-		BrandPojo q=new BrandPojo();
-		q.setBrand("");
-		q.setCategory("Shoes");
-		service.update(p.getId(),q);
+		try {
+			service.update(p.getId(),"","Shoes");
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Brand cannot be empty", e.getMessage());
+		}
 	}
-	@Test(expected = ApiException.class)
+	@Test
 	public void testCategoryEmptyUpdate() throws ApiException{
 		BrandPojo p=new BrandPojo();
 		p.setBrand("Puma");
 		p.setCategory("Sneakers");
 		service.add(p);
 
-		BrandPojo q=new BrandPojo();
-		q.setBrand("Adidas");
-		q.setCategory("");
-		service.update(p.getId(),q);
+		try {
+			service.update(p.getId(),"Adidas","");
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Category cannot be empty", e.getMessage());
+		}
 	}
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBrandCategoryExistUpdate() throws ApiException{
 		BrandPojo p=new BrandPojo();
 		p.setBrand("puma");
 		p.setCategory("sneakers");
 		service.add(p);
 
-		BrandPojo q=new BrandPojo();
-		q.setBrand("puma");
-		q.setCategory("sneakers");
-
 		BrandPojo r=new BrandPojo();
 		r.setBrand("amul");
 		r.setCategory("milk");
 		service.add(r);
 
-		service.update(r.getId(),q);
+		try {
+			service.update(r.getId(),"puma","sneakers");
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Brand:puma and Category:sneakers combination already exists", e.getMessage());
+		}
 	}
 
 	@Test
@@ -136,10 +170,52 @@ public class BrandServiceTest extends AbstractUnitTest {
 		assertEquals(2,a.size());
 	}
 
-	@Test(expected = ApiException.class)
-	public void testGetCheck() throws ApiException{
-		service.getValueBrandCategory(5);
-		service.getCheck(5);
+	@Test
+	public void testGetCheck(){
+		System.out.println("Hello world");
+		try {
+			service.getCheck(5);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Brand with given ID does not exit, id: 5", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testBulkAdd() throws ApiException{
+		BrandPojo p1=new BrandPojo();
+		p1.setBrand("puma");
+		p1.setCategory("shoes");
+		service.add(p1);
+
+		BrandPojo p=new BrandPojo();
+		p.setBrand("puma");
+		p.setCategory("sneakers");
+
+		BrandPojo q=new BrandPojo();
+		q.setBrand("adidas");
+		q.setCategory("shoes");
+
+		List<BrandPojo> list= new ArrayList<>();
+		list.add(p);
+		list.add(q);
+		service.bulkAdd(list);
+
+		List<BrandPojo> result = service.getAll();
+		assertEquals(3,result.size());
+
+		for (BrandPojo brand : result) {
+			if (brand.getBrand().equals("puma") && brand.getCategory().equals("sneakers")) {
+				assertTrue(true);
+			} else if (brand.getBrand().equals("adidas") && brand.getCategory().equals("shoes")) {
+				assertTrue(true);
+			}else if (brand.getBrand().equals("puma") && brand.getCategory().equals("shoes")) {
+				assertTrue(true);
+			} else {
+				// Unexpected brand or category found in the list
+				fail("Unexpected brand or category found: " + brand.getBrand() + ", " + brand.getCategory());
+			}
+		}
 	}
 
 

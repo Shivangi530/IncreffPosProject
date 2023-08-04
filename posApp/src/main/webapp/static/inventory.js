@@ -5,6 +5,10 @@ function getInventoryUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     return baseUrl + "/api/inventory";
 }
+function getInventoryListUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/inventory/list";
+}
 
 function updateInventory(event) {
     $('#edit-inventory-modal').modal('toggle');
@@ -29,6 +33,7 @@ function updateInventory(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
+            success("Item Updated");
             getInventoryList();
         },
         error: handleAjaxError
@@ -112,64 +117,131 @@ function checkHeaderMatch(uploadedHeaders) {
     return true;
 }
 
-function ajaxFxn(data) {
-    //Make ajax call
-
-}
-
 function uploadRows() {
     //Update progress
     updateUploadDialog();
-    //If everything processed then return
-    if (processCount == fileData.length) {
-        return;
-    }
-    //Process next row
-    var row = fileData[processCount];
-    processCount++;
-    var id = -1;
-    var barcode = row.barcode.toLowerCase();
-    var quantity = row.quantity;
-    for (var i in inventoryData) {
-        if (inventoryData[i].barcode === barcode) {
-            id = inventoryData[i].id;
-            quantity = parseInt(quantity) + parseInt(inventoryData[i].quantity);
-            break;
-        }
-    }
-    console.log("True id:", id);
-    if (id === -1) {
-        row.error = "Barcode: " + barcode + " does not exist";
-        errorData.push(row);
-        uploadRows();
-    } else {
-        console.log("True id:", id);
-        var jsonData = {
-            id: id,
-            quantity: quantity
-        };
-        var json = JSON.stringify(jsonData);
-        var url = getInventoryUrl() + "/" + id;
-        $.ajax({
-            url: url,
-            type: 'PUT',
-            data: json,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            success: function(response) {
-                console.log("success");
-                uploadRows();
-                getInventoryList();
-            }
-        });
-    }
-    console.log("id====", id);
+    var row = fileData;
+    var json = JSON.stringify(row);
+    var url = getInventoryListUrl();
+    console.log(json);
+    //Make ajax call
+    $.ajax({
+        url: url,
+        type: 'PUT',
+        data: json,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function(response) {
+            console.log(response);
+            getInventoryList();
+            $('#upload-inventory-modal').modal('hide');
+            success("File uploaded successfully");
+        },
+        error: function(response) {
+            var resp = JSON.parse(response.responseText);
+            console.log(resp.message);
+            const inputString = resp.message;
+            console.log("errorData : "+errorData);
+            // Remove the square brackets at the beginning and end of the string
+            const cleanedString = inputString.slice(1, -1);
 
-    $("#download-errors").prop('disabled', false);
+            // Split the string using the comma (,) as the delimiter
+            const errorArray = cleanedString.split(', ');
+            console.log(errorArray);
+
+            var i=0;
+
+            // Loop through the errorArray and format each error as a CSV row
+            errorArray.forEach((error) => {
+              const index = error.indexOf('=');
+              const errorCode = error.slice(0, index);
+              const errorMessage = error.slice(index + 1);
+              const errorRowIndex = parseInt(errorCode, 10);
+              console.log("errorRowIndex = ",errorRowIndex);
+                if (!isNaN(errorRowIndex) && errorRowIndex >= 0 && errorRowIndex < fileData.length) {
+                  if (!errorData[i]) {
+                    errorData[i] = Object.assign({}, fileData[errorRowIndex], { error: errorMessage });
+                    i++;
+                    console.log(i);
+                    console.log("errorRowIndex = ",errorRowIndex);
+
+                  }
+                }
+//              errorData.push([ errorMessage]);
+            });
+            console.log(errorData);
+            updateUploadDialog();
+//            for (var i = 0; i < fileData.length; i++) {
+//              var row = fileData[i];
+//              var error = (i < errorData.length) ? errorData[i][0] : '';
+//              var combinedRow = Object.assign({}, row, { error: error });
+//              errorData.push(combinedRow);
+//            }
+            $("#download-errors").prop('disabled', false);
+            danger("Invalid file: File has errors");
+        }
+    });
 }
 
+//function uploadRows() {
+//    //Update progress
+//    updateUploadDialog();
+//    //If everything processed then return
+//    if (processCount == fileData.length) {
+//        return;
+//    }
+//    //Process next row
+//    var row = fileData[processCount];
+//    processCount++;
+//    var id = -1;
+//    var barcode = row.barcode.toLowerCase();
+//    var quantity = row.quantity;
+//    for (var i in inventoryData) {
+//        if (inventoryData[i].barcode === barcode) {
+//            id = inventoryData[i].id;
+//            quantity = parseInt(quantity) + parseInt(inventoryData[i].quantity);
+//            break;
+//        }
+//    }
+//    console.log("True id:", id);
+//    if (id === -1) {
+//        row.error = "Barcode: " + barcode + " does not exist";
+//        errorData.push(row);
+//        uploadRows();
+//    } else {
+//        console.log("True id:", id);
+//        var jsonData = {
+//            id: id,
+//            quantity: quantity
+//        };
+//        var json = JSON.stringify(jsonData);
+//        var url = getInventoryUrl() + "/" + id;
+//        $.ajax({
+//            url: url,
+//            type: 'PUT',
+//            data: json,
+//            headers: {
+//                'Content-Type': 'application/json'
+//            },
+//            success: function(response) {
+//                console.log("success");
+//                uploadRows();
+//                getInventoryList();
+//            }
+//        });
+//    }
+//    console.log("id====", id);
+//
+//    $("#download-errors").prop('disabled', false);
+//}
+
 function downloadErrors() {
+    if (errorData.length === 0) {
+        $("#download-errors").prop('disabled', true);
+        warning("No errors to download");
+        return;
+    }
     writeFileData(errorData);
 }
 
@@ -213,13 +285,14 @@ function resetUploadDialog() {
     processCount = 0;
     fileData = [];
     errorData = [];
+    errorData=[];
     //Update counts
     updateUploadDialog();
 }
 
 function updateUploadDialog() {
     $('#rowCount').html("" + fileData.length);
-    $('#processCount').html("" + processCount);
+//    $('#processCount').html("" + processCount);
     $('#errorCount').html("" + errorData.length);
 }
 
@@ -259,8 +332,12 @@ function init() {
     getInventoryList();
    table = $('#inventory-table').DataTable({
       columnDefs: [
-        { targets: [2], orderable: false },
-        { targets: [0, 1, 2], className: "text-center" }
+        { targets: [0, 1, 2], className: "text-center" },
+        {
+          targets: 2,
+          orderable: false,
+          visible: userRole === 'SUPERVISOR'
+        }
       ],
       searching: true,
       info: true,

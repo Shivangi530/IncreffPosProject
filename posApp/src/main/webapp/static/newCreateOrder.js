@@ -1099,3 +1099,311 @@ function init() {
 
 $(document).ready(init);
 $(document).ready(getCreateOrderList);
+
+////////////////////////////////////////////////
+//package com.increff.pos.dto;
+//
+//import com.increff.pos.model.*;
+//import com.increff.pos.service.AbstractUnitTest;
+//import com.increff.pos.service.ApiException;
+//import org.junit.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//
+//import java.time.LocalDateTime;
+//import java.util.List;
+//
+//import static junit.framework.TestCase.*;
+//
+//public class orderDtoTest extends AbstractUnitTest {
+//
+//    @Autowired
+//    private orderDto dto;
+//
+//    @Test
+//    public void testAdd() throws ApiException {
+//        int id = dto.add();
+//        LocalDateTime expectedDateTime = LocalDateTime.now();
+//        assertEquals(expectedDateTime.getMonthValue(), dto.get(id).getDateTime().getMonthValue());
+//        assertFalse(dto.get(id).isStatus());
+//    }
+//
+//    @Test
+//    public void testUpdate() throws ApiException {
+//        int id = dto.add();
+//        dto.update(id);
+//        OrderData data = dto.get(id);
+//        assertTrue(data.isStatus());
+//    }
+//
+//    @Test
+//    public void testGetAll() throws ApiException {
+//        int id1 = dto.add();
+//        int id2 = dto.add();
+//        List<OrderData> list = dto.getAll();
+//        assertEquals(2, list.size());
+//    }
+//
+//}
+
+//package com.increff.pos.service;
+//
+//import com.increff.pos.pojo.OrderPojo;
+//import org.junit.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Value;
+//
+//import java.time.LocalDateTime;
+//import java.util.List;
+//
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertTrue;
+//
+//public class OrderServiceTest extends AbstractUnitTest {
+//
+//	@Value("${invoice.url}")
+//	private String invoiceUrl;
+//
+//	@Autowired
+//	private OrderService service;
+//
+//	@Test
+//	public void testAdd() throws ApiException {
+//		OrderPojo p = new OrderPojo();
+//		service.add(p);
+//
+//		OrderPojo q = service.get(p.getId());
+//		assertEquals(p.getDateTime(), q.getDateTime());
+//		assertEquals(p.getStatus(), q.getStatus());
+//	}
+//
+//	@Test
+//	public void testGetAll() throws ApiException {
+//		OrderPojo p = new OrderPojo();
+//		service.add(p);
+//
+//		OrderPojo q = new OrderPojo();
+//		service.add(q);
+//
+//		List<OrderPojo> r = service.getAll();
+//		System.out.println("r.size()=" + r.size());
+//		assertEquals(2, r.size());
+//	}
+//
+//	@Test
+//	public void testUpdate() throws ApiException {
+//		OrderPojo p = new OrderPojo();
+//		service.add(p);
+//
+//		service.update(p.getId());
+//		service.get(p.getId());
+////		assertTrue(p.getStatus());
+//	}
+//
+//	@Test
+//	public void testGetOrderDates() throws ApiException {
+//
+//		OrderPojo p = new OrderPojo();
+//		service.add(p);
+//
+//		OrderPojo q = new OrderPojo();
+//		service.add(q);
+//
+//		service.update(p.getId());
+//		service.update(q.getId());
+//		LocalDateTime startDate = p.getDateTime().minusDays(1);
+//		LocalDateTime endDate = q.getDateTime().plusDays(1);
+//
+//		List<OrderPojo> r = service.getOrderDates(startDate, endDate);
+//		System.out.println("r.size()=" + r.size());
+//		assertEquals(2, r.size());
+//	}
+//
+//	@Test
+//	public void testGenerateInvoiceForOrder() throws ApiException {
+//		OrderPojo p = new OrderPojo();
+//		service.add(p);
+//		service.generateInvoiceForOrder(p.getId());
+//	}
+//
+//	@Test
+//	public void testGetInvoicePDF() throws ApiException, Exception {
+//		OrderPojo p = new OrderPojo();
+//		service.add(p);
+//		service.getInvoicePDF(p.getId());
+//	}
+//}
+
+
+
+//////////////////inventoryservicetest
+//	@Test(expected = ApiException.class)
+//	public void testCategoryExistAdd() throws ApiException {
+//		InventoryPojo p = new InventoryPojo();
+//		p.setInventory("dsfds");
+//		p.setCategory("");
+//		service.add(p);
+//	}
+//	@Test(expected = ApiException.class)
+//	public void testInventoryCategoryExistAdd() throws ApiException {
+//		InventoryPojo p = new InventoryPojo();
+//		p.setInventory("nestle");
+//		p.setCategory("dairy");
+//		service.add(p);
+//
+//		InventoryPojo q = new InventoryPojo();
+//		q.setInventory("nestle");
+//		q.setCategory("dairy");
+//		service.add(q);
+//	}
+//	@Test
+//	public void testUpdate() throws ApiException{
+//		InventoryPojo p=new InventoryPojo();
+//		p.setInventory("Puma");
+//		p.setCategory("Sneakers");
+//		service.add(p);
+//
+//		InventoryPojo q=new InventoryPojo();
+//		q.setInventory("adidas");
+//		q.setCategory("shoes");
+//
+//		String expectedInventory= "adidas";
+//		String expectedCategory= "shoes";
+//		InventoryPojo r= service.checkCombination(p.getInventory(), p.getCategory());
+//
+//		service.update(r.getId(),q);
+//
+//		InventoryPojo s= service.get(r.getId());
+//
+//		assertEquals(expectedInventory,s.getInventory());
+//		assertEquals(expectedCategory,s.getCategory());
+//	}
+//
+//	@Test(expected = ApiException.class)
+//	public void testInventoryEmptyUpdate() throws ApiException{
+//		InventoryPojo p=new InventoryPojo();
+//		p.setInventory("Puma");
+//		p.setCategory("Sneakers");
+//		service.add(p);
+//
+//		InventoryPojo q=new InventoryPojo();
+//		q.setInventory("");
+//		q.setCategory("Shoes");
+//		service.update(p.getId(),q);
+//	}
+//	@Test(expected = ApiException.class)
+//	public void testCategoryEmptyUpdate() throws ApiException{
+//		InventoryPojo p=new InventoryPojo();
+//		p.setInventory("Puma");
+//		p.setCategory("Sneakers");
+//		service.add(p);
+//
+//		InventoryPojo q=new InventoryPojo();
+//		q.setInventory("Adidas");
+//		q.setCategory("");
+//		service.update(p.getId(),q);
+//	}
+//	@Test(expected = ApiException.class)
+//	public void testInventoryCategoryExistUpdate() throws ApiException{
+//		InventoryPojo p=new InventoryPojo();
+//		p.setInventory("puma");
+//		p.setCategory("sneakers");
+//		service.add(p);
+//
+//		InventoryPojo q=new InventoryPojo();
+//		q.setInventory("puma");
+//		q.setCategory("sneakers");
+//
+//		InventoryPojo r=new InventoryPojo();
+//		r.setInventory("amul");
+//		r.setCategory("milk");
+//		service.add(r);
+//
+//		service.update(r.getId(),q);
+//	}
+//
+//	@Test
+//	public void testGetAll() throws ApiException{
+//		InventoryPojo p=new InventoryPojo();
+//		p.setInventory("puma");
+//		p.setCategory("sneakers");
+//		service.add(p);
+//
+//		InventoryPojo r=new InventoryPojo();
+//		r.setInventory("amul");
+//		r.setCategory("milk");
+//		service.add(r);
+//
+//		List<InventoryPojo> a = service.getAll();
+//		assertEquals(2,a.size());
+//	}
+//
+//	@Test(expected = ApiException.class)
+//	public void testGetCheck() throws ApiException{
+//		service.getValueInventoryCategory(5);
+//		service.getCheck(5);
+//	}
+//
+
+//////////////productService test
+//		ProductPojo p=new ProductPojo();
+//		p.setProduct("Puma");
+//		p.setCategory("Sneakers");
+//		service.add(p);
+//
+//		ProductPojo q=new ProductPojo();
+//		q.setProduct("");
+//		q.setCategory("Shoes");
+//		service.update(p.getId(),q);
+//	}
+//	@Test(expected = ApiException.class)
+//	public void testCategoryEmptyUpdate() throws ApiException{
+//		ProductPojo p=new ProductPojo();
+//		p.setProduct("Puma");
+//		p.setCategory("Sneakers");
+//		service.add(p);
+//
+//		ProductPojo q=new ProductPojo();
+//		q.setProduct("Adidas");
+//		q.setCategory("");
+//		service.update(p.getId(),q);
+//	}
+//	@Test(expected = ApiException.class)
+//	public void testProductCategoryExistUpdate() throws ApiException{
+//		ProductPojo p=new ProductPojo();
+//		p.setProduct("puma");
+//		p.setCategory("sneakers");
+//		service.add(p);
+//
+//		ProductPojo q=new ProductPojo();
+//		q.setProduct("puma");
+//		q.setCategory("sneakers");
+//
+//		ProductPojo r=new ProductPojo();
+//		r.setProduct("amul");
+//		r.setCategory("milk");
+//		service.add(r);
+//
+//		service.update(r.getId(),q);
+//	}
+//
+//	@Test
+//	public void testGetAll() throws ApiException{
+//		ProductPojo p=new ProductPojo();
+//		p.setProduct("puma");
+//		p.setCategory("sneakers");
+//		service.add(p);
+//
+//		ProductPojo r=new ProductPojo();
+//		r.setProduct("amul");
+//		r.setCategory("milk");
+//		service.add(r);
+//
+//		List<ProductPojo> a = service.getAll();
+//		assertEquals(2,a.size());
+//	}
+//
+//	@Test(expected = ApiException.class)
+//	public void testGetCheck() throws ApiException{
+//		service.getValueProductCategory(5);
+//		service.getCheck(5);
+//	}

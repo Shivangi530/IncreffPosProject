@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api
-@RestController
-public class BrandApiController {
+@RestController //todo:Request mapping
+public class BrandController {
 	@Autowired
 	private brandDto brandDto;
 
@@ -24,7 +24,7 @@ public class BrandApiController {
 
 	@ApiOperation(value = "Get a brand by ID")
 	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.GET)
-	public BrandData getBrand(@PathVariable int id) throws ApiException {
+	public BrandData getBrand(@PathVariable Integer id) throws ApiException {
 		return brandDto.getBrand(id);
 	}
 
@@ -36,8 +36,15 @@ public class BrandApiController {
 
 	@ApiOperation(value = "Update a brand")
 	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody BrandForm f) throws ApiException {
-		brandDto.update(id, f);
+	public void update(@PathVariable Integer id, @RequestBody BrandForm form) throws ApiException {
+		brandDto.update(id, form);
+	}
+
+	// For tsv file upload
+	@ApiOperation(value = "Add list of brands")
+	@RequestMapping(path = "/api/brands/list", method = RequestMethod.POST)
+	public void addList(@RequestBody List<BrandForm> brandFormList) throws ApiException {
+		brandDto.addList(brandFormList);
 	}
 }
 

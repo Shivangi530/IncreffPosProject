@@ -1,60 +1,29 @@
 package com.increff.pos.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
-public class OrderItemPojo {
+@Getter
+@Setter
+public class OrderItemPojo extends AbstractPojo{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private Integer orderId;
+
+	@Column(nullable = false)
+	private Integer orderId;// todo: not null constraints
+
+	@Column(nullable = false)
 	private Integer productId;
+
+	@Column(nullable = false)
 	private Integer quantity;
+
+	@Column(nullable = false)
 	private double sellingPrice;
-
-	public Integer getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
-	}
-
-	public Integer getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Integer productId) {
-		this.productId = productId;
-	}
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public double getSellingPrice() {
-		return sellingPrice;
-	}
-
-	public void setSellingPrice(double sellingPrice) {
-		this.sellingPrice = sellingPrice;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 
 }

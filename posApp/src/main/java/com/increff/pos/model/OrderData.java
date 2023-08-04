@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class OrderData extends OrderForm {
 
-	private int id;
+	private Integer id;
 
 }

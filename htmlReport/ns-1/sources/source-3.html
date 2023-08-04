@@ -40,46 +40,46 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">DayOnDaySalesDao</td>
 <td class="coverageStat">
   <span class="percent">
-    42.9%
+    57.1%
   </span>
   <span class="absValue">
-    (3/7)
+    (4/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    35.7%
+    50%
   </span>
   <span class="absValue">
-    (5/14)
+    (7/14)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">DayOnDaySalesDao$$EnhancerBySpringCGLIB$$9ff197f5</td>
+    <td class="name">DayOnDaySalesDao$$EnhancerBySpringCGLIB$$3a25629a</td>
   </tr>
   <tr>
-    <td class="name">DayOnDaySalesDao$$EnhancerBySpringCGLIB$$9ff197f5$$FastClassBySpringCGLIB$$5d209da5</td>
+    <td class="name">DayOnDaySalesDao$$EnhancerBySpringCGLIB$$3a25629a$$FastClassBySpringCGLIB$$d15b7e87</td>
   </tr>
   <tr>
-    <td class="name">DayOnDaySalesDao$$FastClassBySpringCGLIB$$beae1279</td>
+    <td class="name">DayOnDaySalesDao$$FastClassBySpringCGLIB$$8fed1a67</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    42.9%
+    57.1%
   </span>
   <span class="absValue">
-    (3/7)
+    (4/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    35.7%
+    50%
   </span>
   <span class="absValue">
-    (5/14)
+    (7/14)
   </span>
 </td>
 </tr>
@@ -105,8 +105,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;@Repository
 <b class="fc">&nbsp;public class DayOnDaySalesDao extends AbstractDao {</b>
 &nbsp;
-<b class="fc">&nbsp;	private static String DELETE_ID = &quot;delete from DayOnDaySalesPojo p where id=:id&quot;;</b>
-<b class="fc">&nbsp;	private static String SELECT_ID = &quot;select p from DayOnDaySalesPojo p where id=:id&quot;;</b>
+<b class="fc">&nbsp;//	private static String DELETE_ID = &quot;delete from DayOnDaySalesPojo p where id=:id&quot;;</b>
+<b class="fc">&nbsp;//	private static String SELECT_ID = &quot;select p from DayOnDaySalesPojo p where id=:id&quot;;</b>
 <b class="fc">&nbsp;	private static String SELECT_ALL = &quot;select p from DayOnDaySalesPojo p&quot;;</b>
 &nbsp;
 &nbsp;	@PersistenceContext
@@ -117,25 +117,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;		em.persist(p);</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	public int delete(int id) {
-<b class="nc">&nbsp;		Query query = em.createQuery(DELETE_ID);</b>
-<b class="nc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
-<b class="nc">&nbsp;		return query.executeUpdate();</b>
-&nbsp;	}
 &nbsp;
-&nbsp;	public DayOnDaySalesPojo select(int id) {
-<b class="nc">&nbsp;		TypedQuery&lt;DayOnDaySalesPojo&gt; query = getQuery(SELECT_ID, DayOnDaySalesPojo.class);</b>
-<b class="nc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
-<b class="nc">&nbsp;		return getSingle(query);</b>
-&nbsp;	}
+<b class="nc">&nbsp;//	public DayOnDaySalesPojo select(int id) {</b>
+<b class="nc">&nbsp;//		TypedQuery&lt;DayOnDaySalesPojo&gt; query = getQuery(SELECT_ID, DayOnDaySalesPojo.class);</b>
+<b class="nc">&nbsp;//		query.setParameter(&quot;id&quot;, id);</b>
+&nbsp;//		return getSingle(query);
+&nbsp;//	}
 &nbsp;
-&nbsp;	public List&lt;DayOnDaySalesPojo&gt; selectAll() {
+<b class="nc">&nbsp;	public List&lt;DayOnDaySalesPojo&gt; selectAll() {</b>
 <b class="nc">&nbsp;		TypedQuery&lt;DayOnDaySalesPojo&gt; query = getQuery(SELECT_ALL, DayOnDaySalesPojo.class);</b>
 <b class="nc">&nbsp;		return query.getResultList();</b>
 &nbsp;	}
-&nbsp;
-&nbsp;	public void update(DayOnDaySalesPojo p) {
-<b class="nc">&nbsp;	}</b>
+&nbsp;	
 &nbsp;}
 </code>
 </pre>
@@ -160,7 +153,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-24 15:03</div>
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
 </div>
 </body>
 </html>

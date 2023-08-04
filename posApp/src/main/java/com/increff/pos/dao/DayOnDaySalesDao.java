@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public class DayOnDaySalesDao extends AbstractDao {
 
-	private static String DELETE_ID = "delete from DayOnDaySalesPojo p where id=:id";
-	private static String SELECT_ID = "select p from DayOnDaySalesPojo p where id=:id";
+//	private static String DELETE_ID = "delete from DayOnDaySalesPojo p where id=:id";
+//	private static String SELECT_ID = "select p from DayOnDaySalesPojo p where id=:id";
 	private static String SELECT_ALL = "select p from DayOnDaySalesPojo p";
 
 	@PersistenceContext
@@ -25,23 +25,16 @@ public class DayOnDaySalesDao extends AbstractDao {
 		em.persist(p);
 	}
 
-	public int delete(int id) {
-		Query query = em.createQuery(DELETE_ID);
-		query.setParameter("id", id);
-		return query.executeUpdate();
-	}
 
-	public DayOnDaySalesPojo select(int id) {
-		TypedQuery<DayOnDaySalesPojo> query = getQuery(SELECT_ID, DayOnDaySalesPojo.class);
-		query.setParameter("id", id);
-		return getSingle(query);
-	}
+//	public DayOnDaySalesPojo select(int id) {
+//		TypedQuery<DayOnDaySalesPojo> query = getQuery(SELECT_ID, DayOnDaySalesPojo.class);
+//		query.setParameter("id", id);
+//		return getSingle(query);
+//	}
 
 	public List<DayOnDaySalesPojo> selectAll() {
 		TypedQuery<DayOnDaySalesPojo> query = getQuery(SELECT_ALL, DayOnDaySalesPojo.class);
 		return query.getResultList();
 	}
 
-	public void update(DayOnDaySalesPojo p) {
-	}
 }

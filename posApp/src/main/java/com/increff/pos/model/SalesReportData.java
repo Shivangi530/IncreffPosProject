@@ -9,13 +9,13 @@ import java.time.LocalDate;
 @Setter
 public class SalesReportData {
 //todo: set not null conditions for startDate and endDate
-    private int id;
+    private Integer id;
     private LocalDate date;
     private LocalDate startDate;
     private LocalDate endDate;
     private String brand;
     private String category;
-    private int quantity;
+    private Integer quantity;
     private double revenue;
 
 }

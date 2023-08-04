@@ -26,14 +26,16 @@ function displayInventoryList(data){
     var dataRows = [];
     for (var i in data) {
         var e = data[i];
+        console.log(e.barcode);
         var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
         var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
         var row = '<tr>' +
+        '<td>' + e.barcode + '</td>' +
         '<td>' + trimmedBrand + '</td>' +
         '<td>' + trimmedCategory + '</td>' +
 		'<td>' + e.quantity + '</td>'+
 		'</tr>';
-        dataRows.push([trimmedBrand, trimmedCategory,e.quantity]);
+        dataRows.push([e.barcode,trimmedBrand, trimmedCategory,e.quantity]);
 	}
 	table.rows.add(dataRows).draw();
 }
@@ -62,7 +64,7 @@ function init(){
     getInventoryList();
     table = $('#inventory-table').DataTable({
         columnDefs: [
-            { targets: [0, 1], className: "text-center" }
+            { targets: [0, 1, 2, 3], className: "text-center" }
         ],
         searching: true,
         info: true,
@@ -72,9 +74,10 @@ function init(){
         ],
         deferRender: true,
         columns: [
-                { searchable: true },  // Column 0 - Searchable
-                { searchable: true },  // Column 1 - Searchable
-                { searchable: false }, // Column 2 - Not searchable
+                { searchable: true },
+                { searchable: true },
+                { searchable: true },
+                { searchable: false }
             ],
     });
 }

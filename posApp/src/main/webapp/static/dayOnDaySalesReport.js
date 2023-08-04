@@ -40,7 +40,8 @@ function displayInvoiceList(data){
         var month="00";
         (e.date[1]<10)? month = '0'+e.date[1] : month = e.date[1];
         (e.date[2]<10)? date = '0'+e.date[2]:date = e.date[2];
-        var formattedDate= date+"-"+month+"-"+e.date[0];
+//        var formattedDate= date+"-"+month+"-"+e.date[0];
+        var formattedDate= formatDate(e.date);
         e.revenue= e.revenue.toFixed(2)
 //        var date= formatDate(e.date);
         dataRows.push([formattedDate, e.orderCount, e.itemCount, e.revenue ]);
@@ -59,10 +60,16 @@ function printReport() {
 
     // Prepare headers and TSV data for the writeFileData function
     var headers = ['Date',	'InvoicedOrdersCount',	'InvoicedItemsCount',	'TotalRevenue'];
-    var tsvData = filteredData.map(obj => [obj.date, obj.orderCount, obj.itemCount, obj.revenue]);
+    var tsvData = filteredData.map(obj => [ formatDate(obj.date), obj.orderCount, obj.itemCount, obj.revenue]);
 
     // Call the createTsvFile function with the filtered TSV data and file name
     createTsvFile(tsvData, headers, 'DailySalesReport.tsv');
+}
+
+function formatDate(date) {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const formattedDate = new Date(date).toLocaleDateString(undefined, options);
+    return formattedDate;
 }
 
 //INITIALIZATION CODE

@@ -2,12 +2,14 @@ package com.increff.pos.service;
 
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
+import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class InventoryServiceTest extends AbstractUnitTest {
 
@@ -36,7 +38,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		assertEquals(expectedInventory,q.getQuantity());
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testQuantityInvalidAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
@@ -48,7 +50,12 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		InventoryPojo q=new InventoryPojo();
 		q.setQuantity(-1);
 		q.setId(p.getId());
-		service.add(q);
+		try {
+			service.add(q);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Quantity can not be negative", e.getMessage());
+		}
 	}
 
 	@Test
@@ -97,14 +104,14 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		InventoryPojo q1= service.get(p.getId());
 		q1.setQuantity(120);
-		service.update(p.getId(),q1);
+		service.update(p.getId(),120);
 		Integer expectedInventory= 120;
 
 		InventoryPojo r= service.get(p.getId());
 		assertEquals(expectedInventory,r.getQuantity());
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testUpdateQuantity() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
@@ -118,9 +125,12 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		q.setId(p.getId());
 		service.add(q);
 
-		InventoryPojo q1= service.get(p.getId());
-		q1.setQuantity(-1);
-		service.update(p.getId(),q1);
+		try {
+			service.update(p.getId(),-1);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Quantity cannot be negative", e.getMessage());
+		}
 	}
 
 	@Test
@@ -143,7 +153,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		assertEquals(quantity1,quantity);
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testCheckQuantityNegative() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
@@ -158,10 +168,15 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		service.add(q);
 
 		Integer quantity=-1;
-		Integer quantity1= service.checkQuantity(quantity,p.getId());
+		try {
+			service.checkQuantity(quantity,p.getId());
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Quantity should be positive", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testCheckQuantityLess() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
@@ -176,120 +191,22 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		service.add(q);
 
 		Integer quantity=11;
-		Integer quantity1= service.checkQuantity(quantity,p.getId());
+		try {
+			service.checkQuantity(quantity,p.getId());
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Selected quantity:11 is more than inventory: 10 for barcode:ndejf", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testGetCheckInvalid() throws ApiException{
-		service.getCheck(-1);
+		try {
+			service.getCheck(-1);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Inventory with given ID does not exit, id: -1", e.getMessage());
+		}
 	}
-//	@Test(expected = ApiException.class)
-//	public void testCategoryExistAdd() throws ApiException {
-//		InventoryPojo p = new InventoryPojo();
-//		p.setInventory("dsfds");
-//		p.setCategory("");
-//		service.add(p);
-//	}
-//	@Test(expected = ApiException.class)
-//	public void testInventoryCategoryExistAdd() throws ApiException {
-//		InventoryPojo p = new InventoryPojo();
-//		p.setInventory("nestle");
-//		p.setCategory("dairy");
-//		service.add(p);
-//
-//		InventoryPojo q = new InventoryPojo();
-//		q.setInventory("nestle");
-//		q.setCategory("dairy");
-//		service.add(q);
-//	}
-//	@Test
-//	public void testUpdate() throws ApiException{
-//		InventoryPojo p=new InventoryPojo();
-//		p.setInventory("Puma");
-//		p.setCategory("Sneakers");
-//		service.add(p);
-//
-//		InventoryPojo q=new InventoryPojo();
-//		q.setInventory("adidas");
-//		q.setCategory("shoes");
-//
-//		String expectedInventory= "adidas";
-//		String expectedCategory= "shoes";
-//		InventoryPojo r= service.checkCombination(p.getInventory(), p.getCategory());
-//
-//		service.update(r.getId(),q);
-//
-//		InventoryPojo s= service.get(r.getId());
-//
-//		assertEquals(expectedInventory,s.getInventory());
-//		assertEquals(expectedCategory,s.getCategory());
-//	}
-//
-//	@Test(expected = ApiException.class)
-//	public void testInventoryEmptyUpdate() throws ApiException{
-//		InventoryPojo p=new InventoryPojo();
-//		p.setInventory("Puma");
-//		p.setCategory("Sneakers");
-//		service.add(p);
-//
-//		InventoryPojo q=new InventoryPojo();
-//		q.setInventory("");
-//		q.setCategory("Shoes");
-//		service.update(p.getId(),q);
-//	}
-//	@Test(expected = ApiException.class)
-//	public void testCategoryEmptyUpdate() throws ApiException{
-//		InventoryPojo p=new InventoryPojo();
-//		p.setInventory("Puma");
-//		p.setCategory("Sneakers");
-//		service.add(p);
-//
-//		InventoryPojo q=new InventoryPojo();
-//		q.setInventory("Adidas");
-//		q.setCategory("");
-//		service.update(p.getId(),q);
-//	}
-//	@Test(expected = ApiException.class)
-//	public void testInventoryCategoryExistUpdate() throws ApiException{
-//		InventoryPojo p=new InventoryPojo();
-//		p.setInventory("puma");
-//		p.setCategory("sneakers");
-//		service.add(p);
-//
-//		InventoryPojo q=new InventoryPojo();
-//		q.setInventory("puma");
-//		q.setCategory("sneakers");
-//
-//		InventoryPojo r=new InventoryPojo();
-//		r.setInventory("amul");
-//		r.setCategory("milk");
-//		service.add(r);
-//
-//		service.update(r.getId(),q);
-//	}
-//
-//	@Test
-//	public void testGetAll() throws ApiException{
-//		InventoryPojo p=new InventoryPojo();
-//		p.setInventory("puma");
-//		p.setCategory("sneakers");
-//		service.add(p);
-//
-//		InventoryPojo r=new InventoryPojo();
-//		r.setInventory("amul");
-//		r.setCategory("milk");
-//		service.add(r);
-//
-//		List<InventoryPojo> a = service.getAll();
-//		assertEquals(2,a.size());
-//	}
-//
-//	@Test(expected = ApiException.class)
-//	public void testGetCheck() throws ApiException{
-//		service.getValueInventoryCategory(5);
-//		service.getCheck(5);
-//	}
-//
-
 
 }

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Setter
 public class DayOnDaySalesReportData {
     private LocalDate date;
-    private int orderCount;
-    private int itemCount;
+    private Integer orderCount;
+    private Integer itemCount;
     private double revenue;
 }

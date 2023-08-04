@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api
 @RestController
-public class AboutApiController {
+public class AboutController {
 
 	@Autowired
 	private AboutAppService service;

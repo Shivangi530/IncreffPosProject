@@ -10,10 +10,9 @@
 
 <div class="container">
 
-    <h3>Create Order</h3>
 
     <!-- Top row with form-->
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-12">
 <!--            <form id="createOrder-form">-->
 <!--                <div class="form-inline">-->
@@ -71,19 +70,19 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="inputBarcode">Barcode</label>
+                            <label for="inputBarcode">Barcode*</label>
                             <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="inputQuantity">Quantity</label>
+                            <label for="inputQuantity">Quantity*</label>
                             <input type="number" class="form-control" name="quantity" id="inputQuantity" placeholder="Enter Quantity">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="inputSellingPrice">Selling Price</label>
+                            <label for="inputSellingPrice">Selling Price*</label>
                             <input type="number" inputmode="decimal" class="form-control" name="sellingPrice" id="inputSellingPrice" placeholder="Enter Selling Price">
                         </div>
                     </div>
@@ -163,13 +162,13 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+							<label for="inputQuantity" class="col-sm-2 col-form-label">Quantity*</label>
 							<div class="col-sm-10">
 								<input type="number" class="form-control" name="quantity" placeholder="enter quantity">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputSellingPrice" class="col-sm-2 col-form-label">SellingPrice</label>
+							<label for="inputSellingPrice" class="col-sm-2 col-form-label">SellingPrice*</label>
 							<div class="col-sm-10">
 								<input type="number" inputmode="decimal" class="form-control" name="sellingPrice" placeholder="enter sellingPrice">
 							</div>
@@ -187,8 +186,8 @@
 
 
     <!-- CreateOrder Success Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="success-createOrder-modal">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" tabindex="-1" role="dialog" id="success-createOrder-modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Order</h5>
@@ -197,22 +196,45 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <br>
-                    <br>
-                    <br>
-                    <h5>Order placed successfully</h5>
-                    <br>
-                    <br>
-                    <br>
+                    <div class="d-flex justify-content-center align-items-center" style="height: 150px;">
+                        <h2>Order placed successfully <i class="fas fa-check-circle ml-2 text-success"></i></h2>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="redirectToViewOrder">View Order</button>
-                    <button type="button" class="btn btn-primary" id="generateInvoice" >Generate Invoice</button>
+                    <button type="button" class="btn btn-primary" id="generateInvoice">Generate Invoice</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!--    <div class="modal" tabindex="-1" role="dialog" id="success-createOrder-modal">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title">Order</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <br>-->
+<!--                    <br>-->
+<!--                    <br>-->
+<!--                    <h5>Order placed successfully</h5>-->
+<!--                    <br>-->
+<!--                    <br>-->
+<!--                    <br>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-primary" id="redirectToViewOrder">View Order</button>-->
+<!--                    <button type="button" class="btn btn-primary" id="generateInvoice" >Generate Invoice</button>-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!-- CreateOrder Upload Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="upload-createOrder-modal">

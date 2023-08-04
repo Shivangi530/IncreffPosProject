@@ -15,50 +15,31 @@
 <body>
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="container">
-	<h3>Brands</h3>
+<!--	<h3>Brands</h3>-->
 	<!-- Top row with form-->
-	<div class="row">
-<!--		<div class="col-md-6">-->
-<!--			<form id="brand-form">-->
-<!--				<div class="form-group">-->
-<!--					<label for="inputName">Brand</label>-->
-<!--					<input type="text" class="form-control" name="brand" id="inputName" placeholder="Enter brand">-->
-<!--				</div>-->
-<!--				<div class="form-group">-->
-<!--					<label for="inputCategory">Category</label>-->
-<!--					<input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter category">-->
-<!--				</div>-->
-<!--				<div class="form-row">-->
-<!--					<div class="col-sm-12">-->
-<!--						<button type="button" class="btn btn-primary" id="add-product">Add</button>-->
-<!--						&nbsp;-->
-<!--						<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>-->
-<!--						&nbsp;-->
-<!--						<button type="button" class="btn btn-primary" id="upload-data">Upload</button>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</form>-->
-<!--		</div>-->
-		<div class="col-md-6">
-			<form id="brand-form">
-				<div class="form-group">
-					<label for="inputName">Brand</label>
-					<input type="text" class="form-control" name="brand" id="inputName" placeholder="Enter brand">
-				</div>
-				<div class="form-group">
-					<label for="inputCategory">Category</label>
-					<input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter category">
-				</div>
-				<div class="form-row">
-					<div class="col-sm-12">
-						<button type="button" class="btn btn-primary" id="add-brand">Add</button>
-						&nbsp;
-						<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-						&nbsp;
-						<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+	<div th:if="${session.role eq 'SUPERVISOR'}">
+		<div class="row mt-5">
+			<div class="col-md-6 mt-6">
+				<form id="brand-form">
+					<div class="form-group">
+						<label for="inputName">Brand*</label>
+						<input type="text" class="form-control" name="brand" id="inputName" placeholder="Enter brand">
 					</div>
-				</div>
-			</form>
+					<div class="form-group">
+						<label for="inputCategory">Category*</label>
+						<input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter category">
+					</div>
+					<div class="form-row">
+						<div class="col-sm-12">
+							<button type="button" class="btn btn-primary" id="add-brand">Add</button>
+							&nbsp;
+							<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+							&nbsp;
+							<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 	<!-- Blank Row -->
@@ -82,24 +63,6 @@
 			</table>
 		</div>
 	</div>
-<!--	&lt;!&ndash; Pagination &ndash;&gt;-->
-
-<!--	<div class="row">-->
-<!--		<div class="col-12">-->
-<!--			<div class="text-center" id="pagination-info">Page 1 of 1</div>-->
-<!--		</div>-->
-<!--	</div>-->
-<!--	<div class="row">-->
-<!--		<div class="col-12">-->
-<!--			<div class="text-center">-->
-<!--				<button id="first-page" class="btn btn-primary">&laquo;</button>-->
-<!--				<button id="prev-page" class="btn btn-primary">&blacktriangleleft;	</button>-->
-<!--				<button id="next-page" class="btn btn-primary">&blacktriangleright;</button>-->
-<!--				<button id="last-page" class="btn btn-primary">&raquo;</button>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--	</div>-->
-	<!--	&lt;-->
 
 	<!-- Brand Edit Modal -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="edit-brand-modal">
@@ -114,11 +77,11 @@
 				<div class="modal-body">
 					<form id="brand-edit-form">
 						<div class="form-group">
-							<label for="inputName">Brand</label>
+							<label for="inputName">Brand*</label>
 							<input type="text" class="form-control" name="brand" placeholder="Enter brand">
 						</div>
 						<div class="form-group">
-							<label for="inputCategory">Category</label>
+							<label for="inputCategory">Category*</label>
 							<input type="text" class="form-control" name="category" placeholder="Enter category">
 						</div>
 						<input type="hidden" name="id">
@@ -148,7 +111,7 @@
 					<a th:href="@{/sample/brand.tsv}" target="_blank">Download Sample</a>
 					<br>
 					<div>Rows: <span id="rowCount">0</span>,</div>
-					<div>Processed: <span id="processCount">0</span>,</div>
+<!--					<div>Processed: <span id="processCount">0</span>,</div>-->
 					<div>Errors: <span id="errorCount">0</span></div>
 				</div>
 				<div class="modal-footer">
@@ -163,6 +126,9 @@
 
 <!-- Container end-->
 <footer th:replace="snippets.html :: name_footer"></footer>
+<script>
+	var userRole = "[[${session.role}]]"
+</script>
 <script th:src="@{/static/brand.js}"/></script>
 </body>
 </html>

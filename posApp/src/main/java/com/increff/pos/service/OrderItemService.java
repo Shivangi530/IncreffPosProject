@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.OrderItemDao;
+import com.increff.pos.model.EnumData;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,20 +35,12 @@ public class OrderItemService {
 	}
 
 	@Transactional
-	public void delete(int id) throws ApiException {
-		OrderPojo.Status status=orderService.get(get(id).getOrderId()).getStatus();
-		if(status== OrderPojo.Status.invoiced){
-			throw new ApiException("Cannot delete OrderItem, Invoice already generated");
-		}
+	public void delete(Integer id) throws ApiException {
 		dao.delete(id);
 	}
 
-	@Transactional(rollbackOn = ApiException.class)
-	public OrderItemPojo get(int id) throws ApiException {
-		return getCheck(id);
-	}
 	@Transactional
-	public List<OrderItemPojo> getOrderList(int id) throws ApiException {
+	public List<OrderItemPojo> getOrderList(Integer id) throws ApiException {
 		return dao.selectOrderItemByOrderId(id);
 	}
 
@@ -61,27 +54,24 @@ public class OrderItemService {
 	}
 
 	@Transactional(rollbackOn  = ApiException.class)
-	public void update(int id, OrderItemPojo p) throws ApiException {
-		if(p.getQuantity()<=0){
+	public void update(Integer id, Integer quantity, double sellingPrice) throws ApiException {
+		if(quantity<=0){
 			throw new ApiException("Quantity should be positive");
-		}if(p.getSellingPrice()<=0){
+		}if(sellingPrice<=0){
 			throw new ApiException("Selling Price should be positive");
 		}
 		OrderItemPojo existingPojo = getCheck(id);
-		existingPojo.setQuantity(p.getQuantity());
-		existingPojo.setSellingPrice(p.getSellingPrice());
+		existingPojo.setQuantity(quantity);
+		existingPojo.setSellingPrice(sellingPrice);
 		dao.update(existingPojo);
 	}
 
-	@Transactional
-	public OrderItemPojo getCheck(int id) throws ApiException {
+	@Transactional(rollbackOn = ApiException.class)
+	public OrderItemPojo getCheck(Integer id) throws ApiException {
 		OrderItemPojo p = dao.select(id);
 		if (p == null) {
 			throw new ApiException("OrderItem with given ID does not exit, id: " + id);
 		}
 		return p;
-	}
-	public List<OrderItemPojo> selectByOrderId(Integer orderId) {
-		return dao.selectByOrderId(orderId);
 	}
 }

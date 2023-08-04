@@ -18,19 +18,7 @@ public class DayOnDaySalesTest extends AbstractUnitTest {
 		OrderPojo p = new OrderPojo();
 		orderService.add(p);
 
-//		DayOnDaySalesPojo p=new DayOnDaySalesPojo();
-//		p.setDate();
-//		p.setOrderCount(1);
-//		p.setItemCount(1);
-//		p.setRevenue(1.1);
 		service.add();
 
-		Integer expectedOrderCount;
-		Integer expectedItemCount;
-		double expectedRevenue;
-
-//		DayOnDaySalesPojo q= service.checkCombination(expectedDayOnDaySales,expectedCategory);
-//		assertEquals(expectedDayOnDaySales,q.getDayOnDaySales());
-//		assertEquals(expectedCategory,q.getCategory());
 	}
 }

@@ -12,7 +12,6 @@ import java.util.List;
 public class UserDao extends AbstractDao {
 
 	private static String DELETE_ID = "delete from UserPojo p where id=:id";
-	private static String SELECT_ID = "select p from UserPojo p where id=:id";
 	private static String SELECT_EMAIL = "select p from UserPojo p where email=:email";
 	private static String SELECT_ALL = "select p from UserPojo p";
 
@@ -27,12 +26,6 @@ public class UserDao extends AbstractDao {
 		return query.executeUpdate();
 	}
 
-	public UserPojo select(int id) {
-		TypedQuery<UserPojo> query = getQuery(SELECT_ID, UserPojo.class);
-		query.setParameter("id", id);
-		return getSingle(query);
-	}
-
 	public UserPojo select(String email) {
 		TypedQuery<UserPojo> query = getQuery(SELECT_EMAIL, UserPojo.class);
 		query.setParameter("email", email);
@@ -44,6 +37,4 @@ public class UserDao extends AbstractDao {
 		return query.getResultList();
 	}
 
-	public void update(UserPojo p) {
-	}
 }

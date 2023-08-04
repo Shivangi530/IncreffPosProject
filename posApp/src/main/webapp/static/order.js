@@ -22,8 +22,6 @@ function getOrderList() {
         url: url,
         type: 'GET',
         success: function(data) {
-//            data=data.reverse();
-//            totalItems = data.length;
             console.log(data);
             displayOrderList(data);
         },
@@ -53,7 +51,7 @@ function viewOrder(id, status) {
             console.log("data.length(): ",data.length);
             if(data.length==0){
 
-                updateOrder(id,"deleted");
+                updateOrder(id,"CANCELED");
             }
             data=data.reverse();
             console.log("in view order:",status);
@@ -72,12 +70,14 @@ function padZero(number) {
 }
 
 function displayOrderList(data) {
+    console.log(data);
     var $tbody = $('#order-table').find('tbody');
     table.clear().draw();
     var dataRows=[];
     for (var i in data) {
         var e = data[i];
         var date = e.dateTime;
+//        var formattedDatetime= date;
         var formattedDatetime = date.slice(2, 3).join('-') + '-' +
                     padZero(date[1]) + '-' + date[0] + ' ' +
                     padZero(date[3]) + ':' + padZero(date[4]) + ':' +
@@ -85,17 +85,17 @@ function displayOrderList(data) {
         console.log("displayOrderList",e.status);
         var status=e.status;
         var buttonHtml1 = '<button type="button" class="btn ';
-         if (status === "created") {
+         if (status === "CREATED") {
                     buttonHtml1 += 'btn-outline-primary" ';
-                } else if (status === "invoiced") {
+                } else if (status === "INVOICED") {
                     buttonHtml1 += 'btn-outline-success" ';
-                } else if (status === "deleted") {
+                } else if (status === "CANCELED") {
                     buttonHtml1 += 'btn-outline-dark" ';
                 } else {
-                    buttonHtml1 += 'btn-outline-secondary" '; // Default class if status is not recognized
+                    buttonHtml1 += 'btn-outline-secondary" ';
                 }
 
-        if (e.status === "deleted") {
+        if (e.status === "CANCELED") {
             buttonHtml1 += ' disabled';
         } else {
             buttonHtml1 += ' data-toggle="modal" data-target="#exampleModal" onclick="viewOrder(' + e.id + ',\'' + e.status + '\')"';
@@ -103,16 +103,16 @@ function displayOrderList(data) {
         buttonHtml1 += '>View Order</button>';
 
         var buttonHtml2 = '<button type="button" class="btn ';
-        if (status === "created") {
+        if (status === "CREATED") {
             buttonHtml2 += 'btn-outline-primary" ';
-        } else if (status === "invoiced") {
+        } else if (status === "INVOICED") {
             buttonHtml2 += 'btn-outline-success" ';
-        } else if (status === "deleted") {
+        } else if (status === "CANCELED") {
             buttonHtml2 += 'btn-outline-dark" ';
         } else {
             buttonHtml2 += 'btn-outline-secondary" '; // Default class if status is not recognized
         }
-        if (e.status === "deleted") {
+        if (e.status === "CANCELED") {
             buttonHtml2 += ' disabled';
         } else {
             buttonHtml2 += ' onclick="printOrder(' + e.id + ', \'' + e.status + '\')"';
@@ -144,7 +144,7 @@ console.log("in vieworderlist: ",status);
         console.log(e);
         var buttonHtml1 = '<button type="button" class="btn btn-outline-primary" ';
 
-        if (status === "created") {
+        if (status === "CREATED") {
             buttonHtml1 += ' onclick="updateOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
         } else {
             buttonHtml1 += ' disabled';
@@ -154,7 +154,7 @@ console.log("in vieworderlist: ",status);
 
         var buttonHtml2 = '<button type="button" class="btn btn-outline-primary" ';
 
-        if (status === "created") {
+        if (status === "CREATED") {
             buttonHtml2 += ' onclick="deleteOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
         } else {
             buttonHtml2 += ' disabled';
@@ -203,7 +203,7 @@ function displayOrder(data) {
 function printOrder(id) {
     window.location.href = getInvoiceUrl() + "/" + id;
     console.log("in print order");
-    updateOrder(id,"invoiced");
+    updateOrder(id,"INVOICED");
 }
 
 function updateOrder(id,status) {
@@ -242,6 +242,10 @@ function updateOrderItem(id, orderId, prevQty, status) {
         warning("Quantity should be of integer type");
         return false;
     }
+    if(quantity<0){
+        danger("Quantity cannot be negative");
+        return false;
+    }
     if(quantity>1000000000){
         danger("Quantity entered is too large");
         return false;
@@ -254,6 +258,10 @@ function updateOrderItem(id, orderId, prevQty, status) {
         danger("Selling Price entered is too large");
         return false;
     }
+    if(sellingPrice<=0){
+        danger("Selling price should be positive");
+        return false;
+    }
 
 
     //Set the values to update
@@ -263,7 +271,7 @@ function updateOrderItem(id, orderId, prevQty, status) {
         "quantity": quantity,
         "sellingPrice": sellingPrice,
         "id": id,
-        "inventoryQty": quantity - prevQty
+//        "inventoryQty": quantity - prevQty
     };
     console.log("json is: ", json);
 
@@ -277,6 +285,7 @@ function updateOrderItem(id, orderId, prevQty, status) {
         },
         success: function(response) {
             console.log("updated");
+            success("Updated");
             viewOrder(orderId, status);
         },
         error: handleAjaxError
@@ -323,7 +332,7 @@ function deleteOrderItem(id, orderId, prevQty) {
         "quantity": quantity,
         "sellingPrice": sellingPrice,
         "id": id,
-        "inventoryQty": quantity - prevQty
+//        "inventoryQty": quantity - prevQty
     };
     console.log("json is: ", json);
 
@@ -336,8 +345,9 @@ function deleteOrderItem(id, orderId, prevQty) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            console.log("deleted");
+            console.log("CANCELED");
             console.log("id=", id);
+            success("Deleted");
             viewOrder(orderId, status);
         },
         error: handleAjaxError

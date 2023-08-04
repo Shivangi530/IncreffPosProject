@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 
 @Component
@@ -18,7 +19,7 @@ public class Scheduler {
 
     @Scheduled(fixedDelay = 3600000) // @Scheduled(fixedDelay = 5000)(cron = "0 23 13 * * ?")
     public void scheduledTask() throws ApiException {
-        LocalDateTime l = LocalDateTime.now();
+        ZonedDateTime l = ZonedDateTime.now();
         System.out.println(l);
         service.add();
         System.out.println("Scheduler executed");

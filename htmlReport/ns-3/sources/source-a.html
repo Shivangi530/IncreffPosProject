@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > UserService</title>
+  <title>Coverage Report > InventoryServiceTest</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.pos.service</a>
 </div>
 
-<h1>Coverage Summary for Class: UserService (com.increff.pos.service)</h1>
+<h1>Coverage Summary for Class: InventoryServiceTest (com.increff.pos.service)</h1>
 
 <table class="coverageStats">
 
@@ -37,100 +37,43 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">UserService</td>
+  <td class="name">InventoryServiceTest</td>
 <td class="coverageStat">
   <span class="percent">
-    16.7%
+    100%
   </span>
   <span class="absValue">
-    (1/6)
+    (10/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    9.1%
+    92.4%
   </span>
   <span class="absValue">
-    (1/11)
+    (121/131)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$32ea0f3d</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$376f93e</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$5e096803</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$75578ebe</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$79b40bd0</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$7e0a29d4</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$801f7c40</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$85bcb2b7</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$88b31b6f</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$92aa22b7</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$934c52b7</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$a6ab2e88</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$a7fec400</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$bac9be4</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$d6e3982</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$d7072df</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$e7682042</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$f0b51671</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$f33904d3</td>
-  </tr>
-  <tr>
-    <td class="name">UserService$$EnhancerBySpringCGLIB$$fde1797c</td>
+    <td class="name">InventoryServiceTest$$EnhancerBySpringCGLIB$$32f83a1d</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    16.7%
+    100%
   </span>
   <span class="absValue">
-    (1/6)
+    (10/10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    9.1%
+    92.4%
   </span>
   <span class="absValue">
-    (1/11)
+    (121/131)
   </span>
 </td>
 </tr>
@@ -143,49 +86,215 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.pos.service;
 &nbsp;
-&nbsp;import com.increff.pos.dao.UserDao;
-&nbsp;import com.increff.pos.pojo.UserPojo;
+&nbsp;import com.increff.pos.pojo.InventoryPojo;
+&nbsp;import com.increff.pos.pojo.ProductPojo;
+&nbsp;import junit.framework.TestCase;
+&nbsp;import org.junit.Test;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
-&nbsp;import org.springframework.stereotype.Service;
 &nbsp;
-&nbsp;import javax.transaction.Transactional;
 &nbsp;import java.util.List;
 &nbsp;
-&nbsp;@Service
-<b class="fc">&nbsp;public class UserService {</b>
+&nbsp;import static org.junit.Assert.assertEquals;
+&nbsp;import static org.junit.Assert.fail;
+&nbsp;
+<b class="fc">&nbsp;public class InventoryServiceTest extends AbstractUnitTest {</b>
 &nbsp;
 &nbsp;	@Autowired
-&nbsp;	private UserDao dao;
+&nbsp;	private InventoryService service;
+&nbsp;	@Autowired
+&nbsp;	private ProductService productService;
 &nbsp;
-&nbsp;	@Transactional
-&nbsp;	public void add(UserPojo p) throws ApiException {
-<b class="nc">&nbsp;		normalize(p);</b>
-<b class="nc">&nbsp;		UserPojo existing = dao.select(p.getEmail());</b>
-<b class="nc">&nbsp;		if (existing != null) {</b>
-<b class="nc">&nbsp;			throw new ApiException(&quot;User with given email already exists&quot;);</b>
-&nbsp;		}
-<b class="nc">&nbsp;		dao.insert(p);</b>
+&nbsp;	@Test
+&nbsp;	public void testAdd() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(10);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+<b class="fc">&nbsp;		service.add(q);</b>
+&nbsp;
+<b class="fc">&nbsp;		Integer expectedInventory= 10;</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo r= service.get(p.getId());</b>
+<b class="fc">&nbsp;		assertEquals(expectedInventory,q.getQuantity());</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	@Transactional(rollbackOn = ApiException.class)
-&nbsp;	public UserPojo get(String email) throws ApiException {
-<b class="nc">&nbsp;		return dao.select(email);</b>
+&nbsp;	@Test
+&nbsp;	public void testQuantityInvalidAdd() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(-1);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+&nbsp;		try {
+<b class="fc">&nbsp;			service.add(q);</b>
+<b class="nc">&nbsp;			fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;		} catch (ApiException e) {</b>
+<b class="fc">&nbsp;			TestCase.assertEquals( &quot;Quantity can not be negative&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;		}</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	@Transactional
-&nbsp;	public List&lt;UserPojo&gt; getAll() {
-<b class="nc">&nbsp;		return dao.selectAll();</b>
+&nbsp;	@Test
+&nbsp;	public void testGetAll() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(10);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+<b class="fc">&nbsp;		service.add(q);</b>
+&nbsp;
+<b class="fc">&nbsp;		ProductPojo p1=new ProductPojo();</b>
+<b class="fc">&nbsp;		p1.setBarcode(&quot;ndejfadsfsa&quot;);</b>
+<b class="fc">&nbsp;		p1.setBrand_category(12);</b>
+<b class="fc">&nbsp;		p1.setMrp(10.72);</b>
+<b class="fc">&nbsp;		p1.setName(&quot;Fanta 22200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p1);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q1=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q1.setQuantity(190);</b>
+<b class="fc">&nbsp;		q1.setId(p1.getId());</b>
+<b class="fc">&nbsp;		service.add(q1);</b>
+&nbsp;
+<b class="fc">&nbsp;		List&lt;InventoryPojo&gt;	l= service.getAll();</b>
+<b class="fc">&nbsp;		assertEquals(2,l.size());</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	@Transactional
-&nbsp;	public void delete(int id) {
-<b class="nc">&nbsp;		dao.delete(id);</b>
+&nbsp;	@Test
+&nbsp;	public void testUpdate() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(10);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+<b class="fc">&nbsp;		service.add(q);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q1= service.get(p.getId());</b>
+<b class="fc">&nbsp;		q1.setQuantity(120);</b>
+<b class="fc">&nbsp;		service.update(p.getId(),120);</b>
+<b class="fc">&nbsp;		Integer expectedInventory= 120;</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo r= service.get(p.getId());</b>
+<b class="fc">&nbsp;		assertEquals(expectedInventory,r.getQuantity());</b>
 &nbsp;	}
 &nbsp;
-&nbsp;	protected static void normalize(UserPojo p) {
-<b class="nc">&nbsp;		p.setEmail(p.getEmail().toLowerCase().trim());</b>
-<b class="nc">&nbsp;		p.setRole(p.getRole().toLowerCase().trim());</b>
+&nbsp;	@Test
+&nbsp;	public void testUpdateQuantity() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(10);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+<b class="fc">&nbsp;		service.add(q);</b>
+&nbsp;
+&nbsp;		try {
+<b class="fc">&nbsp;			service.update(p.getId(),-1);</b>
+<b class="nc">&nbsp;			fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;		} catch (ApiException e) {</b>
+<b class="fc">&nbsp;			TestCase.assertEquals( &quot;Quantity cannot be negative&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;		}</b>
 &nbsp;	}
+&nbsp;
+&nbsp;	@Test
+&nbsp;	public void testCheckQuantity() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(10);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+<b class="fc">&nbsp;		service.add(q);</b>
+&nbsp;
+<b class="fc">&nbsp;		Integer quantity=8;</b>
+<b class="fc">&nbsp;		Integer quantity1= service.checkQuantity(quantity,p.getId());</b>
+&nbsp;
+<b class="fc">&nbsp;		assertEquals(quantity1,quantity);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Test
+&nbsp;	public void testCheckQuantityNegative() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(10);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+<b class="fc">&nbsp;		service.add(q);</b>
+&nbsp;
+<b class="fc">&nbsp;		Integer quantity=-1;</b>
+&nbsp;		try {
+<b class="fc">&nbsp;			service.checkQuantity(quantity,p.getId());</b>
+<b class="nc">&nbsp;			fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;		} catch (ApiException e) {</b>
+<b class="fc">&nbsp;			TestCase.assertEquals( &quot;Quantity should be positive&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;		}</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Test
+&nbsp;	public void testCheckQuantityLess() throws ApiException{
+<b class="fc">&nbsp;		ProductPojo p=new ProductPojo();</b>
+<b class="fc">&nbsp;		p.setBarcode(&quot;ndejf&quot;);</b>
+<b class="fc">&nbsp;		p.setBrand_category(1);</b>
+<b class="fc">&nbsp;		p.setMrp(10.7);</b>
+<b class="fc">&nbsp;		p.setName(&quot;Fanta 200 ml&quot;);</b>
+<b class="fc">&nbsp;		productService.add(p);</b>
+&nbsp;
+<b class="fc">&nbsp;		InventoryPojo q=new InventoryPojo();</b>
+<b class="fc">&nbsp;		q.setQuantity(10);</b>
+<b class="fc">&nbsp;		q.setId(p.getId());</b>
+<b class="fc">&nbsp;		service.add(q);</b>
+&nbsp;
+<b class="fc">&nbsp;		Integer quantity=11;</b>
+&nbsp;		try {
+<b class="fc">&nbsp;			service.checkQuantity(quantity,p.getId());</b>
+<b class="nc">&nbsp;			fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;		} catch (ApiException e) {</b>
+<b class="fc">&nbsp;			TestCase.assertEquals( &quot;Selected quantity:11 is more than inventory: 10 for barcode:ndejf&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;		}</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Test
+&nbsp;	public void testGetCheckInvalid() throws ApiException{
+&nbsp;		try {
+<b class="fc">&nbsp;			service.getCheck(-1);</b>
+<b class="nc">&nbsp;			fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;		} catch (ApiException e) {</b>
+<b class="fc">&nbsp;			TestCase.assertEquals( &quot;Inventory with given ID does not exit, id: -1&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;		}</b>
+&nbsp;	}
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -210,7 +319,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-17 16:26</div>
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
 </div>
 </body>
 </html>

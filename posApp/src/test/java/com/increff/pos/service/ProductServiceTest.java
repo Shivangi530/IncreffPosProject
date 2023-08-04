@@ -1,12 +1,15 @@
 package com.increff.pos.service;
 
 import com.increff.pos.pojo.ProductPojo;
+import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class ProductServiceTest extends AbstractUnitTest {
 
@@ -33,37 +36,52 @@ public class ProductServiceTest extends AbstractUnitTest {
 		assertEquals(expectedName,q.getName());
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testNameEmptyAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
 		p.setBrand_category(1);
 		p.setMrp(10);
 		p.setName("");
-		service.add(p);
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Name cannot be empty", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBarcodeEmptyAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("");
 		p.setBrand_category(1);
 		p.setMrp(10);
 		p.setName("fdsfee");
-		service.add(p);
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Barcode cannot be empty", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testMrpInvalidAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dsfds");
 		p.setBrand_category(1);
 		p.setMrp(0);
 		p.setName("fdsfee");
-		service.add(p);
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Mrp should be positive", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBarcodeExistsAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dasfds");
@@ -77,17 +95,27 @@ public class ProductServiceTest extends AbstractUnitTest {
 		q.setBrand_category(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
-		service.add(q);
+		try {
+			service.add(q);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Barcode already exists", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBrandCategoryInvalidAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dsfds");
 		p.setBrand_category(0);
 		p.setMrp(10);
 		p.setName("fdsfee");
-		service.add(p);
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Invalid Brand Category", e.getMessage());
+		}
 	}
 
 	@Test
@@ -104,18 +132,16 @@ public class ProductServiceTest extends AbstractUnitTest {
 		p.setBrand_category(1);
 		p.setMrp(20.1);
 		p.setName("Fanta 500 ml");
-		service.update(q.getId(),p);
+		service.update(q.getId(),"Fanta 500 ml","ndejf",20.1);
 
 		ProductPojo r= service.get(q.getId());
-		String expectedBarcode= "ndejf";
 		double expectedMrp = 20.1;
 		String expectedName= "Fanta 500 ml";
-		assertEquals(expectedBarcode,r.getBarcode());
 		assertEquals(expectedMrp,r.getMrp(),0.0001);
 		assertEquals(expectedName,r.getName());
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testNameEmptyUpdate() throws ApiException{
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
@@ -124,12 +150,15 @@ public class ProductServiceTest extends AbstractUnitTest {
 		q.setName("fdsfee");
 		service.add(q);
 
-		ProductPojo p= service.get(q.getId());
-		p.setName("");
-		service.update(q.getId(),p);
+		try {
+			service.update(q.getId(),"",q.getBarcode(),q.getMrp());
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Name cannot be empty", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBarcodeEmptyUpdate() throws ApiException{
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
@@ -138,12 +167,15 @@ public class ProductServiceTest extends AbstractUnitTest {
 		q.setName("fdsfee");
 		service.add(q);
 
-		ProductPojo p= service.get(q.getId());
-		p.setBarcode("");
-		service.update(q.getId(),p);
+		try {
+			service.update(q.getId(),q.getName(),"",q.getMrp());
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Barcode cannot be empty", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testMrpInvalidUpdate() throws ApiException{
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
@@ -152,12 +184,15 @@ public class ProductServiceTest extends AbstractUnitTest {
 		q.setName("fdsfee");
 		service.add(q);
 
-		ProductPojo p= service.get(q.getId());
-		p.setMrp(0);
-		service.update(q.getId(),p);
+		try {
+			service.update(q.getId(),q.getName(),q.getBarcode(),0);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Mrp should be positive", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testBarcodeExistsUpdate() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dasfds");
@@ -173,8 +208,12 @@ public class ProductServiceTest extends AbstractUnitTest {
 		q.setName("fdsfee");
 		service.add(q);
 
-//		ProductPojo r= service.get(q.getId());
-		service.update(q.getId(),p);
+		try {
+			service.update(q.getId(),p.getName(),p.getBarcode(),p.getMrp());
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Barcode already exists", e.getMessage());
+		}
 	}
 
 	@Test
@@ -200,9 +239,14 @@ public class ProductServiceTest extends AbstractUnitTest {
 		assertEquals(expectedName,q.getName());
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testGetCheckIdInvalid() throws ApiException{
-		ProductPojo p= service.getCheck(-1);
+		try {
+			service.getCheck(-1);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Product with given ID does not exit, id: -1", e.getMessage());
+		}
 	}
 
 	@Test
@@ -212,14 +256,17 @@ public class ProductServiceTest extends AbstractUnitTest {
 		p.setBrand_category(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
-		service.add(p);
 
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
 		q.setBrand_category(10);
 		q.setMrp(10.9);
 		q.setName("fdsfee");
-		service.add(q);
+
+		List<ProductPojo> list=new ArrayList<>();
+		list.add(p);
+		list.add(q);
+		service.bulkAdd(list);
 
 		List<ProductPojo> r= service.getAll();
 		assertEquals(2,r.size());
@@ -238,7 +285,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		assertEquals(price1,price,0.00001);
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testCheckSellingPriceInvalidNegative() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
@@ -247,11 +294,15 @@ public class ProductServiceTest extends AbstractUnitTest {
 		p.setName("Fanta 200 ml");
 		service.add(p);
 		double price=0;
-		double price1= service.checkSellingPrice(price,p.getId());
-		assertEquals(price1,price,0.00001);
+		try {
+			service.checkSellingPrice(price,p.getId());
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Selling price should be positive. ", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testCheckSellingPriceInvalid() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
@@ -260,77 +311,21 @@ public class ProductServiceTest extends AbstractUnitTest {
 		p.setName("Fanta 200 ml");
 		service.add(p);
 		double price=11;
-		service.checkSellingPrice(price,p.getId());
+		try {
+			service.checkSellingPrice(price,p.getId());
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Selling price: 11.0 should be less than mrp: 10.7", e.getMessage());
+		}
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void testGetIdByBarcodeInvalid() throws ApiException{
-		Integer id=service.getIdByBarcode("gfdg");
+		try {
+			service.getIdByBarcode("gfdg");
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Barcode doesn't exist", e.getMessage());
+		}
 	}
-
-//		ProductPojo p=new ProductPojo();
-//		p.setProduct("Puma");
-//		p.setCategory("Sneakers");
-//		service.add(p);
-//
-//		ProductPojo q=new ProductPojo();
-//		q.setProduct("");
-//		q.setCategory("Shoes");
-//		service.update(p.getId(),q);
-//	}
-//	@Test(expected = ApiException.class)
-//	public void testCategoryEmptyUpdate() throws ApiException{
-//		ProductPojo p=new ProductPojo();
-//		p.setProduct("Puma");
-//		p.setCategory("Sneakers");
-//		service.add(p);
-//
-//		ProductPojo q=new ProductPojo();
-//		q.setProduct("Adidas");
-//		q.setCategory("");
-//		service.update(p.getId(),q);
-//	}
-//	@Test(expected = ApiException.class)
-//	public void testProductCategoryExistUpdate() throws ApiException{
-//		ProductPojo p=new ProductPojo();
-//		p.setProduct("puma");
-//		p.setCategory("sneakers");
-//		service.add(p);
-//
-//		ProductPojo q=new ProductPojo();
-//		q.setProduct("puma");
-//		q.setCategory("sneakers");
-//
-//		ProductPojo r=new ProductPojo();
-//		r.setProduct("amul");
-//		r.setCategory("milk");
-//		service.add(r);
-//
-//		service.update(r.getId(),q);
-//	}
-//
-//	@Test
-//	public void testGetAll() throws ApiException{
-//		ProductPojo p=new ProductPojo();
-//		p.setProduct("puma");
-//		p.setCategory("sneakers");
-//		service.add(p);
-//
-//		ProductPojo r=new ProductPojo();
-//		r.setProduct("amul");
-//		r.setCategory("milk");
-//		service.add(r);
-//
-//		List<ProductPojo> a = service.getAll();
-//		assertEquals(2,a.size());
-//	}
-//
-//	@Test(expected = ApiException.class)
-//	public void testGetCheck() throws ApiException{
-//		service.getValueProductCategory(5);
-//		service.getCheck(5);
-//	}
-
-
-
 }

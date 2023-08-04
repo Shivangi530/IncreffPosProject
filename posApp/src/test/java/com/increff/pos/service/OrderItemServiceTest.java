@@ -2,6 +2,7 @@ package com.increff.pos.service;
 
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
+import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class OrderItemServiceTest extends AbstractUnitTest {
 
@@ -26,7 +28,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 		p.setQuantity(10);
 		service.add(p);
 
-		OrderItemPojo q= service.get(p.getId());
+		OrderItemPojo q= service.getCheck(p.getId());
 		assertEquals(p,q);
 		assertEquals(10,(long)q.getOrderId());
 		assertEquals(11,(long)q.getProductId());
@@ -34,16 +36,84 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 		assertEquals(10,(long)p.getQuantity());
 	}
 
-	@Test(expected = ApiException.class)
-	public void testDelete() throws ApiException{
+	@Test
+	public void testInvalidOrderIdAdd() throws ApiException{
 		OrderItemPojo p=new OrderItemPojo();
-		p.setOrderId(10);
+		p.setOrderId(0);
+		p.setProductId(11);
+		p.setSellingPrice(10.8);
+		p.setQuantity(10);
+
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Invalid Order Id", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidProductIdAdd() throws ApiException{
+		OrderItemPojo p=new OrderItemPojo();
+		p.setOrderId(1);
+		p.setProductId(0);
+		p.setSellingPrice(10.8);
+		p.setQuantity(10);
+
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Invalid Product Id", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidQuantityAdd() throws ApiException{
+		OrderItemPojo p=new OrderItemPojo();
+		p.setOrderId(1);
+		p.setProductId(11);
+		p.setSellingPrice(10.8);
+		p.setQuantity(-1);
+
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Quantity should be positive", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidSellingPriceAdd() throws ApiException{
+		OrderItemPojo p=new OrderItemPojo();
+		p.setOrderId(1);
+		p.setProductId(11);
+		p.setSellingPrice(-10.8);
+		p.setQuantity(10);
+
+		try {
+			service.add(p);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Selling Price should be positive", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testDelete() throws ApiException{
+		OrderPojo orderPojo= new OrderPojo();
+		orderService.add(orderPojo);
+		OrderItemPojo p=new OrderItemPojo();
+		p.setOrderId(orderPojo.getId());
 		p.setProductId(11);
 		p.setSellingPrice(10.8);
 		p.setQuantity(10);
 		service.add(p);
-		service.delete(p.getId());
-		OrderItemPojo q= service.get(p.getId());
+		int id=p.getId();
+		service.delete(id);
+		List<OrderItemPojo>list= service.getAll();
+		assertEquals(0,list.size());
 	}
 
 	@Test
@@ -146,14 +216,55 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 		p.setQuantity(10);
 		service.add(p);
 
-		OrderItemPojo q= service.get(p.getId());
+		OrderItemPojo q= service.getCheck(p.getId());
 		q.setQuantity(110);
 		q.setSellingPrice(90.34);
-		service.update(p.getId(),q);
-		assertEquals(10,(long)q.getOrderId());
-		assertEquals(11,(long)q.getProductId());
+		service.update(p.getId(),110,90.34);
 		assertEquals(90.34,p.getSellingPrice(),0.0001);
 		assertEquals(110,(long)p.getQuantity());
 	}
 
+	@Test
+	public void testInvalidQuantityUpdate() throws ApiException{
+		OrderItemPojo p=new OrderItemPojo();
+		p.setOrderId(10);
+		p.setProductId(11);
+		p.setSellingPrice(10.8);
+		p.setQuantity(10);
+		service.add(p);
+
+		try {
+			service.update(p.getId(),-110,90.34);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Quantity should be positive", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidSellingPriceUpdate() throws ApiException{
+		OrderItemPojo p=new OrderItemPojo();
+		p.setOrderId(10);
+		p.setProductId(11);
+		p.setSellingPrice(10.8);
+		p.setQuantity(10);
+		service.add(p);
+
+		try {
+			service.update(p.getId(),10,-90.34);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "Selling Price should be positive", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testInvalidGetCheck() throws ApiException{
+		try {
+			service.getCheck(-1);
+			fail("Expected ApiException was not thrown");
+		} catch (ApiException e) {
+			TestCase.assertEquals( "OrderItem with given ID does not exit, id: -1", e.getMessage());
+		}
+	}
 }

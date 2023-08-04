@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > brandDto</title>
+  <title>Coverage Report > BrandDtoTest</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,15 +21,12 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.pos.dto</a>
 </div>
 
-<h1>Coverage Summary for Class: brandDto (com.increff.pos.dto)</h1>
+<h1>Coverage Summary for Class: BrandDtoTest (com.increff.pos.dto)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
-<th class="coverageStat 
-">
-  Class, %
-</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -40,33 +37,46 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">brandDto</td>
+  <td class="name">BrandDtoTest</td>
 <td class="coverageStat">
   <span class="percent">
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (15/15)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    88.1%
   </span>
   <span class="absValue">
-    (5/5)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    100%
-  </span>
-  <span class="absValue">
-    (17/17)
+    (133/151)
   </span>
 </td>
 </tr>
-
+  <tr>
+    <td class="name">BrandDtoTest$$EnhancerBySpringCGLIB$$9c3b0a5c</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.1%
+  </span>
+  <span class="absValue">
+    (133/151)
+  </span>
+</td>
+</tr>
 </table>
 
 <br/>
@@ -78,48 +88,270 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import com.increff.pos.model.BrandData;
 &nbsp;import com.increff.pos.model.BrandForm;
-&nbsp;import com.increff.pos.service.BrandService;
 &nbsp;import com.increff.pos.pojo.BrandPojo;
+&nbsp;import com.increff.pos.service.AbstractUnitTest;
 &nbsp;import com.increff.pos.service.ApiException;
+&nbsp;import com.increff.pos.service.BrandService;
+&nbsp;import org.junit.Test;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
-&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.List;
 &nbsp;
-&nbsp;import static com.increff.pos.util.ConversionUtil.convert;
-&nbsp;import static com.increff.pos.util.NormaliseUtil.normalize;
-&nbsp;import static com.increff.pos.util.ValidateUtil.validate;
+&nbsp;import static junit.framework.TestCase.assertEquals;
+&nbsp;import static org.junit.Assert.fail;
 &nbsp;
-&nbsp;@Component
-<b class="fc">&nbsp;public class brandDto {</b>
+<b class="fc">&nbsp;public class BrandDtoTest extends AbstractUnitTest {</b>
+&nbsp;
 &nbsp;    @Autowired
-&nbsp;    private BrandService brandService;
+&nbsp;    private brandDto dto;
+&nbsp;    @Autowired
+&nbsp;    private BrandService service;
 &nbsp;
-&nbsp;    public void add(BrandForm form) throws ApiException {
-<b class="fc">&nbsp;        normalize(form);</b>
-<b class="fc">&nbsp;        validate(form);</b>
-<b class="fc">&nbsp;        BrandPojo p = convert(form);</b>
-<b class="fc">&nbsp;        brandService.add(p);</b>
-&nbsp;    }
-&nbsp;    public BrandData getBrand(int id) throws ApiException {
-<b class="fc">&nbsp;        BrandPojo brandPojo = brandService.getCheck(id);</b>
-<b class="fc">&nbsp;        return convert(brandPojo);</b>
-&nbsp;    }
+&nbsp;    @Test
+&nbsp;    public void testAdd() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
 &nbsp;
-&nbsp;    public List&lt;BrandData&gt; getAll() {
-<b class="fc">&nbsp;        List&lt;BrandPojo&gt; list = brandService.getAll();</b>
-<b class="fc">&nbsp;        List&lt;BrandData&gt; list2 = new ArrayList&lt;BrandData&gt;();</b>
-<b class="fc">&nbsp;        for (BrandPojo p : list) {</b>
-<b class="fc">&nbsp;            list2.add(convert(p));</b>
-<b class="fc">&nbsp;        }</b>
-<b class="fc">&nbsp;        return list2;</b>
+<b class="fc">&nbsp;        String expectedBrand=&quot;amul&quot;;</b>
+<b class="fc">&nbsp;        String expectedCategory=&quot;milk&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandPojo p= service.checkCombination(expectedBrand,expectedCategory);</b>
+<b class="fc">&nbsp;        assertEquals(expectedBrand,p.getBrand());</b>
+<b class="fc">&nbsp;        assertEquals(expectedCategory,p.getCategory());</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void update(int id, BrandForm f) throws ApiException {
-<b class="fc">&nbsp;        normalize(f);</b>
-<b class="fc">&nbsp;        validate(f);</b>
-<b class="fc">&nbsp;        BrandPojo p = convert(f);</b>
-<b class="fc">&nbsp;        brandService.update(id, p);</b>
+&nbsp;    @Test
+&nbsp;    public void testEmptyBrandAdd() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            dto.add(f);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e) {</b>
+<b class="fc">&nbsp;            assertEquals( &quot;Brand cannot be empty&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testEmptyCategoryAdd() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;&quot;);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            dto.add(f);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e) {</b>
+&nbsp;            // ApiException is caught as expected
+<b class="fc">&nbsp;            assertEquals(&quot;Category cannot be empty&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testDuplicateBrandCategoryAdd() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandForm f1= new BrandForm();</b>
+<b class="fc">&nbsp;        f1.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f1.setCategory(&quot;Milk&quot;);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            dto.add(f1);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e) {</b>
+&nbsp;            // ApiException is caught as expected
+<b class="fc">&nbsp;            assertEquals(&quot;Brand:amul and Category:milk combination already exists&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testGetBrand() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        String expectedBrand=&quot;amul&quot;;</b>
+<b class="fc">&nbsp;        String expectedCategory=&quot;milk&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandPojo brandPojo=service.checkCombination(expectedBrand,expectedCategory);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandData p= dto.getBrand(brandPojo.getId());</b>
+<b class="fc">&nbsp;        assertEquals(expectedBrand,p.getBrand());</b>
+<b class="fc">&nbsp;        assertEquals(expectedCategory,p.getCategory());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testInvalidGetBrand() throws ApiException{
+&nbsp;        try {
+<b class="fc">&nbsp;            dto.getBrand(0);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e) {</b>
+&nbsp;            // ApiException is caught as expected
+<b class="fc">&nbsp;            assertEquals(&quot;Brand with given ID does not exit, id: 0&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testGetAll() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandForm f1= new BrandForm();</b>
+<b class="fc">&nbsp;        f1.setBrand(&quot;Mother Dairy&quot;);</b>
+<b class="fc">&nbsp;        f1.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f1);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;BrandData&gt; p= dto.getAll();</b>
+<b class="fc">&nbsp;        assertEquals(2,p.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testUpdate() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        String expectedBrand=&quot;dairy milk&quot;;</b>
+<b class="fc">&nbsp;        String expectedCategory=&quot;chocolate&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandPojo p= service.checkCombination(&quot;amul&quot;,&quot;milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        f.setBrand(&quot;Dairy Milk&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Chocolate&quot;);</b>
+<b class="fc">&nbsp;        dto.update(p.getId(),f);</b>
+&nbsp;
+<b class="fc">&nbsp;        assertEquals(expectedBrand,p.getBrand());</b>
+<b class="fc">&nbsp;        assertEquals(expectedCategory,p.getCategory());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testEmptyBrandUpdate() throws ApiException {
+<b class="fc">&nbsp;        BrandForm f = new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandPojo p = service.checkCombination(&quot;amul&quot;, &quot;milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        f.setBrand(&quot;&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Chocolate&quot;);</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.update(p.getId(), f);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;Brand cannot be empty&quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testEmptyCategoryUpdate() throws ApiException {
+<b class="fc">&nbsp;        BrandForm f = new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandPojo p = service.checkCombination(&quot;amul&quot;, &quot;milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        f.setBrand(&quot;Dairy Milk&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;&quot;);</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.update(p.getId(), f);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        }catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;Category cannot be empty&quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testDuplicateBrandCategoryUpdate() throws ApiException {
+<b class="fc">&nbsp;        BrandForm f = new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandForm f1= new BrandForm();</b>
+<b class="fc">&nbsp;        f1.setBrand(&quot;Dairy Milk&quot;);</b>
+<b class="fc">&nbsp;        f1.setCategory(&quot;Chocolate&quot;);</b>
+<b class="fc">&nbsp;        dto.add(f1);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandPojo p = service.checkCombination(&quot;amul&quot;, &quot;milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        f.setBrand(&quot;Dairy Milk&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Chocolate&quot;);</b>
+&nbsp;
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.update(p.getId(), f);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;Brand:dairy milk and Category:chocolate combination already exists&quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAddList() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandForm f1= new BrandForm();</b>
+<b class="fc">&nbsp;        f1.setBrand(&quot;Mother Dairy&quot;);</b>
+<b class="fc">&nbsp;        f1.setCategory(&quot;Milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;BrandForm&gt; list= new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        list.add(f);</b>
+<b class="fc">&nbsp;        list.add(f1);</b>
+<b class="fc">&nbsp;        dto.addList(list);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;BrandData&gt; p= dto.getAll();</b>
+<b class="fc">&nbsp;        assertEquals(2,p.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAddEmptyList() throws ApiException{
+<b class="fc">&nbsp;        List&lt;BrandForm&gt; list= new ArrayList&lt;&gt;();</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.addList(list);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;List size cannot be zero&quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAddListDuplicates() throws ApiException{
+<b class="fc">&nbsp;        BrandForm f= new BrandForm();</b>
+<b class="fc">&nbsp;        f.setBrand(&quot;Amul&quot;);</b>
+<b class="fc">&nbsp;        f.setCategory(&quot;Milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandForm f1= new BrandForm();</b>
+<b class="fc">&nbsp;        f1.setBrand(&quot;Mother Dairy&quot;);</b>
+<b class="fc">&nbsp;        f1.setCategory(&quot;Milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        BrandForm f2= new BrandForm();</b>
+<b class="fc">&nbsp;        f2.setBrand(&quot;Mother Dairy&quot;);</b>
+<b class="fc">&nbsp;        f2.setCategory(&quot;Milk&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;BrandForm&gt; list= new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        list.add(f);</b>
+<b class="fc">&nbsp;        list.add(f1);</b>
+<b class="fc">&nbsp;        list.add(f2);</b>
+&nbsp;
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.addList(list);</b>
+<b class="nc">&nbsp;            fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;[2=Duplicate entry for Brand: mother dairy Category: milk]&quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -145,7 +377,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-24 15:03</div>
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
 </div>
 </body>
 </html>

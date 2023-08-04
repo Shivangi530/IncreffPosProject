@@ -28,11 +28,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/ui/**")//
 				.and().authorizeRequests()//
 				// Allow GET requests for various sites
-				.antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("operator","admin","supervisor")
-				.antMatchers("/api/admin/**").hasAnyAuthority("admin","supervisor")//
-				.antMatchers("/api/**").hasAnyAuthority("admin","supervisor")//
-				.antMatchers("/ui/admin/**").hasAnyAuthority("admin","supervisor")//
-				.antMatchers("/ui/**").hasAnyAuthority("admin", "standard","supervisor","operator")//
+				.antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers(HttpMethod.POST, "/api/report/salesReport").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers("/api/validateOrderItem/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers("/api/order/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers("/api/orderItem/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers("/api/invoice/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers("/api/admin/**").hasAnyAuthority("SUPERVISOR")//
+				.antMatchers("/api/**").hasAnyAuthority("SUPERVISOR")//
+				.antMatchers("/ui/admin/**").hasAnyAuthority("SUPERVISOR")//
+				.antMatchers("/ui/**").hasAnyAuthority("standard","SUPERVISOR","OPERATOR")//
 				// Ignore CSRF and CORS
 				.and().csrf().disable().cors().disable();
 		logger.info("Configuration complete");

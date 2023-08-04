@@ -1,14 +1,16 @@
-// Global variables for pagination
 var table;
-//var currentPage = 1;
-//var pageSize = 10;
-//var totalItems = 0;
-//var totalPages = 0;
 
 function getBrandUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     return baseUrl + "/api/brand";
 }
+
+function getBrandUrlList(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content");
+	console.log(baseUrl);
+	return baseUrl + "/api/brands/list";
+}
+
 //BUTTON ACTIONS
 function addBrand(event) {
     var $form = $("#brand-form");
@@ -64,6 +66,7 @@ function updateBrand(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
+            success("Item Updated");
             getBrandList();
         },
         error: handleAjaxError
@@ -86,94 +89,30 @@ function getBrandList() {
     });
 }
 
+
 // FILE UPLOAD METHODS
 var fileData = [];
 var errorData = [];
+var fileErrorData=[];
 var processCount = 0;
 
-function processData() {
-    var file = $('#brandFile')[0].files[0];
-    //Check if file format is tsv or not
-    var tsv = (file) => file.toLowerCase().endsWith('.tsv');
-    if (!tsv) {
-        console.log("Invalid file format: Not TSV.");
-        warning("Invalid file format: Not TSV.");
-        return;
-    } else {
-        readFileData(file, readFileDataCallback);
-    }
+function processData(){
+	var file = $('#brandFile')[0].files[0];
+	checkHeader(file,["brand","category"],readFileDataCallback);
 }
 
-function readFileDataCallback(results) {
-    fileData = results.data;
-    if (fileData.length == 0) {
-        console.log("File Empty");
-        warning("File Empty");
-    } else if (fileData.length > 5000) {
-        console.log("File size exceeds limit");
-        warning("The file size (" + fileData.length + ") exceeds the limit of 5000.");
-    } else {
-        if (!checkHeaderMatch(fileData[0])) {
-            console.log("File headers do not match the expected format");
-            warning("File headers do not match the expected format");
-            return;
-        }
-        uploadRows();
-    }
-}
-
-function checkHeaderMatch(uploadedHeaders) {
-    // Extract the headers from the object
-    var expectedHeaders = ["brand", "category"];
-
-    var extractedHeaders = Object.keys(uploadedHeaders);
-//    var filteredArr = extractedHeaders.filter(header=> expectedHeaders.includes(header));
-    var filteredArr = extractedHeaders.filter(function(header, index) {
-        console.log("header: ",header,"  :  ",index);
-      return (expectedHeaders.includes(header.toLowerCase()) && extractedHeaders.indexOf(header) === index);
-    });
-//    var uniqueHeadersSet = new Set();
-//      var filteredArr = extractedHeaders.filter(header => {
-//        var headerLowerCase = header.toLowerCase();
-//        if (expectedHeaders.includes(headerLowerCase) && !uniqueHeadersSet.has(headerLowerCase)) {
-//          uniqueHeadersSet.add(headerLowerCase);
-//          return true;
-//        }
-//        return false;
-//      });
-    // Compare the headers
-    if (filteredArr.length !== expectedHeaders.length) {
-        return false;
-    }
-    // Sort the extracted headers and expected headers in lowercase
-//    filteredArr = filteredArr.map(header => header.toLowerCase());
-    filteredArr.sort();
-//    expectedHeaders = expectedHeaders.map(header => header.toLowerCase());
-    expectedHeaders.sort();
-
-    for (var i = 0; i < filteredArr.length; i++) {
-        console.log(filteredArr[i],expectedHeaders[i])
-    }
-//    for (var i = 0; i < expectedHeaders.length; i++) {
-//        if (filteredArr[i] !== expectedHeaders[i]) {
-//            return false;
-//        }
-//    }
-    return true;
+function readFileDataCallback(results){
+	fileData = results.data;
+	uploadRows();
 }
 
 function uploadRows() {
     //Update progress
     updateUploadDialog();
-    //If everything processed then return
-    if (processCount == fileData.length) {
-        return;
-    }
-    //Process next row
-    var row = fileData[processCount];
-    processCount++;
+    var row = fileData;
     var json = JSON.stringify(row);
-    var url = getBrandUrl();
+    var url = getBrandUrlList();
+    console.log(json);
     //Make ajax call
     $.ajax({
         url: url,
@@ -183,16 +122,70 @@ function uploadRows() {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            uploadRows();
+            console.log(response);
+            getBrandList();
+            $('#upload-brand-modal').modal('hide');
+            success("File uploaded successfully");
         },
         error: function(response) {
-            row.error = response.responseText;
-            errorData.push(row);
-            uploadRows();
+            console.log(response);
+            var resp = JSON.parse(response.responseText);
+            const inputString = resp.message;
+            // Remove the square brackets at the beginning and end of the string
+            const cleanedString = inputString.slice(1, -1);
+
+            // Split the string using the comma (,) as the delimiter
+            const errorArray = cleanedString.split(', ');
+
+            var i=0;
+            // Loop through the errorArray and format each error as a CSV row
+            errorArray.forEach((error) => {
+              const index = error.indexOf('=');
+              const errorCode = error.slice(0, index);
+              const errorMessage = error.slice(index + 1);
+              const errorRowIndex = parseInt(errorCode, 10);
+                if (!isNaN(errorRowIndex) && errorRowIndex >= 0 && errorRowIndex < fileData.length) {
+                  if (!errorData[i]) {
+                    errorData[i] = Object.assign({}, fileData[errorRowIndex], { error: errorMessage });
+                    i++;
+                  }
+                }
+            });
+
+//            for (var i = 0; i < fileData.length; i++) {
+//              var row = fileData[i];
+//              var error = (i < errorData.length) ? errorData[i][0] : '';
+//              var combinedRow = Object.assign({}, row, { error: error });
+//              fileErrorData.push(combinedRow);
+//            }
+            updateUploadDialog();
+            $("#download-errors").prop('disabled', false);
+            danger("Invalid file: File has errors");
         }
     });
-    $("#download-errors").prop('disabled', false);
 }
+
+//function checkHeaderMatch(uploadedHeaders) {
+//    // Extract the headers from the object
+//    var expectedHeaders = ["brand", "category"];
+//
+//    var extractedHeaders = Object.keys(uploadedHeaders);
+////    var filteredArr = extractedHeaders.filter(header=> expectedHeaders.includes(header));
+//    var filteredArr = extractedHeaders.filter(function(header, index) {
+//        console.log("header: ",header,"  :  ",index);
+//      return (expectedHeaders.includes(header.toLowerCase()) && extractedHeaders.indexOf(header) === index);
+//    });
+//    if (filteredArr.length !== expectedHeaders.length) {
+//        return false;
+//    }
+//    filteredArr.sort();
+//    expectedHeaders.sort();
+//
+//    for (var i = 0; i < filteredArr.length; i++) {
+//        console.log(filteredArr[i],expectedHeaders[i])
+//    }
+//    return true;
+//}
 
 function downloadErrors() {
     console.log(errorData);
@@ -208,13 +201,8 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayBrandList(data) {
-    // Display the brand list for the current page
-
-//    var startIndex = (currentPage - 1) * pageSize;
-//    var endIndex = startIndex + pageSize;
-//    var paginatedData = data.slice(startIndex, endIndex);
+    console.log("userRole= ",userRole);
     var $tbody = $('#brand-table').find('tbody');
-//    $tbody.empty();
     table.clear().draw();
     var dataRows=[];
     for (var i in data) {
@@ -222,24 +210,13 @@ function displayBrandList(data) {
         var buttonHtml = ' <button class="btn btn-outline-primary" onclick="displayEditBrand(' + e.id + ')"> Edit </button>';
         var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
         var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
+
+//        if (userRole === "SUPERVISOR") {
         dataRows.push([e.id, trimmedBrand, trimmedCategory, buttonHtml]);
+
     }
     table.rows.add(dataRows).draw();
 }
-//  Pagination
-//function displayPaginationInfo() {
-//    totalPages = Math.ceil(totalItems / pageSize);
-//    var $paginationInfo = $('#pagination-info');
-//    $paginationInfo.text('Page ' + currentPage + ' of ' + totalPages);
-//}
-//
-//function goToPage(page) {
-//    if (page < 1 || page > Math.ceil(totalItems / pageSize)) {
-//        return;
-//    }
-//    currentPage = page;
-//    getBrandList();
-//}
 
 function displayEditBrand(id) {
     var url = getBrandUrl() + "/" + id;
@@ -262,13 +239,14 @@ function resetUploadDialog() {
     processCount = 0;
     fileData = [];
     errorData = [];
+    fileErrorData =[];
     //Update counts
     updateUploadDialog();
 }
 
 function updateUploadDialog() {
     $('#rowCount').html("" + fileData.length);
-    $('#processCount').html("" + processCount);
+//    $('#processCount').html("" + processCount);
     $('#errorCount').html("" + errorData.length);
 }
 
@@ -310,28 +288,31 @@ function init() {
     $('#process-data').click(processData);
     $('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName);
-//    $('#first-page').click(function() {
-//        goToPage(1);
-//    });
-//
-//    $('#prev-page').click(function() {
-//        goToPage(currentPage - 1);
-//    });
-//
-//    $('#next-page').click(function() {
-//        goToPage(currentPage + 1);
-//    });
-//
-//    $('#last-page').click(function() {
-//        goToPage(totalPages);
-//    });
 
     // Initial data fetch
     getBrandList();
+//    table = $('#brand-table').DataTable({
+//            columnDefs: [
+//                { targets: [0, 1, 2], className: 'text-center', width: '100px' }, // Optional: Set a fixed width for columns 1 and 2
+//                { targets: 3, orderable: false, visible: userRole === 'SUPERVISOR', width: '100px' } // Optional: Set a fixed width for column 3
+//            ],
+//            scrollX: true,
+//            deferRender: true,
+//            scrollCollapse: true,
+//            scroller: true,
+//            searching: true,
+//            info: true,
+//            lengthMenu: [
+//                [5, 10, 20, -1],
+//                [5, 10, 20, 'All']
+//            ],
+//            order: [[0, 'desc']],
+//        });
     table = $('#brand-table').DataTable({
+//      scrollX: true,
       columnDefs: [
-        { targets: [3], orderable: false },
-        { targets: [0, 1, 2, 3], className: "text-center" }
+        { targets: [0, 1, 2, 3], className: "text-center" },
+        { targets: 3, orderable: false, visible: userRole === 'SUPERVISOR'},
       ],
       searching: false,
       info: true,
@@ -340,7 +321,7 @@ function init() {
         [5, 10, 20, 'All']
       ],
       deferRender: true,
-      order: [[0, "desc"]]
+      order: [[0, "desc"]],
     });
 }
 $(document).ready(init);

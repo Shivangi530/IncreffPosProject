@@ -41,8 +41,9 @@ function getOrderListByFilter(){
            	'Content-Type': 'application/json'
            },
     	   success: function(response) {
-    	        salesData=response.reverse();
+    	        salesData=response;
     	        displayOrderList(response);
+    	        findBrandCategory();
     	   },
     	   error: handleAjaxError
     	});
@@ -68,8 +69,7 @@ function printReport() {
         console.error('No data available to generate the report.');
         return;
     }
-    var filteredData = salesData.map(({date,	brand,	category,	quantity,	revenue }) => ({date,	brand,	category,	quantity,	revenue}));
-
+    var filteredData = salesData.map(({	brand,	category,	quantity,	revenue }) => ({	brand,	category,	quantity,	revenue}));
     // Headers and TSV data for the writeFileData function
     var headers = [	'Brand',	'Category',	'Quantity',	'Revenue'];
     var tsvData = filteredData.map(obj => [	obj.brand,	obj.category,	obj.quantity,	obj.revenue]);

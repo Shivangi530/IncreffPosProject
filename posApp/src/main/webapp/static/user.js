@@ -61,10 +61,11 @@ function displayUserList(data){
 	for(var i in data){
 		var e = data[i];
 
-		var buttonHtml = '<button class="btn btn-outline-primary" onclick="deleteUser(' + e.id + ')">Delete</button>'
-		if (e.role === "supervisor") {
-            buttonHtml = '<button class="btn btn-outline-primary" disabled>Delete</button>';
-        }
+		 var buttonHtml =
+            '<button class="btn btn-outline-' +
+            (e.role === "SUPERVISOR" ? 'secondary" disabled' : 'primary" onclick="deleteUser(' + e.id + ')"') +
+            '>Delete</button>';
+
 		var row = '<tr>'
 		+ '<td>' + e.id + '</td>'
 		+ '<td>' + e.email + '</td>'
@@ -75,13 +76,5 @@ function displayUserList(data){
 	}
 }
 
-
-//INITIALIZATION CODE
-function init(){
-	$('#add-user').click(addUser);
-	$('#refresh-data').click(getUserList);
-}
-
-$(document).ready(init);
 $(document).ready(getUserList);
 

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > productDto</title>
+  <title>Coverage Report > inventoryDto</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.pos.dto</a>
 </div>
 
-<h1>Coverage Summary for Class: productDto (com.increff.pos.dto)</h1>
+<h1>Coverage Summary for Class: inventoryDto (com.increff.pos.dto)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">productDto</td>
+  <td class="name">inventoryDto</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (31/31)
+    (35/35)
   </span>
 </td>
 </tr>
@@ -76,74 +76,88 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.pos.dto;
 &nbsp;
-&nbsp;import com.increff.pos.model.ProductData;
-&nbsp;import com.increff.pos.model.ProductForm;
+&nbsp;import com.increff.pos.model.InventoryData;
+&nbsp;import com.increff.pos.model.InventoryForm;
 &nbsp;import com.increff.pos.pojo.InventoryPojo;
-&nbsp;import com.increff.pos.pojo.ProductPojo;
 &nbsp;import com.increff.pos.service.ApiException;
 &nbsp;import com.increff.pos.service.BrandService;
 &nbsp;import com.increff.pos.service.InventoryService;
 &nbsp;import com.increff.pos.service.ProductService;
+&nbsp;import javafx.util.Pair;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
 &nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import javax.transaction.Transactional;
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.List;
+&nbsp;
 &nbsp;import static com.increff.pos.util.ConversionUtil.convert;
 &nbsp;import static com.increff.pos.util.NormaliseUtil.normalize;
 &nbsp;import static com.increff.pos.util.ValidateUtil.validate;
 &nbsp;
 &nbsp;@Component
-<b class="fc">&nbsp;public class productDto {</b>
+<b class="fc">&nbsp;public class inventoryDto {</b>
 &nbsp;    @Autowired
-&nbsp;    private ProductService service;
+&nbsp;    private InventoryService service;
+&nbsp;    @Autowired
+&nbsp;    private ProductService productService;
 &nbsp;    @Autowired
 &nbsp;    private BrandService brandService;
-&nbsp;    @Autowired
-&nbsp;    private InventoryService inventoryService;
 &nbsp;
-&nbsp;    public void add(ProductForm f) throws ApiException {
-<b class="fc">&nbsp;        normalize(f);</b>
-<b class="fc">&nbsp;        validate(f);</b>
-<b class="fc">&nbsp;        int brandCategoryId = 0;</b>
-<b class="fc">&nbsp;        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {</b>
-<b class="fc">&nbsp;            brandCategoryId = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();</b>
-&nbsp;        }
-<b class="fc">&nbsp;        ProductPojo p = convert(f, brandCategoryId);</b>
-<b class="fc">&nbsp;        service.add(p);</b>
-<b class="fc">&nbsp;        InventoryPojo pi = new InventoryPojo();</b>
-<b class="fc">&nbsp;        pi.setId(p.getId());</b>
-<b class="fc">&nbsp;        pi.setQuantity(0);</b>
-<b class="fc">&nbsp;        inventoryService.add(pi);</b>
+&nbsp;    public InventoryData get(Integer id) throws ApiException {
+<b class="fc">&nbsp;        InventoryPojo p = service.get(id);</b>
+<b class="fc">&nbsp;        String barcode=productService.selectBarcode(p.getId());</b>
+<b class="fc">&nbsp;        return convert(p,barcode);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public ProductData get(int id) throws ApiException {
-<b class="fc">&nbsp;        ProductPojo p = service.get(id);</b>
-<b class="fc">&nbsp;        String brand = brandService.get(p.getBrand_category()).getBrand();</b>
-<b class="fc">&nbsp;        String category = brandService.get(p.getBrand_category()).getCategory();</b>
-<b class="fc">&nbsp;        return convert(p, brand, category);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public List&lt;ProductData&gt; getAll() {
-<b class="fc">&nbsp;        List&lt;ProductPojo&gt; list = service.getAll();</b>
-<b class="fc">&nbsp;        List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</b>
-<b class="fc">&nbsp;        for (ProductPojo p : list) {</b>
-<b class="fc">&nbsp;            String brand = brandService.getValueBrandCategory(p.getBrand_category()).getBrand();</b>
-<b class="fc">&nbsp;            String category = brandService.getValueBrandCategory(p.getBrand_category()).getCategory();</b>
-<b class="fc">&nbsp;            list2.add(convert(p, brand, category));</b>
+&nbsp;    public List&lt;InventoryData&gt; getAll() throws ApiException{
+<b class="fc">&nbsp;        List&lt;InventoryPojo&gt; list = service.getAll();</b>
+<b class="fc">&nbsp;        List&lt;InventoryData&gt; list2 = new ArrayList&lt;InventoryData&gt;();</b>
+<b class="fc">&nbsp;        for (InventoryPojo p : list) {</b>
+<b class="fc">&nbsp;            String barcode=productService.selectBarcode(p.getId());</b>
+<b class="fc">&nbsp;            list2.add(convert(p,barcode));</b>
 <b class="fc">&nbsp;        }</b>
 <b class="fc">&nbsp;        return list2;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void update(int id, ProductForm f) throws ApiException {
-<b class="fc">&nbsp;        normalize(f);</b>
-<b class="fc">&nbsp;        validate(f);</b>
-<b class="fc">&nbsp;        int brandCategory = 0;</b>
-<b class="fc">&nbsp;        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {</b>
-<b class="fc">&nbsp;            brandCategory = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();</b>
-&nbsp;        }
-<b class="fc">&nbsp;        ProductPojo p = convert(f, brandCategory);</b>
-<b class="fc">&nbsp;        service.update(id, p);</b>
+&nbsp;    public void update(Integer id, InventoryForm f) throws ApiException {
+<b class="fc">&nbsp;        service.update(id, f.getQuantity());</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    public void updateList(List&lt;InventoryForm&gt; formList) throws ApiException {
+<b class="fc">&nbsp;        List&lt;InventoryPojo&gt; inventoryPojoList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        if (formList.size() == 0) {</b>
+<b class="fc">&nbsp;            throw new ApiException(&quot;List size cannot be zero&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        List&lt;Pair&lt;Integer, String&gt;&gt; errorList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; formList.size(); i++) {</b>
+<b class="fc">&nbsp;            InventoryForm inventoryForm = formList.get(i);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;InventoryForm &quot;+inventoryForm);</b>
+&nbsp;            Pair&lt;Integer, String&gt; errorPair;
+&nbsp;            try {
+<b class="fc">&nbsp;                normalize(inventoryForm);</b>
+<b class="fc">&nbsp;                validate(inventoryForm);</b>
+<b class="fc">&nbsp;                System.out.println(&quot;InventoryForm &quot;+inventoryForm);</b>
+<b class="fc">&nbsp;                int id= productService.getIdByBarcode(inventoryForm.getBarcode());</b>
+<b class="fc">&nbsp;                System.out.println(&quot;id= &quot;+id);</b>
+<b class="fc">&nbsp;                InventoryPojo inventoryPojo= convert(inventoryForm);</b>
+<b class="fc">&nbsp;                inventoryPojo.setId(id);</b>
+<b class="fc">&nbsp;                inventoryPojoList.add(inventoryPojo);</b>
+<b class="fc">&nbsp;            } catch (ApiException e) {</b>
+<b class="fc">&nbsp;                System.out.println(&quot;error: &quot;+e);</b>
+<b class="fc">&nbsp;                errorPair = new Pair&lt;&gt;(i , e.getMessage());</b>
+<b class="fc">&nbsp;                errorList.add(errorPair);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(!errorList.isEmpty()){</b>
+<b class="fc">&nbsp;            throw new ApiException(errorList.toString());</b>
+&nbsp;        }else{
+<b class="fc">&nbsp;            service.bulkUpdate(inventoryPojoList);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -168,7 +182,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-24 15:03</div>
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
 </div>
 </body>
 </html>

@@ -21,6 +21,7 @@ public class UserService {
 		if (existing != null) {
 			throw new ApiException("User with given email already exists");
 		}
+		isValidPassword(p.getPassword());
 		dao.insert(p);
 	}
 
@@ -42,4 +43,44 @@ public class UserService {
 	protected static void normalize(UserPojo p) {
 		p.setEmail(p.getEmail().toLowerCase().trim());
 	}
+
+	public static boolean isValidPassword(String password) throws ApiException {
+		String SPECIAL_CHARACTERS = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+		// Check for minimum length
+		if (password.length() < 8) {
+			throw new ApiException("Password must be at least 8 characters long.");
+		}
+
+		// Check for complexity
+		boolean hasUppercase = false;
+		boolean hasLowercase = false;
+		boolean hasDigit = false;
+		boolean hasSpecialChar = false;
+
+		for (char ch : password.toCharArray()) {
+			if (Character.isUpperCase(ch)) {
+				hasUppercase = true;
+			} else if (Character.isLowerCase(ch)) {
+				hasLowercase = true;
+			} else if (Character.isDigit(ch)) {
+				hasDigit = true;
+			} else if (SPECIAL_CHARACTERS.contains(Character.toString(ch))) {
+				hasSpecialChar = true;
+			}
+		}
+		if (!hasUppercase) {
+			throw new ApiException("Password must contain at least one uppercase letter.");
+		}
+		if (!hasLowercase) {
+			throw new ApiException("Password must contain at least one lowercase letter.");
+		}
+		if (!hasDigit) {
+			throw new ApiException("Password must contain at least one digit.");
+		}
+		if (!hasSpecialChar) {
+			throw new ApiException("Password must contain at least one special character (" + SPECIAL_CHARACTERS + ").");
+		}
+		return true;
+	}
+
 }

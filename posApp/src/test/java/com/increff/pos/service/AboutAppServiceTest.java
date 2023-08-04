@@ -12,7 +12,7 @@ public class AboutAppServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testServiceApis() {
-		assertEquals("Employee Application", service.getName());
+		assertEquals("POS Application", service.getName());
 		assertEquals("1.0", service.getVersion());
 	}
 

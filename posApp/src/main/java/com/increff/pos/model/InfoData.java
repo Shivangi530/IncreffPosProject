@@ -11,13 +11,14 @@ import java.io.Serializable;
 public class InfoData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	private String message;
 	private String email;
+	private String role;
 
 	public InfoData() {
 		message = "No message";
 		email = "No email";
+		role = "No role";
 	}
 	
 	public String getMessage() {
@@ -36,4 +37,11 @@ public class InfoData implements Serializable {
 		this.email = email;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

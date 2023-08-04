@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+import com.increff.pos.model.EnumData;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderForm;
 import com.increff.pos.pojo.OrderPojo;
@@ -25,11 +26,12 @@ public class orderDto {
     }
 
     public OrderData get(int id) throws ApiException {
-        OrderPojo p = service.get(id);
+        OrderPojo p = service.getCheck(id);
         return convert(p);
     }
     public List<OrderData> getAll() {
         List<OrderPojo> list = service.getAll();
+        System.out.println(list.size());
         List<OrderData> list2 = new ArrayList<OrderData>();
         for (OrderPojo p : list) {
             list2.add(convert(p));
@@ -38,7 +40,6 @@ public class orderDto {
     }
 
     public void update(int id,String status) throws ApiException {
-        System.out.println("dto: "+status);
         service.update(id,status);
     }
 
@@ -48,12 +49,6 @@ public class orderDto {
         d.setStatus(String.valueOf(p.getStatus()));
         d.setDateTime(p.getDateTime());
         return d;
-    }
-
-    private static OrderPojo convert(OrderForm f) {
-        OrderPojo p = new OrderPojo();
-        p.setStatus(OrderPojo.Status.valueOf(f.getStatus()));
-        return p;
     }
 
     public ResponseEntity<byte[]> getInvoicePDF( Integer id) throws Exception{

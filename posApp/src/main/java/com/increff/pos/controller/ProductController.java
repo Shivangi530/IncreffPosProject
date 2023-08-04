@@ -11,7 +11,7 @@ import java.util.List;
 
 @Api
 @RestController
-public class ProductApiController {
+public class ProductController {
 
 	@Autowired
 	private com.increff.pos.dto.productDto productDto;
@@ -19,14 +19,12 @@ public class ProductApiController {
 	@ApiOperation(value = "Add a product")
 	@RequestMapping(path = "/api/product", method = RequestMethod.POST)
 	public void add(@RequestBody ProductForm  form) throws ApiException {
-		// TODO try putting a list of form
 		productDto.add(form);
 	}
 
-
 	@ApiOperation(value = "Get a product by ID")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.GET)
-	public ProductData get(@PathVariable int id) throws ApiException {
+	public ProductData get(@PathVariable Integer id) throws ApiException {
 		return productDto.get(id);
 	}
 
@@ -36,10 +34,17 @@ public class ProductApiController {
 		return productDto.getAll();
 	}
 
-	@ApiOperation(value = "Update an product")
+	@ApiOperation(value = "Update a product")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody ProductForm f) throws ApiException {
+	public void update(@PathVariable Integer id, @RequestBody ProductForm f) throws ApiException {
 		productDto.update(id,f);
 	}
+
+	@ApiOperation(value = "Add list of product")
+	@RequestMapping(path = "/api/product/list", method = RequestMethod.POST)
+	public void addList(@RequestBody List<ProductForm> productFormList) throws ApiException {
+		productDto.addList(productFormList);
+	}
+
 
 }

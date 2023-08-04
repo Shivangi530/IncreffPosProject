@@ -1,0 +1,356 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > orderItemDtoTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.increff.pos.dto</a>
+</div>
+
+<h1>Coverage Summary for Class: orderItemDtoTest (com.increff.pos.dto)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">orderItemDtoTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.8%
+  </span>
+  <span class="absValue">
+    (136/142)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">orderItemDtoTest$$EnhancerBySpringCGLIB$$a240d8e</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.8%
+  </span>
+  <span class="absValue">
+    (136/142)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.increff.pos.dto;
+&nbsp;
+&nbsp;import com.increff.pos.model.*;
+&nbsp;import com.increff.pos.service.AbstractUnitTest;
+&nbsp;import com.increff.pos.service.ApiException;
+&nbsp;import com.increff.pos.service.ProductService;
+&nbsp;import org.junit.Assert;
+&nbsp;import org.junit.Test;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;import static com.increff.pos.helper.helper.*;
+&nbsp;import static junit.framework.TestCase.assertEquals;
+&nbsp;
+<b class="fc">&nbsp;public class orderItemDtoTest extends AbstractUnitTest {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private brandDto brandDto;
+&nbsp;    @Autowired
+&nbsp;    private productDto productDto;
+&nbsp;    @Autowired
+&nbsp;    private inventoryDto inventoryDto;
+&nbsp;    @Autowired
+&nbsp;    private orderDto orderDto;
+&nbsp;    @Autowired
+&nbsp;    private orderItemDto dto;
+&nbsp;    @Autowired
+&nbsp;    private ProductService productService;
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAdd() throws ApiException{
+<b class="fc">&nbsp;        BrandForm brandForm= createBrand(&quot;brand&quot;,&quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f= createProduct(&quot;brand&quot;,&quot;category&quot;,&quot;barcode&quot;,10.0,&quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        int id=productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm= inventoryDto.get(id);</b>
+<b class="fc">&nbsp;        inventoryForm.setQuantity(200);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id,inventoryForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        int orderId= orderDto.add();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemForm= createOrderItem(orderId,&quot;barcode&quot;,10,5.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; data= dto.getAll();</b>
+<b class="fc">&nbsp;        OrderItemData data1= data.get(0);</b>
+&nbsp;
+<b class="fc">&nbsp;        String expectedBarcode= &quot;barcode&quot;;</b>
+<b class="fc">&nbsp;        int expectedQuantity=10;</b>
+<b class="fc">&nbsp;        Double expectedSellingPrice=5.0;</b>
+&nbsp;
+<b class="fc">&nbsp;        assertEquals(expectedBarcode,data1.getBarcode());</b>
+<b class="fc">&nbsp;        assertEquals(expectedQuantity,(int)data1.getQuantity());</b>
+<b class="fc">&nbsp;        assertEquals(expectedSellingPrice,data1.getSellingPrice(),0.01);</b>
+<b class="fc">&nbsp;        assertEquals(orderId,(int)data1.getOrderId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testGetAll() throws ApiException{
+<b class="fc">&nbsp;        BrandForm brandForm= createBrand(&quot;brand&quot;,&quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f= createProduct(&quot;brand&quot;,&quot;category&quot;,&quot;barcode1&quot;,10.0,&quot;name1&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        ProductForm f1= createProduct(&quot;brand&quot;,&quot;category&quot;,&quot;barcode2&quot;,20.0,&quot;name2&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f1);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testUpdate() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        int id = productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm = inventoryDto.get(id);</b>
+<b class="fc">&nbsp;        inventoryForm.setQuantity(200);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id, inventoryForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        int orderId = orderDto.add();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemForm = createOrderItem(orderId, &quot;barcode&quot;, 10, 5.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; data = dto.getAll();</b>
+<b class="fc">&nbsp;        int orderItemId = data.get(0).getId();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemFormUpdated = createOrderItem(orderId, &quot;barcode&quot;, 100, 50.0);</b>
+<b class="fc">&nbsp;        dto.update(orderItemId, orderItemFormUpdated);</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemData data1 = dto.get(orderItemId);</b>
+&nbsp;
+<b class="fc">&nbsp;        int expectedQuantity = 100;</b>
+<b class="fc">&nbsp;        Double expectedSellingPrice = 50.0;</b>
+&nbsp;
+<b class="fc">&nbsp;        assertEquals(expectedQuantity, (int) data1.getQuantity());</b>
+<b class="fc">&nbsp;        assertEquals(expectedSellingPrice, data1.getSellingPrice(), 0.01);</b>
+<b class="fc">&nbsp;        assertEquals(orderId, (int) data1.getOrderId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testUpdateInvoiced() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        int id = productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm = inventoryDto.get(id);</b>
+<b class="fc">&nbsp;        inventoryForm.setQuantity(200);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id, inventoryForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        int orderId = orderDto.add();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemForm = createOrderItem(orderId, &quot;barcode&quot;, 10, 5.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; data = dto.getAll();</b>
+<b class="fc">&nbsp;        int orderItemId = data.get(0).getId();</b>
+&nbsp;
+<b class="fc">&nbsp;        orderDto.update(orderId,&quot;INVOICED&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemFormUpdated = createOrderItem(orderId, &quot;barcode&quot;, 100, 50.0);</b>
+&nbsp;
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.update(orderItemId, orderItemFormUpdated);</b>
+<b class="nc">&nbsp;            Assert.fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;Invalid Operation: Invoice has been generated for the order. &quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testUpdateInvalidQuantity() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        int id = productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm = inventoryDto.get(id);</b>
+<b class="fc">&nbsp;        inventoryForm.setQuantity(20);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id, inventoryForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        int orderId = orderDto.add();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemForm = createOrderItem(orderId, &quot;barcode&quot;, 10, 5.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; data = dto.getAll();</b>
+<b class="fc">&nbsp;        int orderItemId = data.get(0).getId();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemFormUpdated = createOrderItem(orderId, &quot;barcode&quot;, 100, 50.0);</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.update(orderItemId, orderItemFormUpdated);</b>
+<b class="nc">&nbsp;            Assert.fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;Invalid operation&quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testDelete() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        int id = productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm = inventoryDto.get(id);</b>
+<b class="fc">&nbsp;        inventoryForm.setQuantity(200);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id, inventoryForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        int orderId = orderDto.add();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemForm = createOrderItem(orderId, &quot;barcode&quot;, 10, 5.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; data = dto.getAll();</b>
+<b class="fc">&nbsp;        assertEquals(1, data.size());</b>
+&nbsp;
+<b class="fc">&nbsp;        dto.delete(data.get(0).getId());</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; dataUpdated = dto.getAll();</b>
+<b class="fc">&nbsp;        assertEquals(0, dataUpdated.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testDeleteInvoiced() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        int id = productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm = inventoryDto.get(id);</b>
+<b class="fc">&nbsp;        inventoryForm.setQuantity(200);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id, inventoryForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        int orderId = orderDto.add();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemForm = createOrderItem(orderId, &quot;barcode&quot;, 10, 5.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; data = dto.getAll();</b>
+&nbsp;
+<b class="fc">&nbsp;        orderDto.update(orderId,&quot;INVOICED&quot;);</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.delete(data.get(0).getId());</b>
+<b class="nc">&nbsp;            Assert.fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;Invalid Operation: Invoice has been generated for the order. &quot;,e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testGetOrderList() throws ApiException{
+<b class="fc">&nbsp;        BrandForm brandForm= createBrand(&quot;brand&quot;,&quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f= createProduct(&quot;brand&quot;,&quot;category&quot;,&quot;barcode&quot;,10.0,&quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f);</b>
+<b class="fc">&nbsp;        ProductForm f1= createProduct(&quot;brand&quot;,&quot;category&quot;,&quot;barcode1&quot;,10.0,&quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f1);</b>
+<b class="fc">&nbsp;        int id=productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm= inventoryDto.get(id);</b>
+<b class="fc">&nbsp;        inventoryForm.setQuantity(200);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id,inventoryForm);</b>
+<b class="fc">&nbsp;        int id2=productService.getIdByBarcode(&quot;barcode1&quot;);</b>
+<b class="fc">&nbsp;        InventoryForm inventoryForm2= inventoryDto.get(id2);</b>
+<b class="fc">&nbsp;        inventoryForm2.setQuantity(200);</b>
+<b class="fc">&nbsp;        inventoryDto.update(id2,inventoryForm2);</b>
+&nbsp;
+<b class="fc">&nbsp;        int orderId= orderDto.add();</b>
+&nbsp;
+<b class="fc">&nbsp;        OrderItemForm orderItemForm= createOrderItem(orderId,&quot;barcode&quot;,10,5.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm);</b>
+<b class="fc">&nbsp;        OrderItemForm orderItemForm2= createOrderItem(orderId,&quot;barcode1&quot;,100,50.0);</b>
+<b class="fc">&nbsp;        dto.add(orderItemForm2);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;OrderItemData&gt; data= dto.getOrderList(orderId);</b>
+&nbsp;
+<b class="fc">&nbsp;        assertEquals(2,data.size());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
+</div>
+</body>
+</html>

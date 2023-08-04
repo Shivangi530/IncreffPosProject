@@ -34,7 +34,7 @@ public class ConversionUtil {
         return d;
     }
 
-    public static ProductPojo convert(ProductForm f, int brandCategory) {
+    public static ProductPojo convert(ProductForm f, Integer brandCategory) {
         ProductPojo p = new ProductPojo();
         p.setBarcode(f.getBarcode());
         p.setName(f.getName());
@@ -54,5 +54,15 @@ public class ConversionUtil {
         InventoryPojo p = new InventoryPojo();
         p.setQuantity(f.getQuantity());
         return p;
+    }
+
+    public static InventoryReportData convert(InventoryPojo p,String barcode,String brand,String category) throws ApiException{
+        InventoryReportData d = new InventoryReportData();
+        d.setBarcode(barcode);
+        d.setQuantity(p.getQuantity());
+        d.setId(p.getId());
+        d.setBrand(brand);
+        d.setCategory(category);
+        return d;
     }
 }

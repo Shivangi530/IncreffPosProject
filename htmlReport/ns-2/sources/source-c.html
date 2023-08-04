@@ -1,0 +1,224 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > productDto</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.increff.pos.dto</a>
+</div>
+
+<h1>Coverage Summary for Class: productDto (com.increff.pos.dto)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">productDto</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (57/57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.increff.pos.dto;
+&nbsp;
+&nbsp;import com.increff.pos.model.BrandForm;
+&nbsp;import com.increff.pos.model.ProductData;
+&nbsp;import com.increff.pos.model.ProductForm;
+&nbsp;import com.increff.pos.pojo.BrandPojo;
+&nbsp;import com.increff.pos.pojo.InventoryPojo;
+&nbsp;import com.increff.pos.pojo.ProductPojo;
+&nbsp;import com.increff.pos.service.ApiException;
+&nbsp;import com.increff.pos.service.BrandService;
+&nbsp;import com.increff.pos.service.InventoryService;
+&nbsp;import com.increff.pos.service.ProductService;
+&nbsp;import javafx.util.Pair;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import javax.transaction.Transactional;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import static com.increff.pos.util.ConversionUtil.convert;
+&nbsp;import static com.increff.pos.util.NormaliseUtil.normalize;
+&nbsp;import static com.increff.pos.util.ValidateUtil.validate;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;public class productDto {</b>
+&nbsp;    @Autowired
+&nbsp;    private ProductService service;
+&nbsp;    @Autowired
+&nbsp;    private BrandService brandService;
+&nbsp;    @Autowired
+&nbsp;    private InventoryService inventoryService;
+&nbsp;
+&nbsp;    public void add(ProductForm f) throws ApiException {
+<b class="fc">&nbsp;        normalize(f);</b>
+<b class="fc">&nbsp;        validate(f);</b>
+<b class="fc">&nbsp;        Integer brandCategoryId = 0;</b>
+<b class="fc">&nbsp;        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {</b>
+<b class="fc">&nbsp;            brandCategoryId = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ProductPojo p = convert(f, brandCategoryId);</b>
+<b class="fc">&nbsp;        service.add(p);</b>
+<b class="fc">&nbsp;        InventoryPojo pi = new InventoryPojo(); // todo: to create the inventory pojo in the service layer</b>
+<b class="fc">&nbsp;        pi.setId(p.getId());</b>
+<b class="fc">&nbsp;        pi.setQuantity(0);</b>
+<b class="fc">&nbsp;        inventoryService.add(pi);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ProductData get(Integer id) throws ApiException {
+<b class="fc">&nbsp;        ProductPojo p = service.get(id);</b>
+<b class="fc">&nbsp;        String brand = brandService.getCheck(p.getBrand_category()).getBrand();</b>
+<b class="fc">&nbsp;        String category = brandService.getCheck(p.getBrand_category()).getCategory();</b>
+<b class="fc">&nbsp;        return convert(p, brand, category);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;ProductData&gt; getAll() {
+<b class="fc">&nbsp;        List&lt;ProductPojo&gt; list = service.getAll();</b>
+<b class="fc">&nbsp;        List&lt;ProductData&gt; list2 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (ProductPojo p : list) {</b>
+<b class="fc">&nbsp;            BrandPojo brandPojo= brandService.getValueBrandCategory(p.getBrand_category());</b>
+<b class="fc">&nbsp;            String brand = brandPojo.getBrand(); //todo: to call once by using the list api</b>
+<b class="fc">&nbsp;            String category = brandPojo.getCategory();</b>
+<b class="fc">&nbsp;            list2.add(convert(p, brand, category));</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return list2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void update(Integer id, ProductForm f) throws ApiException {
+<b class="fc">&nbsp;        normalize(f);</b>
+<b class="fc">&nbsp;        validate(f);</b>
+&nbsp;
+<b class="fc">&nbsp;        Integer brandCategory = 0;</b>
+<b class="fc">&nbsp;        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {</b>
+<b class="fc">&nbsp;            brandCategory = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(brandCategory);</b>
+<b class="fc">&nbsp;        ProductPojo p = convert(f, brandCategory);</b>
+&nbsp;
+<b class="fc">&nbsp;        service.update(id, p.getName(),p.getBarcode(),p.getMrp());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addList(List&lt;ProductForm&gt; formList) throws ApiException {
+<b class="fc">&nbsp;        List&lt;ProductPojo&gt; productPojoList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        if (formList.size() == 0) {</b>
+<b class="fc">&nbsp;            throw new ApiException(&quot;List size cannot be zero&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        List&lt;Pair&lt;Integer, String&gt;&gt; errorList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        Set&lt;String&gt; checkDuplicateBarcode = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; formList.size(); i++) {</b>
+<b class="fc">&nbsp;            ProductForm productForm = formList.get(i);</b>
+&nbsp;            Pair&lt;Integer, String&gt; errorPair;
+&nbsp;            try {
+<b class="fc">&nbsp;                normalize(productForm);</b>
+<b class="fc">&nbsp;                validate(productForm);</b>
+<b class="fc">&nbsp;                Integer brandCategoryId = 0;</b>
+<b class="fc">&nbsp;                if (brandService.checkCombination(productForm.getBrand(), productForm.getCategory()) != null) {</b>
+<b class="fc">&nbsp;                    brandCategoryId = brandService.checkCombination(productForm.getBrand(), productForm.getCategory()).getId();</b>
+&nbsp;                }
+<b class="fc">&nbsp;                ProductPojo productPojo= convert(productForm,brandCategoryId);</b>
+<b class="fc">&nbsp;                service.checkAll(productPojo);</b>
+<b class="fc">&nbsp;                if (!checkDuplicateBarcode.add(productPojo.getBarcode())) {</b>
+<b class="fc">&nbsp;                    throw new ApiException(&quot;Duplicate entry for Barcode: &quot; + productPojo.getBarcode() );</b>
+&nbsp;                }
+<b class="fc">&nbsp;                productPojoList.add(productPojo);</b>
+<b class="fc">&nbsp;            } catch (ApiException e) {</b>
+<b class="fc">&nbsp;                errorPair = new Pair&lt;&gt;(i , e.getMessage());</b>
+<b class="fc">&nbsp;                errorList.add(errorPair);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(!errorList.isEmpty()){</b>
+<b class="fc">&nbsp;            throw new ApiException(errorList.toString());</b>
+&nbsp;        }else{
+<b class="fc">&nbsp;            service.bulkAdd(productPojoList);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
+</div>
+</body>
+</html>

@@ -9,11 +9,13 @@ import com.increff.pos.service.ProductService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.increff.pos.helper.helper.createBrand;
 import static com.increff.pos.helper.helper.createProduct;
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.fail;
 
 public class productDtoTest extends AbstractUnitTest {
 
@@ -74,7 +76,6 @@ public class productDtoTest extends AbstractUnitTest {
 
         String expectedBrand="brand";
         String expectedCategory="category";
-        String expectedBarcode="barcode2";
         String expectedName="name2";
         Double expectedMrp=20.0;
 
@@ -82,11 +83,53 @@ public class productDtoTest extends AbstractUnitTest {
 
         assertEquals(expectedBrand,data.getBrand());
         assertEquals(expectedCategory,data.getCategory());
-        assertEquals(expectedBarcode,data.getBarcode());
         assertEquals(expectedName,data.getName());
         assertEquals(expectedMrp,data.getMrp(),0.01);
     }
 
+    @Test
+    public void tesAddList() throws ApiException{
+        BrandForm brandForm= createBrand("brand","category");
+        brandDto.add(brandForm);
+        ProductForm f= createProduct("brand","category","barcode1",10.0,"name1");
+        ProductForm f1= createProduct("brand","category","barcode2",20.0,"name2");
+        List<ProductForm> formList= new ArrayList<>();
+        formList.add(f);
+        formList.add(f1);
+        dto.addList(formList);
 
+        List<ProductData> dataList= dto.getAll();
+        assertEquals(2,dataList.size());
+    }
+
+    @Test
+    public void tesAddEmptyList() throws ApiException{
+        List<ProductForm> formList= new ArrayList<>();
+        try{
+            dto.addList(formList);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e){
+            assertEquals("List size cannot be zero",e.getMessage());
+        }
+    }
+
+    @Test
+    public void tesAddListDuplicate() throws ApiException{
+        BrandForm brandForm= createBrand("brand","category");
+        brandDto.add(brandForm);
+        ProductForm f= createProduct("brand","category","barcode1",10.0,"name1");
+        ProductForm f1= createProduct("brand","category","barcode2",20.0,"name2");
+        ProductForm f2= createProduct("brand","category","barcode2",20.0,"name2");
+        List<ProductForm> formList= new ArrayList<>();
+        formList.add(f);
+        formList.add(f1);
+        formList.add(f2);
+        try{
+            dto.addList(formList);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e){
+            assertEquals("[2=Duplicate entry for Barcode: barcode2]",e.getMessage());
+        }
+    }
 
 }

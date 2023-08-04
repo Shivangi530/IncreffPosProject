@@ -1,10 +1,10 @@
 function getCreateOrderUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/createOrder";
+    return baseUrl + "/api/validateOrderItem";
 }
 function getCreateOrderUrl2() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/createOrder/all";
+    return baseUrl + "/api/validateOrderItem/all";
 }
 function getOrderUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -125,9 +125,8 @@ function updateCreateOrder(event) {
         objectToUpdate.barcode = json.barcode;
         objectToUpdate.quantity = json.quantity;
         objectToUpdate.sellingPrice = json.sellingPrice;
-        success("Object updated.")
-        console.log("Object with ID " + id + " is updated:");
-        console.log(objectToUpdate);
+
+
     } else {
         console.log("Object with ID " + id + " not found.");
     }
@@ -139,6 +138,9 @@ function updateCreateOrder(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
+            success("Object updated.");
+            console.log("Object with ID " + id + " is updated:");
+            console.log(objectToUpdate);
             getCreateOrderList();
         },
         error: handleAjaxError
@@ -287,18 +289,18 @@ function redirectToViewOrder() {
     window.location.href = getOrderUrl2();
 }
 function printOrder(id) {
+    updateOrder(id,"INVOICED");
     window.location.href = getInvoiceUrl() + "/" + id;
     console.log("in print order");
-    updateOrder(id);
 }
 
-function updateOrder(id) {
+function updateOrder(id,status) {
     var url = getOrderUrl() + "/" + id;
     console.log(url);
     $.ajax({
         url: url,
         type: 'PUT',
-        //        data: json,
+        data: status,
         headers: {
             'Content-Type': 'application/json'
         },

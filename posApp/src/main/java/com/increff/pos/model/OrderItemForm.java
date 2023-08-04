@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class OrderItemForm {
 
-	private int orderId;
-	private int productId;
-	private int quantity;
+	private Integer orderId;
+	private Integer productId;
+	private Integer quantity;
 	private double sellingPrice;
 	private String barcode;
 	private String productName;
-	private int inventoryQty;
+	private Integer inventoryQty;
 
 }

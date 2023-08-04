@@ -10,58 +10,59 @@
 
 <div class="container">
 
-    <h3>Products</h3>
 
     <!-- Top row with form-->
-    <div class="row">
-        <div class="col-12">
-            <form id="product-form">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputBarcode">Barcode</label>
-                            <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
+    <div th:if="${session.role eq 'SUPERVISOR'}">
+        <div class="row mt-5">
+            <div class="col-12">
+                <form id="product-form">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputBarcode">Barcode*</label>
+                                <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputName">Name*</label>
+                                <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter Name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputMrp">MRP*</label>
+                                <input type="number" inputmode="decimal" class="form-control" name="mrp" id="inputMrp" placeholder="Enter MRP">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputName">Name</label>
-                            <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter Name">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputMrp">MRP</label>
-                            <input type="number" inputmode="decimal" class="form-control" name="mrp" id="inputMrp" placeholder="Enter MRP">
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputBrand">Brand</label>
-                            <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputBrand">Brand*</label>
+                                <input type="text" class="form-control" name="brand" id="inputBrand" placeholder="Enter Brand">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputCategory">Category*</label>
+                                <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputCategory">Category</label>
-                            <input type="text" class="form-control" name="category" id="inputCategory" placeholder="Enter Category">
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" id="add-product">Add</button>
-                        &nbsp;
-                        <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
-                        &nbsp;
-                        <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" id="add-product">Add</button>
+                            &nbsp;
+                            <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+                            &nbsp;
+                            <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -114,19 +115,25 @@
 							</div>
 						</div>
                         <div class="form-group" hidden="hidden">
-                            <label for="inputBrandCategory" class="col-sm-2 col-form-label">Brand Category</label>
+                            <label for="inputBrand" class="col-sm-2 col-form-label">Brand*</label>
                             <div class="col-sm-10">
-                                <input id="inputBrandCategory" type="text" class="form-control" name="brand_category" placeholder="enter brand" >
+                                <input type="text" class="form-control" name="brand" placeholder="enter brand" >
+                            </div>
+                        </div>
+                        <div class="form-group" hidden="hidden">
+                            <label for="inputCategory" class="col-sm-2 col-form-label">Category*</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="category" placeholder="enter category" >
                             </div>
                         </div>
 						<div class="form-group" >
-							<label for="inputName" class="col-sm-2 col-form-label">Name</label>
+							<label for="inputName" class="col-sm-2 col-form-label">Name*</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" name="name" placeholder="enter name">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputMrp" class="col-sm-2 col-form-label">Mrp</label>
+							<label for="inputMrp" class="col-sm-2 col-form-label">Mrp*</label>
 							<div class="col-sm-10">
 								<input type="number" inputmode="decimal" class="form-control" name="mrp" placeholder="enter mrp">
 							</div>
@@ -143,11 +150,10 @@
     </div>
 
 
-    <!-- Product Edit Modal -->
+    <!-- Product Upload Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="upload-product-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h5 class="modal-title">Upload Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -156,14 +162,13 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="product-file">
-                        <input type="file" class="custom-file-input" id="productFile">
-                        <label class="custom-file-label" for="productFile" id="productFileName">Choose file</label>
+                    <div class="form-group">
+                        <input type="file" class="form-control-file" id="productFile">
                     </div>
                     <a th:href="@{/sample/product.tsv}" target="_blank">Download Sample</a>
                     <br>
-                    Rows: <span id="rowCount">0</span>,
-                    Processed: <span id="processCount">0</span>,
+                    Rows: <span id="rowCount">0</span>,<br>
+<!--                    Processed: <span id="processCount">0</span>,-->
                     Errors: <span id="errorCount">0</span>
                 </div>
 
@@ -180,8 +185,10 @@
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
-<script th:src="@{/static/product.js}"/>
+<script>
+	var userRole = "[[${session.role}]]"
 </script>
+<script th:src="@{/static/product.js}"/></script>
 
 </body>
 

@@ -4,6 +4,10 @@ function getProductUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
     return baseUrl + "/api/product";
 }
+function getProductListUrl() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    return baseUrl + "/api/product/list";
+}
 
 //BUTTON ACTIONS
 function addProduct(event) {
@@ -40,6 +44,10 @@ function addProduct(event) {
         warning("Mrp entered is too large");
         return false;
     }
+    if(parseFloat(json1.mrp)<=0){
+        warning("Mrp must be positive");
+        return false;
+    }
     console.log(json);
 
     $.ajax({
@@ -69,22 +77,6 @@ function updateProduct(event) {
     var $form = $("#product-edit-form");
     var json = toJson($form);
     var json1 = JSON.parse(json);
-    if (json1.brand == "") {
-        warning("Brand cannot be empty");
-        return false;
-    }
-    if(json1.barcode === ""){
-        warning("Barcode cannot be empty");
-        return false;
-    }
-    if(json1.brand === ""){
-        warning("Brand cannot be empty");
-        return false;
-    }
-    if(json1.category === ""){
-        warning("Category cannot be empty");
-        return false;
-    }
     if(json1.name === ""){
         warning("Name cannot be empty");
         return false;
@@ -97,6 +89,10 @@ function updateProduct(event) {
         warning("Mrp entered is too large");
         return false;
     }
+    if(parseFloat(json1.mrp)<=0){
+            warning("Mrp must be positive");
+            return false;
+    }
     console.log(json);
     $.ajax({
         url: url,
@@ -106,6 +102,7 @@ function updateProduct(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
+            success("Item Updated");
             getProductList();
         },
         error: handleAjaxError
@@ -141,6 +138,7 @@ function deleteProduct(id) {
 // FILE UPLOAD METHODS
 var fileData = [];
 var errorData = [];
+var fileErrorData=[];
 var processCount = 0;
 
 function processData() {
@@ -200,17 +198,9 @@ function checkHeaderMatch(uploadedHeaders) {
 function uploadRows() {
     //Update progress
     updateUploadDialog();
-    //If everything processed then return
-    if (processCount == fileData.length) {
-        return;
-    }
-
-    //Process next row
-    var row = fileData[processCount];
-    processCount++;
-
+    var row= fileData;
     var json = JSON.stringify(row);
-    var url = getProductUrl();
+    var url = getProductListUrl();
 
     //Make ajax call
     $.ajax({
@@ -225,15 +215,51 @@ function uploadRows() {
             refresh();
         },
         error: function(response) {
-            row.error = response.responseText
-            errorData.push(row);
-            uploadRows();
+            var resp = JSON.parse(response.responseText);
+            const inputString = resp.message;
+            // Remove the square brackets at the beginning and end of the string
+            const cleanedString = inputString.slice(1, -1);
+
+            // Split the string using the comma (,) as the delimiter
+            const errorArray = cleanedString.split(', ');
+
+            var i=0;
+            // Loop through the errorArray and format each error as a CSV row
+            errorArray.forEach((error) => {
+              const index = error.indexOf('=');
+              const errorCode = error.slice(0, index);
+              const errorMessage = error.slice(index + 1);
+              const errorRowIndex = parseInt(errorCode, 10);
+                if (!isNaN(errorRowIndex) && errorRowIndex >= 0 && errorRowIndex < fileData.length) {
+                  if (!errorData[i]) {
+                    errorData[i] = Object.assign({}, fileData[errorRowIndex], { error: errorMessage });
+                    i++;
+                  }
+                }
+//              errorData.push([ errorMessage]);
+            });
+
+//            for (var i = 0; i < fileData.length; i++) {
+//              var row = fileData[i];
+//              var error = (i < errorData.length) ? errorData[i][0] : '';
+//              var combinedRow = Object.assign({}, row, { error: error });
+//              fileErrorData.push(combinedRow);
+//            }
+            updateUploadDialog();
+            $("#download-errors").prop('disabled', false);
+            danger("Invalid file: File has errors");
+
         }
     });
-    $("#download-errors").prop('disabled', false);
+//    $("#download-errors").prop('disabled', false);
 }
 
 function downloadErrors() {
+    if (errorData.length === 0) {
+        $("#download-errors").prop('disabled', true);
+        warning("No errors to download");
+        return;
+    }
     writeFileData(errorData);
 }
 
@@ -283,6 +309,7 @@ function resetUploadDialog() {
     processCount = 0;
     fileData = [];
     errorData = [];
+    fileErrorData=[];
     //Update counts
     updateUploadDialog();
 }
@@ -337,8 +364,12 @@ function init() {
     getProductList();
     table = $('#product-table').DataTable({
       columnDefs: [
-        { targets: [6], orderable: false },
-        { targets: [0, 1, 2, 3,4,5,6], className: "text-center" }
+        { targets: [0, 1, 2, 3,4,5,6], className: "text-center" },
+        {
+          targets: 6,
+          orderable: false,
+          visible: userRole === 'SUPERVISOR'
+        }
       ],
       searching: false,
       info: true,
@@ -352,4 +383,3 @@ function init() {
 }
 
 $(document).ready(init);
-//$(document).ready(getProductList);

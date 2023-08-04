@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > reportsDto</title>
+  <title>Coverage Report > inventoryDtoTest</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,15 +21,12 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.increff.pos.dto</a>
 </div>
 
-<h1>Coverage Summary for Class: reportsDto (com.increff.pos.dto)</h1>
+<h1>Coverage Summary for Class: inventoryDtoTest (com.increff.pos.dto)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
-<th class="coverageStat 
-">
-  Class, %
-</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -40,33 +37,46 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">reportsDto</td>
+  <td class="name">inventoryDtoTest</td>
 <td class="coverageStat">
   <span class="percent">
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (7/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    9.1%
+    91.2%
   </span>
   <span class="absValue">
-    (1/11)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    1.3%
-  </span>
-  <span class="absValue">
-    (1/78)
+    (62/68)
   </span>
 </td>
 </tr>
-
+  <tr>
+    <td class="name">inventoryDtoTest$$EnhancerBySpringCGLIB$$e9badfd</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.2%
+  </span>
+  <span class="absValue">
+    (62/68)
+  </span>
+</td>
+</tr>
 </table>
 
 <br/>
@@ -75,163 +85,137 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.pos.dto;
-&nbsp;import com.increff.pos.dao.BrandDao;
-&nbsp;import com.increff.pos.dao.OrderDao;
-&nbsp;import com.increff.pos.dao.ProductDao;
-&nbsp;import com.increff.pos.model.DayOnDaySalesReportData;
-&nbsp;import com.increff.pos.model.InventoryData;
-&nbsp;import com.increff.pos.model.InventoryReportData;
-&nbsp;import com.increff.pos.model.SalesReportData;
-&nbsp;import com.increff.pos.pojo.DayOnDaySalesPojo;
-&nbsp;import com.increff.pos.pojo.InventoryPojo;
-&nbsp;import com.increff.pos.pojo.OrderItemPojo;
-&nbsp;import com.increff.pos.pojo.OrderPojo;
-&nbsp;import com.increff.pos.service.*;
-&nbsp;import org.springframework.beans.factory.annotation.Autowired;
-&nbsp;import org.springframework.stereotype.Component;
-&nbsp;import org.springframework.web.bind.annotation.RequestBody;
 &nbsp;
-&nbsp;import java.time.LocalDate;
-&nbsp;import java.time.LocalDateTime;
-&nbsp;import java.time.LocalTime;
+&nbsp;import com.increff.pos.model.*;
+&nbsp;import com.increff.pos.service.AbstractUnitTest;
+&nbsp;import com.increff.pos.service.ApiException;
+&nbsp;import com.increff.pos.service.InventoryService;
+&nbsp;import com.increff.pos.service.ProductService;
+&nbsp;import org.junit.Assert;
+&nbsp;import org.junit.Test;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;
 &nbsp;import java.util.ArrayList;
 &nbsp;import java.util.List;
 &nbsp;
-&nbsp;@Component
-<b class="fc">&nbsp;public class reportsDto {</b>
+&nbsp;import static com.increff.pos.helper.helper.*;
+&nbsp;import static junit.framework.TestCase.assertEquals;
+&nbsp;
+<b class="fc">&nbsp;public class inventoryDtoTest extends AbstractUnitTest {</b>
+&nbsp;
 &nbsp;    @Autowired
-&nbsp;    private OrderItemService service;
+&nbsp;    private brandDto brandDto;
 &nbsp;    @Autowired
-&nbsp;    private OrderService orderService;
+&nbsp;    private productDto productDto;
 &nbsp;    @Autowired
-&nbsp;    private BrandService brandService;
+&nbsp;    private inventoryDto dto;
 &nbsp;    @Autowired
 &nbsp;    private ProductService productService;
 &nbsp;    @Autowired
-&nbsp;    private DayOnDaySalesService dailySalesService;
-&nbsp;    @Autowired
-&nbsp;    private InventoryService inventoryService;
+&nbsp;    private InventoryService service;
 &nbsp;
-&nbsp;    @Autowired
-&nbsp;    private BrandDao brandDao;
-&nbsp;    @Autowired
-&nbsp;    private OrderDao orderDao;
-&nbsp;    @Autowired
-&nbsp;    private ProductDao productDao;
+&nbsp;    @Test
+&nbsp;    public void testUpdate() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm productForm = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(productForm);</b>
 &nbsp;
-&nbsp;    //      INVENTORY REPORT
-&nbsp;    public List&lt;InventoryReportData&gt; getAllInventory() throws ApiException{
-<b class="nc">&nbsp;        List&lt;InventoryPojo&gt; list = inventoryService.getAll();</b>
-<b class="nc">&nbsp;        List&lt;InventoryReportData&gt; list2 = new ArrayList&lt;InventoryReportData&gt;();</b>
-<b class="nc">&nbsp;        for (InventoryPojo p : list) {</b>
-<b class="nc">&nbsp;            String barcode=productService.selectBarcode(p.getId());</b>
-<b class="nc">&nbsp;            int brandId=productService.get(p.getId()).getBrand_category();</b>
-<b class="nc">&nbsp;            String brand= brandService.get(brandId).getBrand();</b>
-<b class="nc">&nbsp;            String category= brandService.get(brandId).getCategory();</b>
-<b class="nc">&nbsp;            list2.add(convert(p,barcode,brand,category));</b>
+<b class="fc">&nbsp;        InventoryForm f = createInventory(&quot;barcode&quot;, 30);</b>
+<b class="fc">&nbsp;        int id = productService.getIdByBarcode(&quot;barcode&quot;);</b>
+<b class="fc">&nbsp;        dto.update(id, f);</b>
+<b class="fc">&nbsp;        int expectedQuantity = 30;</b>
+<b class="fc">&nbsp;        assertEquals( expectedQuantity,(int) dto.get(id).getQuantity());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testGetAll() throws ApiException{
+<b class="fc">&nbsp;        BrandForm brandForm= createBrand(&quot;brand&quot;,&quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm f1= createProduct(&quot;brand&quot;,&quot;category&quot;,&quot;barcode1&quot;,10.0,&quot;name1&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f1);</b>
+<b class="fc">&nbsp;        ProductForm f2= createProduct(&quot;brand&quot;,&quot;category&quot;,&quot;barcode2&quot;,20.0,&quot;name2&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(f2);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;InventoryData&gt; list= dto.getAll();</b>
+<b class="fc">&nbsp;        assertEquals(2,list.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testInvalidQuantityUpdate() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm productForm = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(productForm);</b>
+&nbsp;
+<b class="fc">&nbsp;        InventoryForm f = createInventory(&quot;barcode&quot;, -1);</b>
+<b class="fc">&nbsp;        int id = productService.getIdByBarcode(&quot;barcode&quot;);</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.update(id, f);</b>
+<b class="nc">&nbsp;            Assert.fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;Quantity cannot be negative&quot;,e.getMessage());</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return list2;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    //      SALES REPORT
-&nbsp;    int findBrandCategory(List&lt;SalesReportData&gt; list,SalesReportData s){
-<b class="nc">&nbsp;        for(SalesReportData e: list){</b>
-<b class="nc">&nbsp;            if(e.getBrand().equals(s.getBrand()) &amp;&amp; e.getCategory().equals(s.getCategory())){</b>
-<b class="nc">&nbsp;                System.out.println(&quot;found &quot;+ e.getId());</b>
-<b class="nc">&nbsp;                return list.indexOf(e);</b>
-&nbsp;            }
-<b class="nc">&nbsp;        }return -1;</b>
+&nbsp;    @Test
+&nbsp;    public void testUpdateList() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm productForm1 = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode1&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(productForm1);</b>
+<b class="fc">&nbsp;        ProductForm productForm2 = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode2&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(productForm2);</b>
+&nbsp;
+<b class="fc">&nbsp;        InventoryForm f1 = createInventory(&quot;barcode1&quot;, 30);</b>
+<b class="fc">&nbsp;        InventoryForm f2 = createInventory(&quot;barcode2&quot;, 40);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;InventoryForm&gt; list= new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        list.add(f1);</b>
+<b class="fc">&nbsp;        list.add(f2);</b>
+&nbsp;
+<b class="fc">&nbsp;        dto.updateList(list);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;InventoryData&gt; listData= dto.getAll();</b>
+<b class="fc">&nbsp;        assertEquals( 30,(int) listData.get(0).getQuantity());</b>
+<b class="fc">&nbsp;        assertEquals( 40,(int) listData.get(1).getQuantity());</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public List&lt;SalesReportData&gt; getReleventAll(LocalDate startDate1,LocalDate endDate1){//,String brand,String category) {
-<b class="nc">&nbsp;        System.out.println(&quot;GetRelevent in api!!!!!!!!!!!!!!!!!!!&quot;);</b>
-<b class="nc">&nbsp;        List&lt;SalesReportData&gt; list = new ArrayList&lt;SalesReportData&gt;();</b>
-<b class="nc">&nbsp;        LocalDateTime startDate = startDate1.atStartOfDay();</b>
-<b class="nc">&nbsp;        LocalDateTime endDate = endDate1.atTime(LocalTime.MAX);</b>
-<b class="nc">&nbsp;        List&lt;OrderPojo&gt; list1 = orderService.getOrderDates(startDate,endDate);</b>
-<b class="nc">&nbsp;        List&lt;OrderItemPojo&gt; orderList= service.getRelevantAll(list1);</b>
-<b class="nc">&nbsp;        for (OrderItemPojo p : orderList) {</b>
-<b class="nc">&nbsp;            SalesReportData s= convert(p);</b>
-<b class="nc">&nbsp;            int i=findBrandCategory(list,s);</b>
-<b class="nc">&nbsp;            if(i==-1) {</b>
-<b class="nc">&nbsp;                list.add(convert(p));</b>
-&nbsp;            }
-&nbsp;            else{
-<b class="nc">&nbsp;                list.set(i,convert3(list.get(i),p));</b>
-&nbsp;            }
+&nbsp;    @Test
+&nbsp;    public void testUpdateListInvalidBarcode() throws ApiException {
+<b class="fc">&nbsp;        BrandForm brandForm = createBrand(&quot;brand&quot;, &quot;category&quot;);</b>
+<b class="fc">&nbsp;        brandDto.add(brandForm);</b>
+<b class="fc">&nbsp;        ProductForm productForm1 = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode1&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(productForm1);</b>
+<b class="fc">&nbsp;        ProductForm productForm2 = createProduct(&quot;brand&quot;, &quot;category&quot;, &quot;barcode2&quot;, 10.0, &quot;name&quot;);</b>
+<b class="fc">&nbsp;        productDto.add(productForm2);</b>
+&nbsp;
+<b class="fc">&nbsp;        InventoryForm f1 = createInventory(&quot;barcode1&quot;, 30);</b>
+<b class="fc">&nbsp;        InventoryForm f2 = createInventory(&quot;barcode2&quot;, 40);</b>
+<b class="fc">&nbsp;        InventoryForm f3 = createInventory(&quot;barcode&quot;, 40);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;InventoryForm&gt; list= new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        list.add(f1);</b>
+<b class="fc">&nbsp;        list.add(f2);</b>
+<b class="fc">&nbsp;        list.add(f3);</b>
+&nbsp;
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.updateList(list);</b>
+<b class="nc">&nbsp;            Assert.fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;[2=Barcode doesn&#39;t exist]&quot;,e.getMessage());</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return list;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public List&lt;SalesReportData&gt; getAll() {
-<b class="nc">&nbsp;        List&lt;OrderItemPojo&gt; orderList = service.getAll();</b>
-<b class="nc">&nbsp;        List&lt;SalesReportData&gt; list = new ArrayList&lt;SalesReportData&gt;();</b>
-<b class="nc">&nbsp;        for (OrderItemPojo p : orderList) {</b>
-<b class="nc">&nbsp;            SalesReportData s= convert(p);</b>
-<b class="nc">&nbsp;            int i=findBrandCategory(list,s);</b>
-<b class="nc">&nbsp;            if(i==-1) {</b>
-<b class="nc">&nbsp;                list.add(convert(p));</b>
-&nbsp;            }
-&nbsp;            else{
-<b class="nc">&nbsp;                list.set(i,convert3(list.get(i),p));</b>
-&nbsp;            }
+&nbsp;    @Test
+&nbsp;    public void testUpdateEmptyList() {
+<b class="fc">&nbsp;        List&lt;InventoryForm&gt; list= new ArrayList&lt;&gt;();</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            dto.updateList(list);</b>
+<b class="nc">&nbsp;            Assert.fail(&quot;Expected ApiException was not thrown&quot;);</b>
+<b class="fc">&nbsp;        } catch (ApiException e){</b>
+<b class="fc">&nbsp;            assertEquals(&quot;List size cannot be zero&quot;,e.getMessage());</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return list;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public List&lt;SalesReportData&gt; add(@RequestBody SalesReportData form) throws ApiException {
-<b class="nc">&nbsp;        LocalDate startDate= form.getStartDate();</b>
-<b class="nc">&nbsp;        LocalDate endDate= form.getEndDate();</b>
-<b class="nc">&nbsp;        String brand= form.getBrand();</b>
-<b class="nc">&nbsp;        String category= form.getCategory();</b>
-<b class="nc">&nbsp;        System.out.println(&quot;startDate= &quot;+startDate+&quot; + endDate= &quot; + endDate);</b>
-<b class="nc">&nbsp;        List&lt;SalesReportData&gt; l=getReleventAll(startDate,endDate);//,brand,category);</b>
-<b class="nc">&nbsp;        return l;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    private SalesReportData convert(OrderItemPojo p) {
-<b class="nc">&nbsp;        SalesReportData d = new SalesReportData();</b>
-<b class="nc">&nbsp;        int brand_category=productDao.select(p.getProductId()).getBrand_category();</b>
-<b class="nc">&nbsp;        d.setId(p.getId());</b>
-<b class="nc">&nbsp;        d.setDate((orderDao.select(p.getOrderId()).getDateTime()).toLocalDate());</b>
-<b class="nc">&nbsp;        d.setBrand(brandDao.select(brand_category).getBrand());</b>
-<b class="nc">&nbsp;        d.setCategory(brandDao.select(brand_category).getCategory());</b>
-<b class="nc">&nbsp;        d.setQuantity(p.getQuantity());</b>
-<b class="nc">&nbsp;        d.setRevenue(p.getSellingPrice()*p.getQuantity());</b>
-<b class="nc">&nbsp;        return d;</b>
-&nbsp;    }
-&nbsp;    private SalesReportData convert3(SalesReportData d,OrderItemPojo p) {
-<b class="nc">&nbsp;        d.setQuantity(d.getQuantity()+p.getQuantity());</b>
-<b class="nc">&nbsp;        d.setRevenue(d.getRevenue()+(p.getSellingPrice()*p.getQuantity()));</b>
-<b class="nc">&nbsp;        return d;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    //      DAILY SALES REPORT
-&nbsp;    public List&lt;DayOnDaySalesReportData&gt; getAllDailySales() {
-<b class="nc">&nbsp;        List&lt;DayOnDaySalesReportData&gt; list2 = new ArrayList&lt;DayOnDaySalesReportData&gt;();</b>
-<b class="nc">&nbsp;        List&lt;DayOnDaySalesPojo&gt; list = dailySalesService.getAll();</b>
-<b class="nc">&nbsp;        for (DayOnDaySalesPojo p : list) {</b>
-<b class="nc">&nbsp;            list2.add(convert(p));</b>
-<b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return list2;</b>
-&nbsp;    }
-&nbsp;    private static DayOnDaySalesReportData convert(DayOnDaySalesPojo p) {
-<b class="nc">&nbsp;        DayOnDaySalesReportData d = new DayOnDaySalesReportData();</b>
-<b class="nc">&nbsp;        d.setRevenue(p.getRevenue());</b>
-<b class="nc">&nbsp;        d.setOrderCount(p.getOrderCount());</b>
-<b class="nc">&nbsp;        d.setDate(p.getDate());</b>
-<b class="nc">&nbsp;        d.setItemCount(p.getItemCount());</b>
-<b class="nc">&nbsp;        return d;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    private InventoryReportData convert(InventoryPojo p,String barcode,String brand,String category) throws ApiException{
-<b class="nc">&nbsp;        InventoryReportData d = new InventoryReportData();</b>
-<b class="nc">&nbsp;        d.setBarcode(barcode);</b>
-<b class="nc">&nbsp;        d.setQuantity(p.getQuantity());</b>
-<b class="nc">&nbsp;        d.setId(p.getId());</b>
-<b class="nc">&nbsp;        d.setBrand(brand);</b>
-<b class="nc">&nbsp;        d.setCategory(category);</b>
-<b class="nc">&nbsp;        return d;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -257,7 +241,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-24 15:03</div>
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
 </div>
 </body>
 </html>

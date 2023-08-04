@@ -12,7 +12,7 @@ import java.util.List;
 
 @Api
 @RestController
-public class OrderItemApiController {
+public class OrderItemController {
 
 	@Autowired
 	private orderItemDto dto;
@@ -25,8 +25,8 @@ public class OrderItemApiController {
 
 	@ApiOperation(value = "Delete an orderItem")
 	@RequestMapping(path = "/api/orderItem/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int id,@RequestBody OrderItemForm form) throws ApiException {
-		dto.delete(id,form);
+	public void delete(@PathVariable int id) throws ApiException {
+		dto.delete(id);
 	}
 
 	@ApiOperation(value = "Get an orderItem by ID")

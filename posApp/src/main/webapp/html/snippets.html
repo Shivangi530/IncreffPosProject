@@ -66,9 +66,15 @@
             <li class="nav-item" th:classappend="${#request.getServletPath() == '/ui/order' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/ui/order}" data-page="order">View Order</a>
             </li>
+            <div th:if="${session.role eq 'SUPERVISOR'}">
+                <li class="nav-item" th:classappend="${#request.getServletPath() == '/ui/admin' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/ui/admin}" data-page="admin">Admin</a>
+                </li>
+            </div>
+
             <!-- Example single danger button -->
             <div class="btn-group">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn dropdown-toggle" th:classappend="${#strings.contains(#request.getServletPath(), '/ui/report/') ? 'active' : ''}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Reports
                 </button>
                 <div class="dropdown-menu">
@@ -123,6 +129,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="navbar-text">
                 [[${info.getEmail()}]]
+                [[${user.getRole()}]]
                 &nbsp;&gt;&nbsp;
             </li>
             <li class="nav-item">

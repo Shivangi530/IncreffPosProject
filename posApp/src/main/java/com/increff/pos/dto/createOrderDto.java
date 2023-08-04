@@ -15,7 +15,8 @@ public class createOrderDto {
     private ProductService productService;
     @Autowired
     private InventoryService inventoryService;
-    public void add(CreateOrderForm f) throws ApiException {
+
+    public void check(CreateOrderForm f) throws ApiException {
         if (f == null) {
             throw new ApiException("Cannot place empty order.");
         }
@@ -24,20 +25,12 @@ public class createOrderDto {
         double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);
     }
     public void checkAll(List<CreateOrderForm> list) throws ApiException {
-        for(CreateOrderForm f:list){
-            if (f == null) {
-                throw new ApiException("Cannot place empty order.");
-            }
-            int productId=productService.getIdByBarcode(f.getBarcode());
-            int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);
-            double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);
+        if (list.size() == 0) {
+            throw new ApiException("Cannot place empty order.");
         }
-    }
-
-    public void update(CreateOrderForm f) throws ApiException {
-        int productId=productService.getIdByBarcode(f.getBarcode());
-        int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);
-        double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);
+        for(CreateOrderForm f:list) {
+            check(f);
+        }
     }
 
 }

@@ -18,22 +18,8 @@ public class BrandService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(BrandPojo p) throws ApiException {
-		if(StringUtil.isEmpty(p.getBrand())) {
-			throw new ApiException("Brand cannot be empty");
-		}
-		if(StringUtil.isEmpty(p.getCategory())) {
-			throw new ApiException("Category cannot be empty");
-		}
-		if(dao.checkCombination(p.getBrand(),p.getCategory())!=null) {
-			throw new ApiException("Brand:"+p.getBrand()+" and Category:"+p.getCategory()+" combination already exists");
-		}
+		checkAll(p.getBrand(),p.getCategory());
 		dao.insert(p);
-	}
-
-	//TODO: remove the get function
-	@Transactional(rollbackOn = ApiException.class)
-	public BrandPojo get(int id) throws ApiException {
-		return getCheck(id);
 	}
 
 	@Transactional
@@ -43,26 +29,16 @@ public class BrandService {
 
 
 	@Transactional(rollbackOn  = ApiException.class)
-	public void update(int id, BrandPojo p) throws ApiException { //todo: dont use pojo for updating
-		if(StringUtil.isEmpty(p.getBrand())) {
-			throw new ApiException("Brand cannot be empty");
-		}
-		if(StringUtil.isEmpty(p.getCategory())) {
-			throw new ApiException("Category cannot be empty");
-		}
-		if(dao.checkCombination(p.getBrand(),p.getCategory())!=null) {
-			if (id != checkCombination(p.getBrand(),p.getCategory()).getId()) {
-				throw new ApiException("Brand:"+p.getBrand()+" and Category:"+p.getCategory()+" combination already exists");
-			}
-		}
+	public void update(Integer id, String brand, String category) throws ApiException { //todo: don't use pojo for updating
+		checkAll(brand,category);
 		BrandPojo existingPojo = getCheck(id);
-		existingPojo.setCategory(p.getCategory());
-		existingPojo.setBrand(p.getBrand());
+		existingPojo.setCategory(category);
+		existingPojo.setBrand(brand);
 		dao.update(existingPojo);
 	}
 
 	@Transactional
-	public BrandPojo getCheck(int id) throws ApiException {
+	public BrandPojo getCheck(Integer id) throws ApiException {
 		BrandPojo p = dao.select(id);
 		if (p == null) {
 			throw new ApiException("Brand with given ID does not exit, id: " + id);
@@ -70,14 +46,31 @@ public class BrandService {
 		return p;
 	}
 
-	//Selects brandPojo without throwing any ApiException
-	@Transactional
-	public BrandPojo getValueBrandCategory(int id){
+	@Transactional(rollbackOn = ApiException.class)
+	public void bulkAdd(List<BrandPojo> list) throws ApiException {
+		for (BrandPojo p:list) {
+			add(p);
+		}
+	}
+
+	public BrandPojo getValueBrandCategory(Integer id){
 		return dao.select(id);
 	}
 
 	public BrandPojo checkCombination(String brand,String category) {
 		return dao.checkCombination(brand,category);
 	}
+
+	public void checkAll(String brand,String category) throws ApiException{
+		if(StringUtil.isEmpty(brand)) {
+			throw new ApiException("Brand cannot be empty");
+		}
+		if(StringUtil.isEmpty(category)) {
+			throw new ApiException("Category cannot be empty");
+		}
+		if(dao.checkCombination(brand,category)!=null) {
+			throw new ApiException("Brand:"+brand+" and Category:"+category+" combination already exists");
+		}
+	}
 }
-// todo: use integer instead of int
+

@@ -20,12 +20,6 @@ public class OrderItemDao extends AbstractDao {
 	private static String SELECT_ALL = "select p from OrderItemPojo p";
 	private static String SELECT_RELEVANT = "select p from OrderItemPojo p where orderId=:orderId";
 
-	public List<OrderItemPojo> selectByOrderId(Integer orderId) {
-		TypedQuery<OrderItemPojo> query = getQuery(SELECT_RELEVANT, OrderItemPojo.class);
-		query.setParameter("orderId", orderId);
-		return query.getResultList();
-	}
-
 	@PersistenceContext
 	private EntityManager em;
 

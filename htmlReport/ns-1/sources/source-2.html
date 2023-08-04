@@ -56,13 +56,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$2ac61d01</td>
+    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$4c1c11a6</td>
   </tr>
   <tr>
-    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$2ac61d01$$FastClassBySpringCGLIB$$a250eb52</td>
+    <td class="name">BrandDao$$EnhancerBySpringCGLIB$$4c1c11a6$$FastClassBySpringCGLIB$$f5f8f484</td>
   </tr>
   <tr>
-    <td class="name">BrandDao$$FastClassBySpringCGLIB$$f3bfcdfd</td>
+    <td class="name">BrandDao$$FastClassBySpringCGLIB$$8104a3eb</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -104,56 +104,42 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;@Repository
 <b class="fc">&nbsp;public class BrandDao extends AbstractDao {</b>
-&nbsp;
-<b class="fc">&nbsp;	private static String DELETE_ID = &quot;delete from BrandPojo p where id=:id&quot;;</b>
-<b class="fc">&nbsp;	private static String SELECT_ID = &quot;select p from BrandPojo p where id=:id&quot;;</b>
+&nbsp;	private static String SELECT_ID = &quot;select p from BrandPojo p where id=:id&quot;;
 <b class="fc">&nbsp;	private static String SELECT_ALL = &quot;select p from BrandPojo p order by id&quot;;</b>
 <b class="fc">&nbsp;	private static String checkCombination = &quot;select p from BrandPojo p where brand=:brand and category=:category&quot;;</b>
-&nbsp;
-&nbsp;	@PersistenceContext
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;	@PersistenceContext</b>
 &nbsp;	private EntityManager em;
 &nbsp;
 &nbsp;	@Transactional
 &nbsp;	public void insert(BrandPojo p) {
-<b class="fc">&nbsp;		em.persist(p);</b>
+&nbsp;		em.persist(p);
 &nbsp;	}
-&nbsp;
-&nbsp;	public int delete(int id) {
-<b class="nc">&nbsp;		Query query = em.createQuery(DELETE_ID);</b>
-<b class="nc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
-<b class="nc">&nbsp;		return query.executeUpdate();</b>
-&nbsp;	}
-&nbsp;
-&nbsp;	public BrandPojo select(int id) {
-<b class="fc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ID, BrandPojo.class);</b>
-<b class="fc">&nbsp;		query.setParameter(&quot;id&quot;, id);</b>
-<b class="fc">&nbsp;		return getSingle(query);</b>
-&nbsp;	}
-&nbsp;
+<b class="fc">&nbsp;</b>
+&nbsp;	public BrandPojo select(Integer id) {
+&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ID, BrandPojo.class);
+&nbsp;		query.setParameter(&quot;id&quot;, id);
+<b class="nc">&nbsp;		return getSingle(query);</b>
+<b class="nc">&nbsp;	}</b>
+<b class="nc">&nbsp;</b>
 &nbsp;	public BrandPojo checkCombination(String brand,String category) {
-<b class="fc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(checkCombination, BrandPojo.class);</b>
-<b class="fc">&nbsp;		query.setParameter(&quot;brand&quot;, brand);</b>
+&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(checkCombination, BrandPojo.class);
+&nbsp;		query.setParameter(&quot;brand&quot;, brand);
 <b class="fc">&nbsp;		query.setParameter(&quot;category&quot;, category);</b>
 <b class="fc">&nbsp;		return getSingle(query);</b>
-&nbsp;	}
-&nbsp;	public BrandPojo checkCategory(int id) {
-<b class="nc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ID, BrandPojo.class);</b>
-<b class="nc">&nbsp;		query.setParameter(&quot;id&quot;,id);</b>
-<b class="nc">&nbsp;		return getSingle(query);</b>
-&nbsp;	}
-&nbsp;
-&nbsp;
-&nbsp;	public List&lt;BrandPojo&gt; selectAll() {
-<b class="fc">&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</b>
-<b class="fc">&nbsp;		return query.getResultList();</b>
-&nbsp;	}
-&nbsp;
-&nbsp;	public void update(BrandPojo p) {
 <b class="fc">&nbsp;	}</b>
 &nbsp;
+&nbsp;	public List&lt;BrandPojo&gt; selectAll() {
+&nbsp;		TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);
+<b class="fc">&nbsp;		return query.getResultList();</b>
+<b class="fc">&nbsp;	}</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;	public void update(BrandPojo p) {</b>
+&nbsp;	}
 &nbsp;
-&nbsp;
-&nbsp;}
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;}</b>
 </code>
 </pre>
 </div>
@@ -177,7 +163,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-07-24 15:03</div>
+    <div style="float:right;">generated on 2023-08-02 20:27</div>
 </div>
 </body>
 </html>

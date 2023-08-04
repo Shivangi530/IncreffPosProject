@@ -22,6 +22,13 @@ body {
   color: #000;
 }
 
+.navbar-nav .btn.dropdown-toggle {
+    color: grey;
+}
+
+.navbar-nav .btn.dropdown-toggle.active {
+    color: #000;
+}
 /* Styles for the active link inside the dropdown menu */
 .dropdown-item[data-page].active {
   background-color: #007bff; /* Change this to the desired highlight color */

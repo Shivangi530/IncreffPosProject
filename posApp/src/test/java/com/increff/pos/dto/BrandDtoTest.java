@@ -9,11 +9,13 @@ import com.increff.pos.service.BrandService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.fail;
 
-public class BrandDtoTest2 extends AbstractUnitTest {
+public class BrandDtoTest extends AbstractUnitTest {
 
     @Autowired
     private brandDto dto;
@@ -35,23 +37,34 @@ public class BrandDtoTest2 extends AbstractUnitTest {
         assertEquals(expectedCategory,p.getCategory());
     }
 
-    @Test(expected = ApiException.class) //todo: use try, catch, fail in api exceptions
+    @Test
     public void testEmptyBrandAdd() throws ApiException{
         BrandForm f= new BrandForm();
         f.setBrand("");
         f.setCategory("Milk");
-        dto.add(f);
+        try {
+            dto.add(f);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e) {
+            assertEquals( "Brand cannot be empty", e.getMessage());
+        }
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testEmptyCategoryAdd() throws ApiException{
         BrandForm f= new BrandForm();
         f.setBrand("Amul");
         f.setCategory("");
-        dto.add(f);
+        try {
+            dto.add(f);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e) {
+            // ApiException is caught as expected
+            assertEquals("Category cannot be empty", e.getMessage());
+        }
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testDuplicateBrandCategoryAdd() throws ApiException{
         BrandForm f= new BrandForm();
         f.setBrand("Amul");
@@ -61,7 +74,13 @@ public class BrandDtoTest2 extends AbstractUnitTest {
         BrandForm f1= new BrandForm();
         f1.setBrand("Amul");
         f1.setCategory("Milk");
-        dto.add(f1);
+        try {
+            dto.add(f1);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e) {
+            // ApiException is caught as expected
+            assertEquals("Brand:amul and Category:milk combination already exists", e.getMessage());
+        }
     }
 
     @Test
@@ -81,9 +100,15 @@ public class BrandDtoTest2 extends AbstractUnitTest {
         assertEquals(expectedCategory,p.getCategory());
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testInvalidGetBrand() throws ApiException{
-        dto.getBrand(0);
+        try {
+            dto.getBrand(0);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e) {
+            // ApiException is caught as expected
+            assertEquals("Brand with given ID does not exit, id: 0", e.getMessage());
+        }
     }
 
     @Test
@@ -122,7 +147,7 @@ public class BrandDtoTest2 extends AbstractUnitTest {
         assertEquals(expectedCategory,p.getCategory());
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testEmptyBrandUpdate() throws ApiException {
         BrandForm f = new BrandForm();
         f.setBrand("Amul");
@@ -133,10 +158,16 @@ public class BrandDtoTest2 extends AbstractUnitTest {
 
         f.setBrand("");
         f.setCategory("Chocolate");
-        dto.update(p.getId(), f);
+        try{
+            dto.update(p.getId(), f);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e){
+            assertEquals("Brand cannot be empty",e.getMessage());
+        }
+
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testEmptyCategoryUpdate() throws ApiException {
         BrandForm f = new BrandForm();
         f.setBrand("Amul");
@@ -147,10 +178,15 @@ public class BrandDtoTest2 extends AbstractUnitTest {
 
         f.setBrand("Dairy Milk");
         f.setCategory("");
-        dto.update(p.getId(), f);
+        try{
+            dto.update(p.getId(), f);
+            fail("Expected ApiException was not thrown");
+        }catch (ApiException e){
+            assertEquals("Category cannot be empty",e.getMessage());
+        }
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void testDuplicateBrandCategoryUpdate() throws ApiException {
         BrandForm f = new BrandForm();
         f.setBrand("Amul");
@@ -166,7 +202,69 @@ public class BrandDtoTest2 extends AbstractUnitTest {
 
         f.setBrand("Dairy Milk");
         f.setCategory("Chocolate");
-        dto.update(p.getId(), f);
+
+        try{
+            dto.update(p.getId(), f);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e){
+            assertEquals("Brand:dairy milk and Category:chocolate combination already exists",e.getMessage());
+        }
     }
 
+    @Test
+    public void testAddList() throws ApiException{
+        BrandForm f= new BrandForm();
+        f.setBrand("Amul");
+        f.setCategory("Milk");
+
+        BrandForm f1= new BrandForm();
+        f1.setBrand("Mother Dairy");
+        f1.setCategory("Milk");
+
+        List<BrandForm> list= new ArrayList<>();
+        list.add(f);
+        list.add(f1);
+        dto.addList(list);
+
+        List<BrandData> p= dto.getAll();
+        assertEquals(2,p.size());
+    }
+
+    @Test
+    public void testAddEmptyList() throws ApiException{
+        List<BrandForm> list= new ArrayList<>();
+        try{
+            dto.addList(list);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e){
+            assertEquals("List size cannot be zero",e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAddListDuplicates() throws ApiException{
+        BrandForm f= new BrandForm();
+        f.setBrand("Amul");
+        f.setCategory("Milk");
+
+        BrandForm f1= new BrandForm();
+        f1.setBrand("Mother Dairy");
+        f1.setCategory("Milk");
+
+        BrandForm f2= new BrandForm();
+        f2.setBrand("Mother Dairy");
+        f2.setCategory("Milk");
+
+        List<BrandForm> list= new ArrayList<>();
+        list.add(f);
+        list.add(f1);
+        list.add(f2);
+
+        try{
+            dto.addList(list);
+            fail("Expected ApiException was not thrown");
+        } catch (ApiException e){
+            assertEquals("[2=Duplicate entry for Brand: mother dairy Category: milk]",e.getMessage());
+        }
+    }
 }

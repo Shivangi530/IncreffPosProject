@@ -1,5 +1,6 @@
 package com.increff.pos.controller;
 
+import com.increff.pos.model.EnumData;
 import com.increff.pos.model.UserData;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Api
 @RestController
-public class AdminApiController {
+public class AdminController {
 	@Autowired
 	private UserService service;
 
@@ -54,7 +55,7 @@ public class AdminApiController {
 	private static UserPojo convert(UserForm f) {
 		UserPojo p = new UserPojo();
 		p.setEmail(f.getEmail());
-		p.setRole(UserPojo.Role.valueOf(f.getRole()));
+		p.setRole(EnumData.Role.valueOf(f.getRole()));
 		p.setPassword(f.getPassword());
 		return p;
 	}

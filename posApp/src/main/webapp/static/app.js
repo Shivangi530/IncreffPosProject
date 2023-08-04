@@ -54,8 +54,6 @@ function createTsvFile(dataToWrite, headers, fileName) {
     tempLink.click();
 }
 
-
-
 function writeFileData(arr){
 	var config = {
 		quoteChar: '',
@@ -77,6 +75,7 @@ function writeFileData(arr){
     tempLink.setAttribute('download', 'download.tsv');
     tempLink.click();
 }
+
 // Reset input fields
 function resetFormFields($form) {
     $form.find('input').val('').attr('placeholder', function() {
@@ -154,3 +153,35 @@ function formatDate(inputDate) {
   // Step 4: Return the formatted date string
   return formattedDate;
 }
+
+// Check file headers
+function checkHeader(file, header_list, callback) {
+  var allHeadersPresent = true;
+
+  Papa.parse(file, {
+    delimiter: "\t",
+    step: function(results, parser) {
+      console.log(results.data);
+      if (results.data.length !== header_list.length) {
+        allHeadersPresent = false;
+      } else {
+        for (var i = 0; i < header_list.length; i++) {
+          if (!results.data.includes(header_list[i])) {
+            allHeadersPresent = false;
+            break;
+          }
+        }
+      }
+      parser.abort();
+    },
+    complete: function(results) {
+      if (allHeadersPresent) {
+        readFileData(file, callback);
+      } else {
+        danger("The file format is incorrect");
+      }
+    }
+  });
+}
+
+

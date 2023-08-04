@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Api
 @RestController
-public class ReportsApiController {
+public class ReportsController {
 
     @Autowired
     private reportsDto dto;
@@ -29,8 +28,6 @@ public class ReportsApiController {
     public List<InventoryReportData> getAllInventory() throws ApiException{
         return dto.getAllInventory();
     }
-
-
 
     // SALES REPORT
 //    @ApiOperation(value = "Get list of all orders")
@@ -45,7 +42,7 @@ public class ReportsApiController {
 //        return dto.getAll();
 //    }
 
-    @ApiOperation(value = "Show date time")
+    @ApiOperation(value = "Show sales by date time")
     @RequestMapping(path = "/api/report/salesReport", method = RequestMethod.POST)
     public List<SalesReportData> add(@RequestBody SalesReportData form) throws ApiException {
         return dto.add(form);

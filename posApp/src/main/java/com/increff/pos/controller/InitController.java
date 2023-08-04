@@ -1,5 +1,6 @@
 package com.increff.pos.controller;
 
+import com.increff.pos.model.EnumData;
 import com.increff.pos.model.InfoData;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class InitApiController extends AbstractUiController {
+public class InitController extends AbstractUiController {
 
 	@Autowired
 	private UserService service;
@@ -36,7 +37,7 @@ public class InitApiController extends AbstractUiController {
 		if (list.size() > 0) {
 			info.setMessage("Application already initialized. Please use existing credentials");
 		} else {
-			form.setRole("admin");
+			form.setRole("ADMIN");
 			UserPojo p = convert(form);
 			service.add(p);
 			info.setMessage("Application initialized");
@@ -48,7 +49,7 @@ public class InitApiController extends AbstractUiController {
 	private static UserPojo convert(UserForm f) {
 		UserPojo p = new UserPojo();
 		p.setEmail(f.getEmail());
-		p.setRole(UserPojo.Role.valueOf(f.getRole()));
+		p.setRole(EnumData.Role.valueOf(f.getRole()));
 		p.setPassword(f.getPassword());
 		return p;
 	}

@@ -8,7 +8,6 @@
 
 <nav th:replace="snippets.html :: name_site_navbar"></nav>
 
-
 <div class="container">
 
 <div class="row">
@@ -19,7 +18,8 @@
     	Sign-up Page
   	</div>
   	<div class="card-body">
-		<form class="form" id="signupForm" method="POST" th:action="@{/session/signup}">
+<!--		<form class="form" id="signupForm" method="POST" th:action="@{/session/signup}">-->
+		<form class="form" id="signupForm" >
 			<div class="form-group">
 				<label for="email" class="col-sm-10 col-form-label">Email</label>
 			    <div class="col-sm-10">
@@ -28,6 +28,7 @@
 			</div>
 			<div class="form-group">
 			    <label for="password" class="col-sm-10 col-form-label">Password</label>
+				<p class="col-sm-10 small text-muted">(Password requirements: Minimum 8 characters with at least one uppercase letter, one lowercase letter, one digit, and one special character.)</p>
 			    <div class="col-sm-10">
 			      <input type="password" class="form-control" name="password" id="password" placeholder="password">
 			    </div>
@@ -40,16 +41,13 @@
 	</div>
 	
 	</div>
-
-	<script src="signup.js"></script>
-
 </div> <!-- Col -->
 </div> <!-- Row -->
 
 </div> <!-- Container-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
-
+<script th:src="@{/static/signup.js}"></script>
 </body>
 
 </html>

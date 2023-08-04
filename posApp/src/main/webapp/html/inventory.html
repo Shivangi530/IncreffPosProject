@@ -10,20 +10,17 @@
 
 <div class="container">
 
-	<h3>Inventory</h3>
 
 	<!-- Top row with form-->
-	<div class="row">
-		<div class="col-12">
-			<form class="form-inline" id="inventory-form">
-
-<!--				<button type="button" class="btn btn-primary" id="add-inventory">Add</button>-->
-				&nbsp;&nbsp;
-				<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
-			</form>
+	<div th:if="${session.role eq 'SUPERVISOR'}">
+		<div class="row mt-5">
+			<div class="col-12">
+				<form class="form-inline" id="inventory-form">
+					<button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+				</form>
+			</div>
 		</div>
 	</div>
-
 
 	<!-- Blank Row -->
 	<div class="row">
@@ -92,14 +89,13 @@
 				</div>
 
 				<div class="modal-body">
-					<div class="inventory-file">
-						<input type="file" class="custom-file-input" id="inventoryFile">
-						<label class="custom-file-label" for="inventoryFile" id="inventoryFileName">Choose file</label>
+					<div class="form-group">
+						<input type="file" class="form-control-file" id="inventoryFile">
+<!--						<label class="custom-file-label" for="inventoryFile" id="inventoryFileName">Choose file</label>-->
 					</div>
 					<a th:href="@{/sample/inventory.tsv}" target="_blank">Download Sample</a>
 					<br>
-					Rows: <span id="rowCount">0</span>,
-					Processed: <span id="processCount">0</span>,
+					Rows: <span id="rowCount">0</span>,<br>
 					Errors: <span id="errorCount">0</span>
 				</div>
 
@@ -116,6 +112,9 @@
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
+<script>
+	var userRole = "[[${session.role}]]"
+</script>
 <script th:src="@{/static/inventory.js}"/></script>
 
 </body>

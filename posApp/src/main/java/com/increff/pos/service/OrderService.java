@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.OrderDao;
+import com.increff.pos.model.EnumData;
 import com.increff.pos.model.InvoiceForm;
 import com.increff.pos.model.OrderItem;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -50,19 +51,13 @@ public class OrderService {
 
 	@Transactional(rollbackOn  = ApiException.class)
 	public void update(int id, String status) throws ApiException {
-		System.out.println("service: "+status);
 		OrderPojo existingPojo = getCheck(id);
-		if(status.equals("invoiced")){
-			System.out.println("in if statement: "+status);
-			existingPojo.setStatus(OrderPojo.Status.invoiced);
-			System.out.println("existingPojo.setStatus: " + existingPojo.getStatus());
+		if(status.equals("INVOICED")){
+			existingPojo.setStatus(EnumData.Status.INVOICED);
 		}
-		if(status.equals("deleted")){
-			System.out.println("in if statement: "+status);
-			existingPojo.setStatus(OrderPojo.Status.deleted);
-			System.out.println("existingPojo.setStatus: " + existingPojo.getStatus());
+		if(status.equals("CANCELED")){
+			existingPojo.setStatus(EnumData.Status.CANCELED);
 		}
-		System.out.println("outside if statement: "+status);
 	}
 
 	@Transactional
@@ -78,17 +73,14 @@ public class OrderService {
 		return dao.selectDates(startDate,endDate);
 	}
 
-	public List<OrderItemPojo> selectByOrderId(Integer orderId) {
-		return orderItemService.selectByOrderId(orderId);
+	public List<OrderItemPojo> selectByOrderId(Integer orderId) throws ApiException{
+		return orderItemService.getOrderList(orderId);
 	}
 
-
-	public ResponseEntity<byte[]> getInvoicePDF(Integer id) throws Exception {	//todo: create a seperate helper function
+	public ResponseEntity<byte[]> getInvoicePDF(Integer id) throws Exception {
 		InvoiceForm invoiceForm = generateInvoiceForOrder(id);
 		RestTemplate restTemplate = new RestTemplate();
-		System.out.println("invoice url: "+invoiceUrl);
-		String url=invoiceUrl;
-		System.out.println("invoice url: "+url);
+		System.out.println("invoice url= "+invoiceUrl);
 		byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(invoiceUrl, invoiceForm, byte[].class).getBody());
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PDF);
@@ -101,7 +93,7 @@ public class OrderService {
 	public InvoiceForm generateInvoiceForOrder(Integer orderId) throws ApiException
 	{
 		InvoiceForm invoiceForm = new InvoiceForm();
-		OrderPojo orderPojo = get(orderId);
+		OrderPojo orderPojo = getCheck(orderId);
 		invoiceForm.setOrderId(orderPojo.getId());
 		invoiceForm.setPlacedDate(orderPojo.getDateTime().toString());
 		List<OrderItemPojo> orderItemPojoList = selectByOrderId(orderPojo.getId());

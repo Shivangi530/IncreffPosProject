@@ -1,5 +1,8 @@
 package com.increff.pos.helper;
 import com.increff.pos.model.*;
+import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.pojo.ProductPojo;
+
 public class helper {
     public static BrandForm createBrand(String brand, String category) {
         BrandForm brandForm = new BrandForm();
@@ -16,6 +19,15 @@ public class helper {
         productForm.setBarcode(productBarcode);
         productForm.setMrp(productMrp);
         return productForm;
+    }
+
+    public static ProductPojo createProduct(int brandCategory, String productBarcode, Double productMrp, String productName) {
+        ProductPojo ProductPojo = new ProductPojo();
+        ProductPojo.setBrand_category(brandCategory);
+        ProductPojo.setName(productName);
+        ProductPojo.setBarcode(productBarcode);
+        ProductPojo.setMrp(productMrp);
+        return ProductPojo;
     }
     public static InventoryForm createInventory(String productBarcode, Integer quantity) {
         InventoryForm inventoryForm = new InventoryForm();
@@ -39,5 +51,13 @@ public class helper {
         orderItemForm.setBarcode(barCode);
         orderItemForm.setSellingPrice(sellingPrice);
         return orderItemForm;
+    }
+
+    public static CreateOrderForm createOrderForm(String barcode, Integer quantity, double sellingPrice){
+        CreateOrderForm createOrderForm = new CreateOrderForm();
+        createOrderForm.setBarcode(barcode);
+        createOrderForm.setQuantity(quantity);
+        createOrderForm.setSellingPrice(sellingPrice);
+        return createOrderForm;
     }
 }

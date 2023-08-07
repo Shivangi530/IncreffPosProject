@@ -88,7 +88,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import com.increff.pos.model.InvoiceForm;
 &nbsp;import com.increff.pos.pojo.OrderItemPojo;
-&nbsp;import com.increff.pos.pojo.OrderPojo;
+&nbsp;import com.increff.pos.pojo.OutwardOrderPojo;
 &nbsp;import com.increff.pos.pojo.ProductPojo;
 &nbsp;import junit.framework.TestCase;
 &nbsp;import org.junit.Test;
@@ -179,8 +179,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;	@Test
 &nbsp;	public void testGenerateInvoiceForOrder() throws ApiException {
-<b class="fc">&nbsp;		OrderPojo orderPojo = new OrderPojo();</b>
-<b class="fc">&nbsp;		service.add(orderPojo);</b>
+<b class="fc">&nbsp;		OrderPojo outwardOrderPojo = new OrderPojo();</b>
+<b class="fc">&nbsp;		service.add(outwardOrderPojo);</b>
 &nbsp;
 <b class="fc">&nbsp;		ProductPojo product1 = new ProductPojo();</b>
 <b class="fc">&nbsp;		product1.setBarcode(&quot;ndejf&quot;);</b>
@@ -197,25 +197,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;		productService.add(product2);</b>
 &nbsp;
 <b class="fc">&nbsp;		OrderItemPojo p1=new OrderItemPojo();</b>
-<b class="fc">&nbsp;		p1.setOrderId(orderPojo.getId());</b>
+<b class="fc">&nbsp;		p1.setOrderId(outwardOrderPojo.getId());</b>
 <b class="fc">&nbsp;		p1.setProductId(product1.getId());</b>
 <b class="fc">&nbsp;		p1.setSellingPrice(100.8);</b>
 <b class="fc">&nbsp;		p1.setQuantity(210);</b>
 <b class="fc">&nbsp;		orderItemService.add(p1);</b>
 &nbsp;
 <b class="fc">&nbsp;		OrderItemPojo p2=new OrderItemPojo();</b>
-<b class="fc">&nbsp;		p2.setOrderId(orderPojo.getId());</b>
+<b class="fc">&nbsp;		p2.setOrderId(outwardOrderPojo.getId());</b>
 <b class="fc">&nbsp;		p2.setProductId(product2.getId());</b>
 <b class="fc">&nbsp;		p2.setSellingPrice(10.8);</b>
 <b class="fc">&nbsp;		p2.setQuantity(10);</b>
 <b class="fc">&nbsp;		orderItemService.add(p2);</b>
 &nbsp;
-&nbsp;//		List&lt;OrderItemPojo&gt; orderItemPojoList = service.selectByOrderId(orderPojo.getId());
+&nbsp;//		List&lt;OrderItemPojo&gt; orderItemPojoList = service.selectByOrderId(outwardOrderPojo.getId());
 &nbsp;
-<b class="fc">&nbsp;		InvoiceForm invoiceForm = service.generateInvoiceForOrder(orderPojo.getId());</b>
+<b class="fc">&nbsp;		InvoiceForm invoiceForm = service.generateInvoiceForOrder(outwardOrderPojo.getId());</b>
 &nbsp;
 <b class="fc">&nbsp;		assertNotNull(invoiceForm);</b>
-<b class="fc">&nbsp;		assertEquals(orderPojo.getId(), invoiceForm.getOrderId());</b>
+<b class="fc">&nbsp;		assertEquals(outwardOrderPojo.getId(), invoiceForm.getOrderId());</b>
 <b class="fc">&nbsp;		assertNotNull(invoiceForm.getPlacedDate());</b>
 <b class="fc">&nbsp;		assertEquals(2, invoiceForm.getOrderItemList().size());</b>
 &nbsp;
@@ -223,8 +223,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;	@Test
 &nbsp;	public void testGetInvoicePDF() throws ApiException, Exception {
-<b class="fc">&nbsp;		OrderPojo orderPojo = new OrderPojo();</b>
-<b class="fc">&nbsp;		service.add(orderPojo);</b>
+<b class="fc">&nbsp;		OrderPojo outwardOrderPojo = new OrderPojo();</b>
+<b class="fc">&nbsp;		service.add(outwardOrderPojo);</b>
 &nbsp;
 <b class="fc">&nbsp;		ProductPojo product1 = new ProductPojo();</b>
 <b class="fc">&nbsp;		product1.setBarcode(&quot;ndejf&quot;);</b>
@@ -241,20 +241,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;		productService.add(product2);</b>
 &nbsp;
 <b class="fc">&nbsp;		OrderItemPojo p1=new OrderItemPojo();</b>
-<b class="fc">&nbsp;		p1.setOrderId(orderPojo.getId());</b>
+<b class="fc">&nbsp;		p1.setOrderId(outwardOrderPojo.getId());</b>
 <b class="fc">&nbsp;		p1.setProductId(product1.getId());</b>
 <b class="fc">&nbsp;		p1.setSellingPrice(100.8);</b>
 <b class="fc">&nbsp;		p1.setQuantity(210);</b>
 <b class="fc">&nbsp;		orderItemService.add(p1);</b>
 &nbsp;
 <b class="fc">&nbsp;		OrderItemPojo p2=new OrderItemPojo();</b>
-<b class="fc">&nbsp;		p2.setOrderId(orderPojo.getId());</b>
+<b class="fc">&nbsp;		p2.setOrderId(outwardOrderPojo.getId());</b>
 <b class="fc">&nbsp;		p2.setProductId(product2.getId());</b>
 <b class="fc">&nbsp;		p2.setSellingPrice(10.8);</b>
 <b class="fc">&nbsp;		p2.setQuantity(10);</b>
 <b class="fc">&nbsp;		orderItemService.add(p2);</b>
 &nbsp;
-<b class="fc">&nbsp;		ResponseEntity&lt;byte[]&gt; response= service.getInvoicePDF(orderPojo.getId());</b>
+<b class="fc">&nbsp;		ResponseEntity&lt;byte[]&gt; response= service.getInvoicePDF(outwardOrderPojo.getId());</b>
 &nbsp;
 <b class="nc">&nbsp;		assertNotNull(response);</b>
 <b class="nc">&nbsp;		assertEquals(HttpStatus.OK, response.getStatusCode());</b>

@@ -11,9 +11,7 @@ public class AboutAppService {
 	@Value("${app.version}")
 	private String version;
 	
-	public String getName() {
-		return name;
-	}
+	public String getName() {	return name; }
 
 	public String getVersion() {
 		return version;

@@ -1,6 +1,5 @@
 package com.increff.pos.controller;
 
-import com.increff.pos.model.EnumData;
 import com.increff.pos.model.InfoData;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+
+import static com.increff.pos.util.ConversionUtil.convert;
 
 @Controller
 public class InitController extends AbstractUiController {
@@ -43,15 +44,6 @@ public class InitController extends AbstractUiController {
 			info.setMessage("Application initialized");
 		}
 		return mav("init.html");
-
-	}
-
-	private static UserPojo convert(UserForm f) {
-		UserPojo p = new UserPojo();
-		p.setEmail(f.getEmail());
-		p.setRole(EnumData.Role.valueOf(f.getRole()));
-		p.setPassword(f.getPassword());
-		return p;
 	}
 
 }

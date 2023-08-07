@@ -1,6 +1,6 @@
 package com.increff.pos.dao;
 
-import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.OutwardOrderPojo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,47 +13,34 @@ import java.util.List;
 @Repository
 public class OrderDao extends AbstractDao {
 
-//	private static String DELETE_ID = "delete from OrderPojo p where id=:id";
-	private static String SELECT_ID = "select p from OrderPojo p where id=:id";
-	private static String SELECT_ALL = "select p from OrderPojo p";
-	private static String SELECT_DATES = "SELECT p FROM OrderPojo p WHERE dateTime BETWEEN :startDate AND :endDate AND status = 'INVOICED'";
-//	private static String SELECT_DISTINCT_DATES = "select distinct p.dateTime FROM OrderPojo p";
+	private static String SELECT_ID = "select p from OutwardOrderPojo p where id=:id";
+	private static String SELECT_ALL = "select p from OutwardOrderPojo p";
+	private static String SELECT_DATES = "SELECT p FROM OutwardOrderPojo p WHERE dateTime BETWEEN :startDate AND :endDate AND status = 'INVOICED'";
 
 	@PersistenceContext
 	private EntityManager em;
 
 	@Transactional
-	public void insert(OrderPojo p) {
+	public void insert(OutwardOrderPojo p) {
 		em.persist(p);
 	}
 
-//	public int delete(int id) {
-//		Query query = em.createQuery(DELETE_ID);
-//		query.setParameter("id", id);
-//		return query.executeUpdate();
-//	}
-
-	public OrderPojo select(int id) {
-		TypedQuery<OrderPojo> query = getQuery(SELECT_ID, OrderPojo.class);
+	public OutwardOrderPojo select(int id) {
+		TypedQuery<OutwardOrderPojo> query = getQuery(SELECT_ID, OutwardOrderPojo.class);
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
 
-	public List<OrderPojo> selectAll() {
-		TypedQuery<OrderPojo> query = getQuery(SELECT_ALL, OrderPojo.class);
+	public List<OutwardOrderPojo> selectAll() {
+		TypedQuery<OutwardOrderPojo> query = getQuery(SELECT_ALL, OutwardOrderPojo.class);
 		return query.getResultList();
 	}
 
-	public List<OrderPojo> selectDates(LocalDateTime startDate, LocalDateTime endDate) {
-		TypedQuery<OrderPojo> query = getQuery(SELECT_DATES, OrderPojo.class);
+	public List<OutwardOrderPojo> selectDates(LocalDateTime startDate, LocalDateTime endDate) {
+		TypedQuery<OutwardOrderPojo> query = getQuery(SELECT_DATES, OutwardOrderPojo.class);
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
 		return query.getResultList();
 	}
-
-//	public List<Date> selectDistinctDates() {
-//		TypedQuery<Date> query = getQuery(SELECT_DISTINCT_DATES, Date.class);
-//		return query.getResultList();
-//	}
-
 }
+

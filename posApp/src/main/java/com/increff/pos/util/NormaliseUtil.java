@@ -5,19 +5,20 @@ import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.ProductForm;
 
 public class NormaliseUtil {
-    public static void normalize(ProductForm p) {
-        p.setBrand(StringUtil.toLowerCase(p.getBrand()).trim());
-        p.setCategory(StringUtil.toLowerCase(p.getCategory()).trim());
-        p.setBarcode(StringUtil.toLowerCase(p.getBarcode()).trim());
-        p.setName(StringUtil.toLowerCase(p.getName()).trim());
+    public static void normalize(ProductForm pojo) {
+        pojo.setBrand(StringUtil.toLowerCase(pojo.getBrand()).trim());
+        pojo.setCategory(StringUtil.toLowerCase(pojo.getCategory()).trim());
+        pojo.setBarcode(StringUtil.toLowerCase(pojo.getBarcode()).trim());
+        pojo.setName(StringUtil.toLowerCase(pojo.getName()).trim());
+        pojo.setMrp((int) (pojo.getMrp() * 100) / 100.0);
     }
 
-    public static void normalize(BrandForm p) {
-        p.setBrand(StringUtil.toLowerCase(p.getBrand()).trim());
-        p.setCategory(StringUtil.toLowerCase(p.getCategory()).trim());
+    public static void normalize(BrandForm pojo) {
+        pojo.setBrand(StringUtil.toLowerCase(pojo.getBrand()).trim());
+        pojo.setCategory(StringUtil.toLowerCase(pojo.getCategory()).trim());
     }
 
-    public static void normalize(InventoryForm p) {
-        p.setBarcode(StringUtil.toLowerCase(p.getBarcode()).trim());
+    public static void normalize(InventoryForm pojo) {
+        pojo.setBarcode(StringUtil.toLowerCase(pojo.getBarcode()).trim());
     }
 }

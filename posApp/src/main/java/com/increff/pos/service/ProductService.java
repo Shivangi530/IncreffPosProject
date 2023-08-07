@@ -16,9 +16,9 @@ public class ProductService {
     private ProductDao dao;
 
     @Transactional(rollbackOn = ApiException.class)
-    public void add(ProductPojo p) throws ApiException {
-        checkAll(p);
-        dao.insert(p);
+    public void add(ProductPojo pojo) throws ApiException {
+        checkAll(pojo);
+        dao.insert(pojo);
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -43,6 +43,9 @@ public class ProductService {
         if(price<=0) {
             throw new ApiException("Selling price should be positive. ");
         }
+        if(price>Double.MAX_VALUE) {
+            throw new ApiException("Selling price is too large. ");
+        }
         double mrp= dao.checkId(productId).getMrp();
         if(price>mrp) {
             throw new ApiException("Selling price: "+price+" should be less than mrp: "+mrp);
@@ -51,7 +54,7 @@ public class ProductService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void update(Integer id, String name, String barcode, double mrp) throws ApiException {// TODO MAX LENGTH SET TO 255 characters for name, brand, category
+    public void update(Integer id, String name, String barcode, double mrp) throws ApiException {
         ProductPojo existingPojo = get(id);
         if (StringUtil.isEmpty(name)) {
             throw new ApiException("Name cannot be empty");
@@ -65,10 +68,8 @@ public class ProductService {
             }
         }
         if (mrp <= 0) {
-            throw new ApiException("Mrp should be positive");
+            throw new ApiException("Invalid Mrp");
         }
-        //TODO: Barcode should not be updated
-        //TODO: to send fields in parameter instead of pojo in update function
         existingPojo.setName(name);
         existingPojo.setMrp(mrp);
         dao.update(existingPojo);
@@ -76,34 +77,52 @@ public class ProductService {
 
     @Transactional
     public ProductPojo getCheck(Integer id) throws ApiException {
-        ProductPojo p = dao.select(id);
-        if (p == null) {
+        ProductPojo pojo = dao.select(id);
+        if (pojo == null) {
             throw new ApiException("Product with given ID does not exit, id: " + id);
         }
-        return p;
+        return pojo;
     }
 
     @Transactional(rollbackOn = ApiException.class)
     public void bulkAdd(List<ProductPojo> list) throws ApiException {
-        for (ProductPojo p:list) {
-            add(p);
+        for (ProductPojo pojo:list) {
+            add(pojo);
         }
     }
 
-    public void checkAll(ProductPojo p) throws ApiException{
-        if (StringUtil.isEmpty(p.getName())) {
+    public void checkAll(ProductPojo pojo) throws ApiException{
+        if (StringUtil.isEmpty(pojo.getName())) {
             throw new ApiException("Name cannot be empty");
         }
-        if (StringUtil.isEmpty(p.getBarcode())) {
+        if (StringUtil.isEmpty(pojo.getBarcode())) {
             throw new ApiException("Barcode cannot be empty");
         }
-        if (dao.checkBarcode(p.getBarcode()) != null) {
+        if (dao.checkBarcode(pojo.getBarcode()) != null) {
             throw new ApiException("Barcode already exists");
         }
-        if (p.getMrp() <= 0) {
+        if (pojo.getMrp() <= 0) {
             throw new ApiException("Mrp should be positive");
         }
-        if (p.getBrand_category() == 0) {
+        if (pojo.getBrandCategory() == 0) {
+            throw new ApiException("Invalid Brand Category");
+        }
+    }
+
+    public void checkAll(String name, String barcode, double mrp, int brand_category) throws ApiException{
+        if (StringUtil.isEmpty(name)) {
+            throw new ApiException("Name cannot be empty");
+        }
+        if (StringUtil.isEmpty(barcode)) {
+            throw new ApiException("Barcode cannot be empty");
+        }
+        if (dao.checkBarcode(barcode) != null) {
+            throw new ApiException("Barcode already exists");
+        }
+        if (mrp <= 0) {
+            throw new ApiException("Invalid mrp");
+        }
+        if (brand_category == 0) {
             throw new ApiException("Invalid Brand Category");
         }
     }

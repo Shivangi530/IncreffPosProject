@@ -6,14 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-
-// todo: read about criteria builder to build native queries
 
 @Entity
 @Getter
 @Setter
-public class OrderPojo extends AbstractPojo{
+public class OutwardOrderPojo extends AbstractPojo{
 
 	@Id
 	@Column(name="id")
@@ -28,8 +25,7 @@ public class OrderPojo extends AbstractPojo{
 	@Enumerated(EnumType.STRING)
 	private EnumData.Status status;
 
-
-	public OrderPojo() {
+	public OutwardOrderPojo() {
 		this.dateTime = LocalDateTime.now();
 		this.status = EnumData.Status.CREATED;
 	}

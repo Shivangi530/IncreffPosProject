@@ -108,7 +108,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.increff.pos.model.InvoiceForm;
 &nbsp;import com.increff.pos.model.OrderItem;
 &nbsp;import com.increff.pos.pojo.OrderItemPojo;
-&nbsp;import com.increff.pos.pojo.OrderPojo;
+&nbsp;import com.increff.pos.pojo.OutwardOrderPojo;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
 &nbsp;import org.springframework.beans.factory.annotation.Value;
 &nbsp;import org.springframework.http.HttpHeaders;
@@ -194,10 +194,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;	public InvoiceForm generateInvoiceForOrder(Integer orderId) throws ApiException
 &nbsp;	{
 <b class="fc">&nbsp;		InvoiceForm invoiceForm = new InvoiceForm();</b>
-<b class="fc">&nbsp;		OrderPojo orderPojo = get(orderId);</b>
-<b class="fc">&nbsp;		invoiceForm.setOrderId(orderPojo.getId());</b>
-<b class="fc">&nbsp;		invoiceForm.setPlacedDate(orderPojo.getDateTime().format(DateTimeFormatter.ofPattern(&quot;yyyy-mm-dd hh:mm:ss&quot;)).toString());</b>
-<b class="fc">&nbsp;		List&lt;OrderItemPojo&gt; orderItemPojoList = selectByOrderId(orderPojo.getId());</b>
+<b class="fc">&nbsp;		OrderPojo outwardOrderPojo = get(orderId);</b>
+<b class="fc">&nbsp;		invoiceForm.setOrderId(outwardOrderPojo.getId());</b>
+<b class="fc">&nbsp;		invoiceForm.setPlacedDate(outwardOrderPojo.getDateTime().format(DateTimeFormatter.ofPattern(&quot;yyyy-mm-dd hh:mm:ss&quot;)).toString());</b>
+<b class="fc">&nbsp;		List&lt;OrderItemPojo&gt; orderItemPojoList = selectByOrderId(outwardOrderPojo.getId());</b>
 <b class="fc">&nbsp;		List&lt;OrderItem&gt; orderItemList = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;		for(OrderItemPojo p: orderItemPojoList) {</b>
 <b class="nc">&nbsp;			OrderItem orderItem = new OrderItem();</b>

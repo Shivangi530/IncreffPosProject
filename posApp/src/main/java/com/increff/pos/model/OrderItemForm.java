@@ -13,6 +13,5 @@ public class OrderItemForm {
 	private double sellingPrice;
 	private String barcode;
 	private String productName;
-	private Integer inventoryQty;
 
 }

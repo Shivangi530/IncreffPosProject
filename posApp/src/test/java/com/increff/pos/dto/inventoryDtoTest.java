@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.increff.pos.model.*;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
@@ -39,7 +40,7 @@ public class inventoryDtoTest extends AbstractUnitTest {
         int id = productService.getIdByBarcode("barcode");
         dto.update(id, f);
         int expectedQuantity = 30;
-        assertEquals( expectedQuantity,(int) dto.get(id).getQuantity());
+        assertEquals( expectedQuantity, dto.get(id).getQuantity(),0.01);
     }
 
     @Test
@@ -56,7 +57,7 @@ public class inventoryDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testInvalidQuantityUpdate() throws ApiException {
+    public void testInvalidQuantityUpdate() throws ApiException, JsonProcessingException {
         BrandForm brandForm = createBrand("brand", "category");
         brandDto.add(brandForm);
         ProductForm productForm = createProduct("brand", "category", "barcode", 10.0, "name");
@@ -91,12 +92,12 @@ public class inventoryDtoTest extends AbstractUnitTest {
         dto.updateList(list);
 
         List<InventoryData> listData= dto.getAll();
-        assertEquals( 30,(int) listData.get(0).getQuantity());
-        assertEquals( 40,(int) listData.get(1).getQuantity());
+        assertEquals( 30,listData.get(0).getQuantity(),0.01);
+        assertEquals( 40, listData.get(1).getQuantity(),0.01);
     }
 
     @Test
-    public void testUpdateListInvalidBarcode() throws ApiException {
+    public void testUpdateListInvalidBarcode() throws ApiException{
         BrandForm brandForm = createBrand("brand", "category");
         brandDto.add(brandForm);
         ProductForm productForm1 = createProduct("brand", "category", "barcode1", 10.0, "name");

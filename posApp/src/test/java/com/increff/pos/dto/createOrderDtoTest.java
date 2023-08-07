@@ -27,8 +27,7 @@ public class createOrderDtoTest extends AbstractUnitTest {
     private orderDto orderDto;
     @Autowired
     private orderItemDto orderItemDto;
-    @Autowired
-    private createOrderDto dto;
+
     @Autowired
     private ProductService productService;
 
@@ -40,18 +39,18 @@ public class createOrderDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id,inventoryForm);
 
         CreateOrderForm createOrderForm= createOrderForm("barcode",10,10.0);
-        dto.check(createOrderForm);
+        orderDto.check(createOrderForm);
     }
 
     @Test
     public void testCheckEmptyForm() throws ApiException{
         CreateOrderForm createOrderForm = null;
         try {
-            dto.check(createOrderForm);
+            orderDto.check(createOrderForm);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
             assertEquals( "Cannot place empty order.", e.getMessage());
@@ -66,12 +65,12 @@ public class createOrderDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id,inventoryForm);
 
         CreateOrderForm createOrderForm= createOrderForm("barcode1",10,10.0);
         try {
-            dto.check(createOrderForm);
+            orderDto.check(createOrderForm);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
             assertEquals( "Barcode doesn't exist", e.getMessage());
@@ -86,12 +85,12 @@ public class createOrderDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id,inventoryForm);
 
         CreateOrderForm createOrderForm= createOrderForm("barcode",1000,10.0);
         try {
-            dto.check(createOrderForm);
+            orderDto.check(createOrderForm);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
             assertEquals( "Selected quantity:1000 is more than inventory: 200 for barcode:barcode", e.getMessage());
@@ -106,12 +105,12 @@ public class createOrderDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id,inventoryForm);
 
         CreateOrderForm createOrderForm= createOrderForm("barcode",10,20.0);
         try {
-            dto.check(createOrderForm);
+            orderDto.check(createOrderForm);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
             assertEquals( "Selling price: 20.0 should be less than mrp: 10.0", e.getMessage());
@@ -129,12 +128,12 @@ public class createOrderDtoTest extends AbstractUnitTest {
 
         int id1=productService.getIdByBarcode("barcode1");
         InventoryForm inventoryForm1= inventoryDto.get(id1);
-        inventoryForm1.setQuantity(200);
+        inventoryForm1.setQuantity(200.0);
         inventoryDto.update(id1,inventoryForm1);
 
         int id2=productService.getIdByBarcode("barcode2");
         InventoryForm inventoryForm2= inventoryDto.get(id2);
-        inventoryForm2.setQuantity(200);
+        inventoryForm2.setQuantity(200.0);
         inventoryDto.update(id2,inventoryForm2);
 
         CreateOrderForm createOrderForm1= createOrderForm("barcode1",10,10.0);
@@ -143,14 +142,14 @@ public class createOrderDtoTest extends AbstractUnitTest {
         List<CreateOrderForm> list =new ArrayList<>();
         list.add(createOrderForm1);
         list.add(createOrderForm2);
-        dto.checkAll(list);
+        orderDto.checkAll(list);
     }
 
     @Test
     public void testCheckAllEmptyFormList() throws ApiException{
         List<CreateOrderForm> list =new ArrayList<>();
         try {
-            dto.checkAll(list);
+            orderDto.checkAll(list);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
             assertEquals( "Cannot place empty order.", e.getMessage());

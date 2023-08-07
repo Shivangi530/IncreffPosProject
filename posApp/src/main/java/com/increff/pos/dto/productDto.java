@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.increff.pos.util.ConversionUtil.convert;
 import static com.increff.pos.util.NormaliseUtil.normalize;
@@ -33,16 +30,19 @@ public class productDto {
     @Autowired
     private InventoryService inventoryService;
 
-    public void add(ProductForm f) throws ApiException {
-        normalize(f);
-        validate(f);
-        Integer brandCategoryId = 0;
-        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {
-            brandCategoryId = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();
+    public void add(ProductForm form) throws ApiException {
+        if (Objects.isNull(form.getBrand()) || Objects.isNull(form.getCategory())|| Objects.isNull(form.getBarcode())|| Objects.isNull(form.getName())|| Objects.isNull(form.getMrp())) {
+            throw new ApiException("All fields must be non-null strings.");
         }
-        ProductPojo p = convert(f, brandCategoryId);
+        normalize(form);
+        validate(form);
+        Integer brandCategoryId = 0;
+        if (brandService.checkCombination(form.getBrand(), form.getCategory()) != null) {
+            brandCategoryId = brandService.checkCombination(form.getBrand(), form.getCategory()).getId();
+        }
+        ProductPojo p = convert(form, brandCategoryId);
         service.add(p);
-        InventoryPojo pi = new InventoryPojo(); // todo: to create the inventory pojo in the service layer
+        InventoryPojo pi = new InventoryPojo();
         pi.setId(p.getId());
         pi.setQuantity(0);
         inventoryService.add(pi);
@@ -50,8 +50,8 @@ public class productDto {
 
     public ProductData get(Integer id) throws ApiException {
         ProductPojo p = service.get(id);
-        String brand = brandService.getCheck(p.getBrand_category()).getBrand();
-        String category = brandService.getCheck(p.getBrand_category()).getCategory();
+        String brand = brandService.getCheck(p.getBrandCategory()).getBrand();
+        String category = brandService.getCheck(p.getBrandCategory()).getCategory();
         return convert(p, brand, category);
     }
 
@@ -59,7 +59,7 @@ public class productDto {
         List<ProductPojo> list = service.getAll();
         List<ProductData> list2 = new ArrayList<>();
         for (ProductPojo p : list) {
-            BrandPojo brandPojo= brandService.getValueBrandCategory(p.getBrand_category());
+            BrandPojo brandPojo= brandService.getValueBrandCategory(p.getBrandCategory());
             String brand = brandPojo.getBrand(); //todo: to call once by using the list api
             String category = brandPojo.getCategory();
             list2.add(convert(p, brand, category));
@@ -67,22 +67,22 @@ public class productDto {
         return list2;
     }
 
-    public void update(Integer id, ProductForm f) throws ApiException {
-        normalize(f);
-        validate(f);
+    public void update(Integer id, ProductForm form) throws ApiException {
+        normalize(form);
+        validate(form);
 
         Integer brandCategory = 0;
-        if (brandService.checkCombination(f.getBrand(), f.getCategory()) != null) {
-            brandCategory = brandService.checkCombination(f.getBrand(), f.getCategory()).getId();
+        if (brandService.checkCombination(form.getBrand(), form.getCategory()) != null) {
+            brandCategory = brandService.checkCombination(form.getBrand(), form.getCategory()).getId();
         }
         System.out.println(brandCategory);
-        ProductPojo p = convert(f, brandCategory);
+        ProductPojo p = convert(form, brandCategory);
 
         service.update(id, p.getName(),p.getBarcode(),p.getMrp());
     }
 
     public void addList(List<ProductForm> formList) throws ApiException {
-        List<ProductPojo> productPojoList = new ArrayList<>();
+//        List<ProductPojo> productPojoList = new ArrayList<>();
         if (formList.size() == 0) {
             throw new ApiException("List size cannot be zero");
         }
@@ -94,16 +94,17 @@ public class productDto {
             try {
                 normalize(productForm);
                 validate(productForm);
-                Integer brandCategoryId = brandService.checkCombination(productForm.getBrand(), productForm.getCategory()).getId();
-                if (brandCategoryId == null) {
-                    brandCategoryId = 0;
+                BrandPojo brandPojo = brandService.checkCombination(productForm.getBrand(), productForm.getCategory());
+                int brandCategoryId=0;
+                if (brandPojo != null) {
+                    brandCategoryId = brandPojo.getId();
                 }
-                ProductPojo productPojo= convert(productForm,brandCategoryId);
-                service.checkAll(productPojo);
-                if (!checkDuplicateBarcode.add(productPojo.getBarcode())) {
-                    throw new ApiException("Duplicate entry for Barcode: " + productPojo.getBarcode() );
+//                ProductPojo productPojo= convert(productForm,brandCategoryId);
+                service.checkAll(productForm.getName(),productForm.getBarcode(),productForm.getMrp(),brandCategoryId);
+                if (!checkDuplicateBarcode.add(productForm.getBarcode())) {
+                    throw new ApiException("Duplicate entry for Barcode: " + productForm.getBarcode() );
                 }
-                productPojoList.add(productPojo);
+//                productPojoList.add(productPojo);
             } catch (ApiException e) {
                 errorPair = new Pair<>(i , e.getMessage());
                 errorList.add(errorPair);
@@ -117,10 +118,14 @@ public class productDto {
         if(!errorList.isEmpty()){
             throw new ApiException(errorList.toString());
         }else{
-            service.bulkAdd(productPojoList);
+            bulkAdd(formList);
         }
     }
 
-
+    public void bulkAdd(List<ProductForm> productFormList) throws ApiException{
+        for (ProductForm form :productFormList) {
+            add(form);
+        }
+    }
 
 }

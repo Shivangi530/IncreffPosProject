@@ -1,6 +1,5 @@
 package com.increff.pos.controller;
 
-import com.increff.pos.dto.createOrderDto;
 import com.increff.pos.model.CreateOrderForm;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.dto.orderDto;
@@ -20,20 +19,10 @@ public class OrderController {
 	@Autowired
 	private orderDto dto;
 
-	@Autowired
-	private createOrderDto createOrderDto;
-
-
 	@ApiOperation(value = "Add an order")
 	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
-	public int add() throws ApiException {
-		return dto.add();
-	}
-
-	@ApiOperation(value = "Get an order by ID")
-	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.GET)
-	public OrderData get(@PathVariable int id) throws ApiException {
-		return dto.get(id);
+	public int createOrder(@RequestBody List<CreateOrderForm> orderFormList) throws ApiException {
+		return dto.add(orderFormList);
 	}
 
 	@ApiOperation(value = "Get list of all orders")
@@ -55,15 +44,8 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "Check an order item")
-	@RequestMapping(path = "/api/validateOrderItem", method = RequestMethod.POST)
+	@RequestMapping(path = "/api/validate-order-item", method = RequestMethod.POST)
 	public void add(@RequestBody CreateOrderForm form) throws ApiException {
-		createOrderDto.check(form);
-	}
-
-	@ApiOperation(value = "Check multiple order items")
-	@RequestMapping(path = "/api/validateOrderItem/all", method = RequestMethod.POST)
-	public void checkAll(@RequestBody List<CreateOrderForm> formList) throws ApiException{
-		System.out.println("checkAll called");
-		createOrderDto.checkAll(formList);
+		dto.check(form);
 	}
 }

@@ -18,12 +18,12 @@ public class ProductPojo extends AbstractPojo{
 	private String barcode;
 
 	@Column(nullable = false)
-	private Integer brand_category;
+	private Integer brandCategory;
 
 	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false)
+	@Column(nullable = false, scale = 2)
 	private double mrp;
 
 }

@@ -16,20 +16,8 @@ function addProduct(event) {
     var json = toJson($form);
     var url = getProductUrl();
     var json1 = JSON.parse(json);
-    if (json1.brand == "") {
-        warning("Brand cannot be empty");
-        return false;
-    }
     if(json1.barcode === ""){
         warning("Barcode cannot be empty");
-        return false;
-    }
-    if(json1.brand === ""){
-        warning("Brand cannot be empty");
-        return false;
-    }
-    if(json1.category === ""){
-        warning("Category cannot be empty");
         return false;
     }
     if(json1.name === ""){
@@ -48,12 +36,22 @@ function addProduct(event) {
         warning("Mrp must be positive");
         return false;
     }
+    if(json1.brand === ""){
+        warning("Brand cannot be empty");
+        return false;
+    }
+    if(json1.category === ""){
+        warning("Category cannot be empty");
+        return false;
+    }
+
+    json1.mrp=parseFloat(json1.mrp).toFixed(2);
     console.log(json);
 
     $.ajax({
         url: url,
         type: 'POST',
-        data: json,
+        data: JSON.stringify( json1),
         headers: {
             'Content-Type': 'application/json'
         },
@@ -93,11 +91,11 @@ function updateProduct(event) {
             warning("Mrp must be positive");
             return false;
     }
-    console.log(json);
+    json1.mrp=parseFloat(json1.mrp).toFixed(2);
     $.ajax({
         url: url,
         type: 'PUT',
-        data: json,
+        data: JSON.stringify(json1),
         headers: {
             'Content-Type': 'application/json'
         },
@@ -172,23 +170,15 @@ function readFileDataCallback(results) {
 }
 
 function checkHeaderMatch(uploadedHeaders) {
-    var expectedHeaders = [ "barcode", "brand", "category", "name", "mrp"];
+    var expectedHeaders = ["barcode", "brand", "category", "mrp", "name"];
     var extractedHeaders = Object.keys(uploadedHeaders).map(header => header.toLowerCase());
-    var filteredArr = extractedHeaders.filter(item => item !== 'error');
-//    var filteredArr = extractedHeaders.filter(item => item.trim() !== '');
-    console.log(extractedHeaders);
-    console.log(expectedHeaders);
-    // Compare the headers
-    if (filteredArr.length !== expectedHeaders.length) {
+
+    if (extractedHeaders.length !== expectedHeaders.length) {
         return false;
     }
-    // Sort the extracted headers and expected headers in lowercase
-    filteredArr = filteredArr.map(header => header.toLowerCase());
-    filteredArr.sort();
-    expectedHeaders = expectedHeaders.map(header => header.toLowerCase());
-    expectedHeaders.sort();
+    extractedHeaders.sort();
     for (var i = 0; i < expectedHeaders.length; i++) {
-        if (filteredArr[i] !== expectedHeaders[i]) {
+        if (extractedHeaders[i] !== expectedHeaders[i]) {
             return false;
         }
     }
@@ -201,7 +191,7 @@ function uploadRows() {
     var row= fileData;
     var json = JSON.stringify(row);
     var url = getProductListUrl();
-
+    console.log(json);
     //Make ajax call
     $.ajax({
         url: url,
@@ -211,8 +201,9 @@ function uploadRows() {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            uploadRows();
+            $('#upload-product-modal').modal('hide');
             refresh();
+            success("File uploaded successfully");
         },
         error: function(response) {
             var resp = JSON.parse(response.responseText);
@@ -236,15 +227,7 @@ function uploadRows() {
                     i++;
                   }
                 }
-//              errorData.push([ errorMessage]);
             });
-
-//            for (var i = 0; i < fileData.length; i++) {
-//              var row = fileData[i];
-//              var error = (i < errorData.length) ? errorData[i][0] : '';
-//              var combinedRow = Object.assign({}, row, { error: error });
-//              fileErrorData.push(combinedRow);
-//            }
             updateUploadDialog();
             $("#download-errors").prop('disabled', false);
             danger("Invalid file: File has errors");
@@ -274,16 +257,16 @@ function displayProductList(data) {
         var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
         var trimmedName = e.name.length > 30 ? e.name.substring(0, 30) + '...' : e.name;
         var buttonHtml = ' <button class="btn btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
-        var row = '<tr>' +
-            '<td>' + e.id + '</td>' +
-            '<td>' + e.barcode + '</td>' +
-            '<td>' + trimmedBrand + '</td>' +
-            '<td>' + trimmedCategory + '</td>' +
-            '<td>' + trimmedName + '</td>' +
-            '<td>' + e.mrp + '</td>' +
-            '<td>' + buttonHtml + '</td>' +
-            '</tr>';
-        dataRows.push([e.id,e.barcode, trimmedBrand, trimmedCategory,trimmedName,e.mrp, buttonHtml]);
+//        var row = '<tr>' +
+//            '<td>' + e.id + '</td>' +
+//            '<td>' + e.barcode + '</td>' +
+//            '<td>' + trimmedBrand + '</td>' +
+//            '<td>' + trimmedCategory + '</td>' +
+//            '<td>' + trimmedName + '</td>' +
+//            '<td>' + e.mrp + '</td>' +
+//            '<td>' + buttonHtml + '</td>' +
+//            '</tr>';
+        dataRows.push([e.id,e.barcode, trimmedBrand, trimmedCategory,trimmedName,parseFloat(e.mrp).toFixed(2), buttonHtml]);
     }
     table.rows.add(dataRows).draw();
 }
@@ -365,13 +348,14 @@ function init() {
     table = $('#product-table').DataTable({
       columnDefs: [
         { targets: [0, 1, 2, 3,4,5,6], className: "text-center" },
+        { targets: 0, visible: false},
         {
           targets: 6,
           orderable: false,
           visible: userRole === 'SUPERVISOR'
         }
       ],
-      searching: false,
+      searching: true,
       info: true,
       lengthMenu: [
         [5, 10, 20, -1],

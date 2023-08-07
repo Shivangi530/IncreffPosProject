@@ -2,12 +2,11 @@ package com.increff.pos.service;
 
 import com.increff.pos.model.InvoiceForm;
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.OutwardOrderPojo;
 import com.increff.pos.pojo.ProductPojo;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,29 +31,29 @@ public class OrderServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testAdd() throws ApiException {
-		OrderPojo p = new OrderPojo();
+		OutwardOrderPojo p = new OutwardOrderPojo();
 		service.add(p);
 
-		OrderPojo q = service.get(p.getId());
+		OutwardOrderPojo q = service.get(p.getId());
 		assertEquals(p.getDateTime(), q.getDateTime());
 		assertEquals(p.getStatus(), q.getStatus());
 	}
 
 	@Test
 	public void testGetAll() throws ApiException {
-		OrderPojo p = new OrderPojo();
+		OutwardOrderPojo p = new OutwardOrderPojo();
 		service.add(p);
 
-		OrderPojo q = new OrderPojo();
+		OutwardOrderPojo q = new OutwardOrderPojo();
 		service.add(q);
 
-		List<OrderPojo> r = service.getAll();
+		List<OutwardOrderPojo> r = service.getAll();
 		assertEquals(2, r.size());
 	}
 
 	@Test
 	public void testUpdateInvoiced() throws ApiException {
-		OrderPojo p = new OrderPojo();
+		OutwardOrderPojo p = new OutwardOrderPojo();
 		service.add(p);
 
 		service.update(p.getId(),"INVOICED");
@@ -64,7 +63,7 @@ public class OrderServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testUpdateCanceled() throws ApiException {
-		OrderPojo p = new OrderPojo();
+		OutwardOrderPojo p = new OutwardOrderPojo();
 		service.add(p);
 
 		service.update(p.getId(),"CANCELED");
@@ -75,10 +74,10 @@ public class OrderServiceTest extends AbstractUnitTest {
 	@Test
 	public void testGetOrderDates() throws ApiException {
 
-		OrderPojo p = new OrderPojo();
+		OutwardOrderPojo p = new OutwardOrderPojo();
 		service.add(p);
 
-		OrderPojo q = new OrderPojo();
+		OutwardOrderPojo q = new OutwardOrderPojo();
 		service.add(q);
 
 		service.update(p.getId(),"INVOICED");
@@ -86,39 +85,39 @@ public class OrderServiceTest extends AbstractUnitTest {
 		LocalDateTime startDate = p.getDateTime().minusDays(1);
 		LocalDateTime endDate = q.getDateTime().plusDays(1);
 
-		List<OrderPojo> r = service.getOrderDates(startDate, endDate);
+		List<OutwardOrderPojo> r = service.getOrderDates(startDate, endDate);
 		System.out.println("r.size()=" + r.size());
 		assertEquals(2, r.size());
 	}
 
 	@Test
 	public void testGenerateInvoiceForOrder() throws ApiException {
-		OrderPojo orderPojo = new OrderPojo();
-		service.add(orderPojo);
+		OutwardOrderPojo outwardOrderPojo = new OutwardOrderPojo();
+		service.add(outwardOrderPojo);
 
 		ProductPojo product1 = new ProductPojo();
 		product1.setBarcode("ndejf");
-		product1.setBrand_category(1);
+		product1.setBrandCategory(1);
 		product1.setMrp(10.7);
 		product1.setName("Product 1");
 		productService.add(product1);
 
 		ProductPojo product2 = new ProductPojo();
 		product2.setBarcode("dasfds");
-		product2.setBrand_category(1);
+		product2.setBrandCategory(1);
 		product2.setMrp(10.9);
 		product2.setName("Product 2");
 		productService.add(product2);
 
 		OrderItemPojo p1=new OrderItemPojo();
-		p1.setOrderId(orderPojo.getId());
+		p1.setOrderId(outwardOrderPojo.getId());
 		p1.setProductId(product1.getId());
 		p1.setSellingPrice(100.8);
 		p1.setQuantity(210);
 		orderItemService.add(p1);
 
 		OrderItemPojo p2=new OrderItemPojo();
-		p2.setOrderId(orderPojo.getId());
+		p2.setOrderId(outwardOrderPojo.getId());
 		p2.setProductId(product2.getId());
 		p2.setSellingPrice(10.8);
 		p2.setQuantity(10);
@@ -126,10 +125,10 @@ public class OrderServiceTest extends AbstractUnitTest {
 
 //		List<OrderItemPojo> orderItemPojoList = service.selectByOrderId(orderPojo.getId());
 
-		InvoiceForm invoiceForm = service.generateInvoiceForOrder(orderPojo.getId());
+		InvoiceForm invoiceForm = service.generateInvoiceForOrder(outwardOrderPojo.getId());
 
 		assertNotNull(invoiceForm);
-		assertEquals(orderPojo.getId(), invoiceForm.getOrderId());
+		assertEquals(outwardOrderPojo.getId(), invoiceForm.getOrderId());
 		assertNotNull(invoiceForm.getPlacedDate());
 		assertEquals(2, invoiceForm.getOrderItemList().size());
 
@@ -137,38 +136,38 @@ public class OrderServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testGetInvoicePDF() throws ApiException, Exception {
-		OrderPojo orderPojo = new OrderPojo();
-		service.add(orderPojo);
+		OutwardOrderPojo outwardOrderPojo = new OutwardOrderPojo();
+		service.add(outwardOrderPojo);
 
 		ProductPojo product1 = new ProductPojo();
 		product1.setBarcode("ndejf");
-		product1.setBrand_category(1);
+		product1.setBrandCategory(1);
 		product1.setMrp(10.7);
 		product1.setName("Product 1");
 		productService.add(product1);
 
 		ProductPojo product2 = new ProductPojo();
 		product2.setBarcode("dasfds");
-		product2.setBrand_category(1);
+		product2.setBrandCategory(1);
 		product2.setMrp(10.9);
 		product2.setName("Product 2");
 		productService.add(product2);
 
 		OrderItemPojo p1=new OrderItemPojo();
-		p1.setOrderId(orderPojo.getId());
+		p1.setOrderId(outwardOrderPojo.getId());
 		p1.setProductId(product1.getId());
 		p1.setSellingPrice(100.8);
 		p1.setQuantity(210);
 		orderItemService.add(p1);
 
 		OrderItemPojo p2=new OrderItemPojo();
-		p2.setOrderId(orderPojo.getId());
+		p2.setOrderId(outwardOrderPojo.getId());
 		p2.setProductId(product2.getId());
 		p2.setSellingPrice(10.8);
 		p2.setQuantity(10);
 		orderItemService.add(p2);
 
-		ResponseEntity<byte[]> response= service.getInvoicePDF(orderPojo.getId());
+		ResponseEntity<byte[]> response= service.getInvoicePDF(outwardOrderPojo.getId());
 
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());

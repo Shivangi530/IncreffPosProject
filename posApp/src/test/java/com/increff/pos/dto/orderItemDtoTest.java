@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,46 +31,6 @@ public class orderItemDtoTest extends AbstractUnitTest {
     private ProductService productService;
 
     @Test
-    public void testAdd() throws ApiException{
-        BrandForm brandForm= createBrand("brand","category");
-        brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode",10.0,"name");
-        productDto.add(f);
-        int id=productService.getIdByBarcode("barcode");
-        InventoryForm inventoryForm= inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
-        inventoryDto.update(id,inventoryForm);
-
-        int orderId= orderDto.add();
-
-        OrderItemForm orderItemForm= createOrderItem(orderId,"barcode",10,5.0);
-        dto.add(orderItemForm);
-
-        List<OrderItemData> data= dto.getAll();
-        OrderItemData data1= data.get(0);
-
-        String expectedBarcode= "barcode";
-        int expectedQuantity=10;
-        Double expectedSellingPrice=5.0;
-
-        assertEquals(expectedBarcode,data1.getBarcode());
-        assertEquals(expectedQuantity,(int)data1.getQuantity());
-        assertEquals(expectedSellingPrice,data1.getSellingPrice(),0.01);
-        assertEquals(orderId,(int)data1.getOrderId());
-    }
-
-    @Test
-    public void testGetAll() throws ApiException{
-        BrandForm brandForm= createBrand("brand","category");
-        brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode1",10.0,"name1");
-        productDto.add(f);
-        ProductForm f1= createProduct("brand","category","barcode2",20.0,"name2");
-        productDto.add(f1);
-
-    }
-
-    @Test
     public void testUpdate() throws ApiException {
         BrandForm brandForm = createBrand("brand", "category");
         brandDto.add(brandForm);
@@ -77,24 +38,24 @@ public class orderItemDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id = productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm = inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id, inventoryForm);
 
-        int orderId = orderDto.add();
+        List<CreateOrderForm> createOrderFormList= new ArrayList<>();
+        CreateOrderForm createOrderForm= createOrderForm("barcode",10,5.0);
+        createOrderFormList.add(createOrderForm);
+        int orderId= orderDto.add(createOrderFormList);
 
-        OrderItemForm orderItemForm = createOrderItem(orderId, "barcode", 10, 5.0);
-        dto.add(orderItemForm);
-
-        List<OrderItemData> data = dto.getAll();
+        List<OrderItemData> data= dto.getOrderList(orderId);
         int orderItemId = data.get(0).getId();
 
-        OrderItemForm orderItemFormUpdated = createOrderItem(orderId, "barcode", 100, 50.0);
+        OrderItemForm orderItemFormUpdated = createOrderItem(orderId, "barcode", 100, 9.0);
         dto.update(orderItemId, orderItemFormUpdated);
 
-        OrderItemData data1 = dto.get(orderItemId);
+        OrderItemData data1 = dto.getOrderList(orderId).get(0);
 
         int expectedQuantity = 100;
-        Double expectedSellingPrice = 50.0;
+        Double expectedSellingPrice = 9.0;
 
         assertEquals(expectedQuantity, (int) data1.getQuantity());
         assertEquals(expectedSellingPrice, data1.getSellingPrice(), 0.01);
@@ -109,15 +70,15 @@ public class orderItemDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id = productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm = inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id, inventoryForm);
 
-        int orderId = orderDto.add();
+        List<CreateOrderForm> createOrderFormList= new ArrayList<>();
+        CreateOrderForm createOrderForm= createOrderForm("barcode",10,5.0);
+        createOrderFormList.add(createOrderForm);
+        int orderId= orderDto.add(createOrderFormList);
 
-        OrderItemForm orderItemForm = createOrderItem(orderId, "barcode", 10, 5.0);
-        dto.add(orderItemForm);
-
-        List<OrderItemData> data = dto.getAll();
+        List<OrderItemData> data= dto.getOrderList(orderId);
         int orderItemId = data.get(0).getId();
 
         orderDto.update(orderId,"INVOICED");
@@ -140,15 +101,15 @@ public class orderItemDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id = productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm = inventoryDto.get(id);
-        inventoryForm.setQuantity(20);
+        inventoryForm.setQuantity(20.0);
         inventoryDto.update(id, inventoryForm);
 
-        int orderId = orderDto.add();
+        List<CreateOrderForm> createOrderFormList= new ArrayList<>();
+        CreateOrderForm createOrderForm= createOrderForm("barcode",10,5.0);
+        createOrderFormList.add(createOrderForm);
+        int orderId= orderDto.add(createOrderFormList);
 
-        OrderItemForm orderItemForm = createOrderItem(orderId, "barcode", 10, 5.0);
-        dto.add(orderItemForm);
-
-        List<OrderItemData> data = dto.getAll();
+        List<OrderItemData> data= dto.getOrderList(orderId);
         int orderItemId = data.get(0).getId();
 
         OrderItemForm orderItemFormUpdated = createOrderItem(orderId, "barcode", 100, 50.0);
@@ -168,20 +129,20 @@ public class orderItemDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id = productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm = inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id, inventoryForm);
 
-        int orderId = orderDto.add();
+        List<CreateOrderForm> createOrderFormList= new ArrayList<>();
+        CreateOrderForm createOrderForm= createOrderForm("barcode",10,5.0);
+        createOrderFormList.add(createOrderForm);
+        int orderId= orderDto.add(createOrderFormList);
 
-        OrderItemForm orderItemForm = createOrderItem(orderId, "barcode", 10, 5.0);
-        dto.add(orderItemForm);
-
-        List<OrderItemData> data = dto.getAll();
+        List<OrderItemData> data= dto.getOrderList(orderId);
         assertEquals(1, data.size());
 
         dto.delete(data.get(0).getId());
 
-        List<OrderItemData> dataUpdated = dto.getAll();
+        List<OrderItemData> dataUpdated = dto.getOrderList(orderId);
         assertEquals(0, dataUpdated.size());
     }
 
@@ -193,15 +154,15 @@ public class orderItemDtoTest extends AbstractUnitTest {
         productDto.add(f);
         int id = productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm = inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id, inventoryForm);
 
-        int orderId = orderDto.add();
+        List<CreateOrderForm> createOrderFormList= new ArrayList<>();
+        CreateOrderForm createOrderForm= createOrderForm("barcode",10,5.0);
+        createOrderFormList.add(createOrderForm);
+        int orderId= orderDto.add(createOrderFormList);
 
-        OrderItemForm orderItemForm = createOrderItem(orderId, "barcode", 10, 5.0);
-        dto.add(orderItemForm);
-
-        List<OrderItemData> data = dto.getAll();
+        List<OrderItemData> data= dto.getOrderList(orderId);
 
         orderDto.update(orderId,"INVOICED");
         try{
@@ -218,26 +179,25 @@ public class orderItemDtoTest extends AbstractUnitTest {
         brandDto.add(brandForm);
         ProductForm f= createProduct("brand","category","barcode",10.0,"name");
         productDto.add(f);
-        ProductForm f1= createProduct("brand","category","barcode1",10.0,"name");
+        ProductForm f1= createProduct("brand","category","barcode1",60.0,"name");
         productDto.add(f1);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
-        inventoryForm.setQuantity(200);
+        inventoryForm.setQuantity(200.0);
         inventoryDto.update(id,inventoryForm);
         int id2=productService.getIdByBarcode("barcode1");
         InventoryForm inventoryForm2= inventoryDto.get(id2);
-        inventoryForm2.setQuantity(200);
+        inventoryForm2.setQuantity(200.0);
         inventoryDto.update(id2,inventoryForm2);
 
-        int orderId= orderDto.add();
-
-        OrderItemForm orderItemForm= createOrderItem(orderId,"barcode",10,5.0);
-        dto.add(orderItemForm);
-        OrderItemForm orderItemForm2= createOrderItem(orderId,"barcode1",100,50.0);
-        dto.add(orderItemForm2);
+        List<CreateOrderForm> createOrderFormList= new ArrayList<>();
+        CreateOrderForm createOrderForm1= createOrderForm("barcode",10,5.0);
+        CreateOrderForm createOrderForm2= createOrderForm("barcode1",100,50.0);
+        createOrderFormList.add(createOrderForm1);
+        createOrderFormList.add(createOrderForm2);
+        int orderId= orderDto.add(createOrderFormList);
 
         List<OrderItemData> data= dto.getOrderList(orderId);
-
         assertEquals(2,data.size());
     }
 }

@@ -8,7 +8,7 @@ function getBrandUrl() {
 function getBrandUrlList(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content");
 	console.log(baseUrl);
-	return baseUrl + "/api/brands/list";
+	return baseUrl + "/api/brand/list";
 }
 
 //BUTTON ACTIONS
@@ -50,13 +50,6 @@ function updateBrand(event) {
     var url = getBrandUrl() + "/" + id;
     //Set the values to update
     var $form = $("#brand-edit-form");
-    // Check if any input field is empty
-//    var brandValue= $("#brand-edit-form input[name=brand]").val();
-//    var categoryValue=    $("#brand-edit-form input[name=category]").val();
-//    var isEmpty = brandValue === '' || categoryValue === '' ;
-//    var isEmpty = $('input').val() === "";
-    // Disable or enable the button based on the isEmpty variable
-//    $('#update-brand').prop('disabled', isEmpty);
     var json = toJson($form);
     $.ajax({
         url: url,
@@ -81,9 +74,7 @@ function getBrandList() {
         type: 'GET',
         success: function(data) {
             data= data.reverse();
-//            totalItems = data.length;
             displayBrandList(data);
-//            displayPaginationInfo();
         },
         error: handleAjaxError
     });
@@ -98,12 +89,48 @@ var processCount = 0;
 
 function processData(){
 	var file = $('#brandFile')[0].files[0];
-	checkHeader(file,["brand","category"],readFileDataCallback);
+    var tsv = (file) => file.toLowerCase().endsWith('.tsv');
+    if (!tsv) {
+        console.log("Invalid file format: Not TSV.");
+        warning("Invalid file format: Not TSV.");
+        return;
+    } else {
+        readFileData(file, readFileDataCallback);
+    }
 }
 
 function readFileDataCallback(results){
-	fileData = results.data;
-	uploadRows();
+    fileData = results.data;
+    if (fileData.length == 0) {
+        console.log("File Empty");
+        warning("File Empty");
+    } else if (fileData.length > 5000) {
+        console.log("File size exceeds limit");
+        warning("The file size (" + fileData.length + ") exceeds the limit of 5000.");
+    } else {
+        if (!checkHeaderMatch(fileData[0])) {
+            console.log("File headers do not match the expected format");
+            warning("File headers do not match the expected format");
+            return;
+        }
+        uploadRows();
+    }
+}
+
+function checkHeaderMatch(uploadedHeaders) {
+    var expectedHeaders = ["brand", "category"];
+    var extractedHeaders = Object.keys(uploadedHeaders);
+    // Compare the headers
+    if (extractedHeaders.length !== expectedHeaders.length) {
+        return false;
+    }
+    extractedHeaders.sort();
+    for (var i = 0; i < expectedHeaders.length; i++) {
+        if (extractedHeaders[i] !== expectedHeaders[i]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function uploadRows() {
@@ -151,13 +178,6 @@ function uploadRows() {
                   }
                 }
             });
-
-//            for (var i = 0; i < fileData.length; i++) {
-//              var row = fileData[i];
-//              var error = (i < errorData.length) ? errorData[i][0] : '';
-//              var combinedRow = Object.assign({}, row, { error: error });
-//              fileErrorData.push(combinedRow);
-//            }
             updateUploadDialog();
             $("#download-errors").prop('disabled', false);
             danger("Invalid file: File has errors");
@@ -291,37 +311,21 @@ function init() {
 
     // Initial data fetch
     getBrandList();
-//    table = $('#brand-table').DataTable({
-//            columnDefs: [
-//                { targets: [0, 1, 2], className: 'text-center', width: '100px' }, // Optional: Set a fixed width for columns 1 and 2
-//                { targets: 3, orderable: false, visible: userRole === 'SUPERVISOR', width: '100px' } // Optional: Set a fixed width for column 3
-//            ],
-//            scrollX: true,
-//            deferRender: true,
-//            scrollCollapse: true,
-//            scroller: true,
-//            searching: true,
-//            info: true,
-//            lengthMenu: [
-//                [5, 10, 20, -1],
-//                [5, 10, 20, 'All']
-//            ],
-//            order: [[0, 'desc']],
-//        });
+
     table = $('#brand-table').DataTable({
-//      scrollX: true,
       columnDefs: [
         { targets: [0, 1, 2, 3], className: "text-center" },
+        { targets: 0, visible: false},
         { targets: 3, orderable: false, visible: userRole === 'SUPERVISOR'},
       ],
-      searching: false,
+      searching: true,
       info: true,
       lengthMenu: [
         [5, 10, 20, -1],
         [5, 10, 20, 'All']
       ],
       deferRender: true,
-      order: [[0, "desc"]],
+      order: [[0, "desc"]]
     });
 }
 $(document).ready(init);

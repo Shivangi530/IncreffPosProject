@@ -23,7 +23,7 @@ public class helper {
 
     public static ProductPojo createProduct(int brandCategory, String productBarcode, Double productMrp, String productName) {
         ProductPojo ProductPojo = new ProductPojo();
-        ProductPojo.setBrand_category(brandCategory);
+        ProductPojo.setBrandCategory(brandCategory);
         ProductPojo.setName(productName);
         ProductPojo.setBarcode(productBarcode);
         ProductPojo.setMrp(productMrp);
@@ -32,7 +32,7 @@ public class helper {
     public static InventoryForm createInventory(String productBarcode, Integer quantity) {
         InventoryForm inventoryForm = new InventoryForm();
         inventoryForm.setBarcode(productBarcode);
-        inventoryForm.setQuantity(quantity);
+        inventoryForm.setQuantity(quantity.doubleValue());
         return inventoryForm;
     }
 
@@ -44,6 +44,13 @@ public class helper {
         return userForm;
     }
 
+    public static CreateOrderForm createOrder(String barCode, Integer quantity, Double sellingPrice) {
+        CreateOrderForm CreateOrderForm = new CreateOrderForm();
+        CreateOrderForm.setQuantity(quantity);
+        CreateOrderForm.setBarcode(barCode);
+        CreateOrderForm.setSellingPrice(sellingPrice);
+        return CreateOrderForm;
+    }
     public static OrderItemForm createOrderItem(Integer orderId,String barCode, Integer quantity, Double sellingPrice) {
         OrderItemForm orderItemForm = new OrderItemForm();
         orderItemForm.setOrderId(orderId);

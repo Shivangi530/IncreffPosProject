@@ -23,12 +23,17 @@ function updateInventory(event) {
     if ((parseFloat(json1.quantity) - parseInt(json1.quantity)) > 0) {
         warning("Quantity should be of integer type.");
         return;
+    }if(json1.quantity<0){
+        warning("Quantity should be positive");
     }
+    console.log(json);
+    console.log(json1);
+    json= {"id":json1.id, "quantity":json1.quantity,"barcode":""};
 
     $.ajax({
         url: url,
         type: 'PUT',
-        data: json,
+        data: JSON.stringify(json),
         headers: {
             'Content-Type': 'application/json'
         },
@@ -120,10 +125,8 @@ function checkHeaderMatch(uploadedHeaders) {
 function uploadRows() {
     //Update progress
     updateUploadDialog();
-    var row = fileData;
-    var json = JSON.stringify(row);
+    var json = JSON.stringify(fileData);
     var url = getInventoryListUrl();
-    console.log(json);
     //Make ajax call
     $.ajax({
         url: url,
@@ -152,7 +155,7 @@ function uploadRows() {
 
             var i=0;
 
-            // Loop through the errorArray and format each error as a CSV row
+            // Loop through the errorArray and format each error as a row
             errorArray.forEach((error) => {
               const index = error.indexOf('=');
               const errorCode = error.slice(0, index);
@@ -163,78 +166,19 @@ function uploadRows() {
                   if (!errorData[i]) {
                     errorData[i] = Object.assign({}, fileData[errorRowIndex], { error: errorMessage });
                     i++;
-                    console.log(i);
-                    console.log("errorRowIndex = ",errorRowIndex);
-
                   }
                 }
-//              errorData.push([ errorMessage]);
             });
-            console.log(errorData);
-            updateUploadDialog();
-//            for (var i = 0; i < fileData.length; i++) {
-//              var row = fileData[i];
-//              var error = (i < errorData.length) ? errorData[i][0] : '';
-//              var combinedRow = Object.assign({}, row, { error: error });
-//              errorData.push(combinedRow);
+//            if(errorData.size()==0){
+//                danger("Invalid file: File has errors");
+//            }else{
+                updateUploadDialog();
+                $("#download-errors").prop('disabled', false);
+                danger("Invalid file: File has errors");
 //            }
-            $("#download-errors").prop('disabled', false);
-            danger("Invalid file: File has errors");
         }
     });
 }
-
-//function uploadRows() {
-//    //Update progress
-//    updateUploadDialog();
-//    //If everything processed then return
-//    if (processCount == fileData.length) {
-//        return;
-//    }
-//    //Process next row
-//    var row = fileData[processCount];
-//    processCount++;
-//    var id = -1;
-//    var barcode = row.barcode.toLowerCase();
-//    var quantity = row.quantity;
-//    for (var i in inventoryData) {
-//        if (inventoryData[i].barcode === barcode) {
-//            id = inventoryData[i].id;
-//            quantity = parseInt(quantity) + parseInt(inventoryData[i].quantity);
-//            break;
-//        }
-//    }
-//    console.log("True id:", id);
-//    if (id === -1) {
-//        row.error = "Barcode: " + barcode + " does not exist";
-//        errorData.push(row);
-//        uploadRows();
-//    } else {
-//        console.log("True id:", id);
-//        var jsonData = {
-//            id: id,
-//            quantity: quantity
-//        };
-//        var json = JSON.stringify(jsonData);
-//        var url = getInventoryUrl() + "/" + id;
-//        $.ajax({
-//            url: url,
-//            type: 'PUT',
-//            data: json,
-//            headers: {
-//                'Content-Type': 'application/json'
-//            },
-//            success: function(response) {
-//                console.log("success");
-//                uploadRows();
-//                getInventoryList();
-//            }
-//        });
-//    }
-//    console.log("id====", id);
-//
-//    $("#download-errors").prop('disabled', false);
-//}
 
 function downloadErrors() {
     if (errorData.length === 0) {
@@ -322,7 +266,6 @@ function displayInventory(data) {
 
 //INITIALIZATION CODE
 function init() {
-    //$('#add-inventory').click(addInventory);
     $('#update-inventory').click(updateInventory);
     $('#refresh-data').click(getInventoryList);
     $('#upload-data').click(displayUploadData);

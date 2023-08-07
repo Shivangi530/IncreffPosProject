@@ -1,9 +1,8 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.OrderItemDao;
-import com.increff.pos.model.EnumData;
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.OutwardOrderPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +20,17 @@ public class OrderItemService {
 	private OrderService orderService;
 
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(OrderItemPojo p) throws ApiException {
-		if(p.getOrderId()==0){
+	public void add(OrderItemPojo pojo) throws ApiException {
+		if(pojo.getOrderId()==0){
 			throw new ApiException("Invalid Order Id");
-		}if(p.getProductId()<=0){
+		}if(pojo.getProductId()<=0){
 			throw new ApiException("Invalid Product Id");
-		}if(p.getQuantity()<=0){
+		}if(pojo.getQuantity()<=0){
 			throw new ApiException("Quantity should be positive");
-		}if(p.getSellingPrice()<=0){
+		}if(pojo.getSellingPrice()<=0){
 			throw new ApiException("Selling Price should be positive");
 		}
-		dao.insert(p);
+		dao.insert(pojo);
 	}
 
 	@Transactional
@@ -49,8 +48,8 @@ public class OrderItemService {
 		return dao.selectAll();
 	}
 	@Transactional
-	public List<OrderItemPojo> getRelevantAll(List<OrderPojo> p) {
-		return dao.selectRelevant(p);
+	public List<OrderItemPojo> getRelevantAll(List<OutwardOrderPojo> pojo) {
+		return dao.selectRelevant(pojo);
 	}
 
 	@Transactional(rollbackOn  = ApiException.class)
@@ -68,10 +67,11 @@ public class OrderItemService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public OrderItemPojo getCheck(Integer id) throws ApiException {
-		OrderItemPojo p = dao.select(id);
-		if (p == null) {
+		OrderItemPojo pojo = dao.select(id);
+		if (pojo == null) {
 			throw new ApiException("OrderItem with given ID does not exit, id: " + id);
 		}
-		return p;
+		return pojo;
 	}
+
 }

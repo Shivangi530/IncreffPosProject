@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -13,8 +12,6 @@ import java.util.List;
 @Repository
 public class DayOnDaySalesDao extends AbstractDao {
 
-//	private static String DELETE_ID = "delete from DayOnDaySalesPojo p where id=:id";
-//	private static String SELECT_ID = "select p from DayOnDaySalesPojo p where id=:id";
 	private static String SELECT_ALL = "select p from DayOnDaySalesPojo p";
 
 	@PersistenceContext
@@ -25,16 +22,8 @@ public class DayOnDaySalesDao extends AbstractDao {
 		em.persist(p);
 	}
 
-
-//	public DayOnDaySalesPojo select(int id) {
-//		TypedQuery<DayOnDaySalesPojo> query = getQuery(SELECT_ID, DayOnDaySalesPojo.class);
-//		query.setParameter("id", id);
-//		return getSingle(query);
-//	}
-
 	public List<DayOnDaySalesPojo> selectAll() {
 		TypedQuery<DayOnDaySalesPojo> query = getQuery(SELECT_ALL, DayOnDaySalesPojo.class);
 		return query.getResultList();
 	}
-
 }

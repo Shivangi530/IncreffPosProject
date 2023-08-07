@@ -30,32 +30,16 @@ public class ReportsController {
     }
 
     // SALES REPORT
-//    @ApiOperation(value = "Get list of all orders")
-//    @RequestMapping(path = "/api/report/salesReport/relevent", method = RequestMethod.GET)
-//    public List<SalesReportData> getReleventAll(LocalDate startDate1, LocalDate endDate1){//,String brand,String category) {
-//        return dto.getReleventAll(startDate1,endDate1);
-//    }
-//
-//    @ApiOperation(value = "Get list of all orders")
-//    @RequestMapping(path = "/api/report/salesReport", method = RequestMethod.GET)
-//    public List<SalesReportData> getAll() {
-//        return dto.getAll();
-//    }
-
     @ApiOperation(value = "Show sales by date time")
     @RequestMapping(path = "/api/report/salesReport", method = RequestMethod.POST)
     public List<SalesReportData> add(@RequestBody SalesReportData form) throws ApiException {
         return dto.add(form);
     }
 
-//          DAILY SALES REPORT
+    //DAILY SALES REPORT
     @ApiOperation(value = "Get list of sales")
     @RequestMapping(path = "/api/report/invoiceReport", method = RequestMethod.GET)
     public List<DayOnDaySalesReportData> getAllDailySales() {
         return dto.getAllDailySales();
     }
 }
-
-
-
-//todo: create drop down and make it searchable

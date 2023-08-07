@@ -15,7 +15,7 @@ public class OrderItemPojo extends AbstractPojo{
 	private Integer id;
 
 	@Column(nullable = false)
-	private Integer orderId;// todo: not null constraints
+	private Integer orderId;
 
 	@Column(nullable = false)
 	private Integer productId;
@@ -23,7 +23,7 @@ public class OrderItemPojo extends AbstractPojo{
 	@Column(nullable = false)
 	private Integer quantity;
 
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition="Decimal(10,2)")
 	private double sellingPrice;
 
 }

@@ -1,9 +1,8 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.InventoryDao;
-import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
-import com.increff.pos.util.StringUtil;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -18,11 +17,11 @@ public class InventoryService {
 	private ProductService productService;
 
     @Transactional(rollbackOn = ApiException.class)
-    public void add(InventoryPojo p) throws ApiException {
-        if(p.getQuantity()<0){
+    public void add(InventoryPojo pojo) throws ApiException {
+        if(pojo.getQuantity()<0){
             throw new ApiException("Quantity can not be negative");
         }
-        dao.insert(p);
+        dao.insert(pojo);
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -41,17 +40,19 @@ public class InventoryService {
         if(quantity<0){
             throw new ApiException("Quantity cannot be negative");
         }
+        if(quantity> Integer.MAX_VALUE){
+            throw new ApiException("Quantity is too large.");
+        }
         existingPojo.setQuantity(quantity);
-        dao.update(existingPojo);
     }
 
     @Transactional
     public InventoryPojo getCheck(Integer id) throws ApiException {
-        InventoryPojo p= dao.select(id);
-        if (p == null) {
+        InventoryPojo pojo= dao.select(id);
+        if (pojo == null) {
             throw new ApiException("Inventory with given ID does not exit, id: " + id);
         }
-        return p;
+        return pojo;
     }
     @Transactional
     public Integer checkQuantity(Integer quantity,Integer id) throws ApiException {
@@ -66,9 +67,9 @@ public class InventoryService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void bulkUpdate(List<InventoryPojo> list) throws ApiException {
-        for (InventoryPojo p:list) {
-            InventoryPojo currentPojo= getCheck(p.getId());
-            update(p.getId(),p.getQuantity()+ currentPojo.getQuantity());
+        for (InventoryPojo pojo:list) {
+            InventoryPojo currentPojo= getCheck(pojo.getId());
+            update(pojo.getId(),pojo.getQuantity()+ currentPojo.getQuantity());
         }
     }
 }

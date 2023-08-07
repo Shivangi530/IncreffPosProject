@@ -22,7 +22,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);
@@ -42,7 +42,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testQuantityInvalidAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);
@@ -62,7 +62,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testGetAll() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);
@@ -74,7 +74,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		ProductPojo p1=new ProductPojo();
 		p1.setBarcode("ndejfadsfsa");
-		p1.setBrand_category(12);
+		p1.setBrandCategory(12);
 		p1.setMrp(10.72);
 		p1.setName("Fanta 22200 ml");
 		productService.add(p1);
@@ -92,7 +92,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testUpdate() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);
@@ -115,7 +115,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testUpdateQuantity() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);
@@ -137,7 +137,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testCheckQuantity() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);
@@ -157,7 +157,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testCheckQuantityNegative() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);
@@ -180,7 +180,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 	public void testCheckQuantityLess() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		productService.add(p);

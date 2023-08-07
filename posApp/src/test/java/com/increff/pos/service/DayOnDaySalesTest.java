@@ -1,6 +1,6 @@
 package com.increff.pos.service;
 
-import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.OutwardOrderPojo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,7 @@ public class DayOnDaySalesTest extends AbstractUnitTest {
 
 	@Test
 	public void testAdd() throws ApiException{
-		OrderPojo p = new OrderPojo();
+		OutwardOrderPojo p = new OutwardOrderPojo();
 		orderService.add(p);
 
 		service.add();

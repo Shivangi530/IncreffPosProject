@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.service.BrandService;
@@ -19,60 +20,37 @@ import static com.increff.pos.util.ValidateUtil.validate;
 public class brandDto {
     @Autowired
     private BrandService brandService;
-
-//    @Value("${outputErrorFileDirectory}")
-//    private String outputErrorFileDirectory;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void add(BrandForm form) throws ApiException {
+        if (Objects.isNull(form.getBrand()) || Objects.isNull(form.getCategory())) {
+            throw new ApiException("Brand and category must be non-null strings.");
+        }
         normalize(form);
         validate(form);
-        BrandPojo p = convert(form);// todo: to use copy bean and create a generic function
-        brandService.add(p);
+        BrandPojo pojo = convert(form);
+        brandService.add(pojo);
     }
     public BrandData getBrand(Integer id) throws ApiException {
         BrandPojo brandPojo = brandService.getCheck(id);
         return convert(brandPojo);
     }
 
-    public List<BrandData> getAll() { //todo: change names of list
-        List<BrandPojo> list = brandService.getAll();
-        List<BrandData> list2 = new ArrayList<>();
-        for (BrandPojo p : list) {
-            list2.add(convert(p));
+    public List<BrandData> getAll() {
+        List<BrandPojo> pojoList = brandService.getAll();
+        List<BrandData> dataList = new ArrayList<>();
+        for (BrandPojo pojo : pojoList) {
+            dataList.add(convert(pojo));
         }
-        return list2;
+        return dataList;
     }
 
-    public void update(Integer id, BrandForm f) throws ApiException {
-        normalize(f);
-        validate(f);
-        BrandPojo p = convert(f);
-        brandService.update(id, p.getBrand(),p.getCategory());
+    public void update(Integer id, BrandForm form) throws ApiException {
+        normalize(form);
+        validate(form);
+        brandService.update(id, form.getBrand(),form.getCategory());
     }
 
-//    public void addBrandList(List<BrandForm> brandForms) throws ApiException, JsonProcessingException {
-//        listEmptyCheck(brandForms);
-//        List<BrandErrorData> errorData = new ArrayList<>();
-//        Integer errorSize = 0;
-//        for (BrandForm brandForm : brandForms) {
-//            BrandErrorData brandErrorData = ConvertorUtil.convertToErrorData(brandForm);
-//            try {
-//                ValidateUtil.validateForms(brandForm);
-//                NormaliseUtil.normalise(brandForm);
-//                brandService.checkAlreadyExist(brandForm.getBrand(), brandForm.getCategory());
-//            } catch (Exception e) {
-//                errorSize++;
-//                brandErrorData.setMessage(e.getMessage());
-//            }
-//            errorData.add(brandErrorData);
-//        }
-//        if (errorSize > 0) {
-//            ErrorUtil.throwErrors(errorData);
-//        }
-//        bulkAdd(brandForms);
-//    }
-
-   // @Transactional(rollbackOn = ApiException.class)
     public void addList(List<BrandForm> formList) throws ApiException {
         List<BrandPojo> brandPojoList = new ArrayList<>();
         if (formList.size() == 0) {
@@ -98,31 +76,10 @@ public class brandDto {
                 errorList.add(errorPair);
             }
         }
-        System.out.println(checkDuplicate.size());
         if(!errorList.isEmpty()){
             throw new ApiException(errorList.toString());
         }else{
             brandService.bulkAdd(brandPojoList);
         }
     }
-
-//    @Transactional(rollbackOn = ApiException.class)
-//    void bulkAdd(List<BrandPojo> list) throws ApiException {
-//        for (BrandPojo p:list) {
-//            brandService.add(p);
-//        }
-//    }
-
-//    private void convertFormToErrorFileTsv(List<BrandForm> brandFormList,List<Pair<Integer, String>> errorList){
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputErrorFileDirectory+"/brand-upload-error.tsv",false))) {
-//            writer.write("Brand\tCategory\tError\n");
-//            for(int i=0;i<brandFormList.size(); i++){
-//                String errorMessage = errorList.get(i).getValue();
-//                writer.write(brandFormList.get(i).getBrand() + "\t" + brandFormList.get(i).getCategory() + "\t"+ errorMessage+"\n");
-//            }
-//        } catch (IOException e) {
-//            System.err.println("Error writing TSV file: " + e.getMessage());
-//        }
-//    }
 }
-// todo: to use copy bean and create a generic function

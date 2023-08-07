@@ -15,24 +15,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
+@RequestMapping(path = "/session/")
 public class LoginController {
 
     @Autowired
     private loginDto dto;
 
     @ApiOperation(value = "Register a new user")
-    @RequestMapping(path = "/session/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView signUp(LoginForm f) throws ApiException{
-        return dto.signUp(f);
+    @RequestMapping(path = "signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView signUp(LoginForm form) throws ApiException{
+        return dto.signUp(form);
     }
 
     @ApiOperation(value = "Log in a user")
-    @RequestMapping(path = "/session/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView login(HttpServletRequest req, LoginForm f) throws ApiException {
-        return dto.login(req,f);
+    @RequestMapping(path = "login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView login(HttpServletRequest req, LoginForm form) throws ApiException {
+        return dto.login(req,form);
     }
 
-    @RequestMapping(path = "/session/logout", method = RequestMethod.GET)
+    @RequestMapping(path = "logout", method = RequestMethod.GET)
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
         return dto.logout(request,response);
     }

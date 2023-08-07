@@ -1,7 +1,5 @@
 package com.increff.pos.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,23 +11,7 @@ public class AppUiController extends AbstractUiController {
 	public ModelAndView home() {
 		return mav("home.html");
 	}
-//	@RequestMapping(value = "/ui/home")
-//	public ModelAndView home() {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		String role = authentication.getAuthorities().iterator().next().getAuthority();
-//		System.out.println("The role is : "+role);
-//		ModelAndView modelAndView = new ModelAndView();
-//		if (role.equals("ROLE_supervisor")) {
-//			modelAndView.setViewName("home.html");
-//		} else if (role.equals("ROLE_operator")) {
-//			modelAndView.setViewName("homeOperator.html");
-//		} else {
-//			// Handle other roles if needed
-//			modelAndView.setViewName("brand.html");
-//		}
-//
-//		return modelAndView;
-//	}
+
 	@RequestMapping(value = "/ui/brand")
 	public ModelAndView brand() {
 		return mav("brand.html");

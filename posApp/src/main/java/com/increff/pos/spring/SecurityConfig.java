@@ -21,13 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http//
+		http
 			// Match only these URLs
 				.requestMatchers()//
 				.antMatchers("/api/**")//
 				.antMatchers("/ui/**")//
 				.and().authorizeRequests()//
 				// Allow GET requests for various sites
+				.antMatchers(HttpMethod.GET, "/api/about").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
 				.antMatchers(HttpMethod.POST, "/api/report/salesReport").hasAnyAuthority("OPERATOR","SUPERVISOR")
 				.antMatchers("/api/validateOrderItem/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
@@ -37,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/admin/**").hasAnyAuthority("SUPERVISOR")//
 				.antMatchers("/api/**").hasAnyAuthority("SUPERVISOR")//
 				.antMatchers("/ui/admin/**").hasAnyAuthority("SUPERVISOR")//
-				.antMatchers("/ui/**").hasAnyAuthority("standard","SUPERVISOR","OPERATOR")//
+				.antMatchers("/ui/**").hasAnyAuthority("SUPERVISOR","OPERATOR")//
 				// Ignore CSRF and CORS
 				.and().csrf().disable().cors().disable();
 		logger.info("Configuration complete");

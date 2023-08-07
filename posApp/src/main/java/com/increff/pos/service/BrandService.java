@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-//TODO: transactional to class level
 @Service
 public class BrandService {
 
@@ -17,9 +16,9 @@ public class BrandService {
 	private BrandDao dao;
 
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(BrandPojo p) throws ApiException {
-		checkAll(p.getBrand(),p.getCategory());
-		dao.insert(p);
+	public void add(BrandPojo pojo) throws ApiException {
+		checkAll(pojo.getBrand(),pojo.getCategory());
+		dao.insert(pojo);
 	}
 
 	@Transactional
@@ -30,26 +29,35 @@ public class BrandService {
 
 	@Transactional(rollbackOn  = ApiException.class)
 	public void update(Integer id, String brand, String category) throws ApiException { //todo: don't use pojo for updating
-		checkAll(brand,category);
+		if(StringUtil.isEmpty(brand)) {
+			throw new ApiException("Brand cannot be empty");
+		}
+		if(StringUtil.isEmpty(category)) {
+			throw new ApiException("Category cannot be empty");
+		}
+		if (dao.checkCombination(brand,category)!=null) {
+			if (id != dao.checkCombination(brand,category).getId()) {
+				throw new ApiException("Brand:"+brand+" and Category:"+category+" combination already exists");
+			}
+		}
 		BrandPojo existingPojo = getCheck(id);
 		existingPojo.setCategory(category);
 		existingPojo.setBrand(brand);
-		dao.update(existingPojo);
 	}
 
 	@Transactional
 	public BrandPojo getCheck(Integer id) throws ApiException {
-		BrandPojo p = dao.select(id);
-		if (p == null) {
+		BrandPojo pojo = dao.select(id);
+		if (pojo == null) {
 			throw new ApiException("Brand with given ID does not exit, id: " + id);
 		}
-		return p;
+		return pojo;
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void bulkAdd(List<BrandPojo> list) throws ApiException {
-		for (BrandPojo p:list) {
-			add(p);
+		for (BrandPojo pojo:list) {
+			add(pojo);
 		}
 	}
 

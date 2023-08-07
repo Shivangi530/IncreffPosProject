@@ -1,6 +1,5 @@
 package com.increff.pos.controller;
 
-import com.increff.pos.model.EnumData;
 import com.increff.pos.model.UserData;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.increff.pos.util.ConversionUtil.convert;
+
 @Api
 @RestController
 public class AdminController {
@@ -23,8 +24,8 @@ public class AdminController {
 	@ApiOperation(value = "Add a user")
 	@RequestMapping(path = "/api/admin/user", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
-		UserPojo p = convert(form);
-		service.add(p);
+		UserPojo pojo = convert(form);
+		service.add(pojo);
 	}
 
 	@ApiOperation(value = "Delete a user")
@@ -38,26 +39,9 @@ public class AdminController {
 	public List<UserData> getAllUser() {
 		List<UserPojo> list = service.getAll();
 		List<UserData> list2 = new ArrayList<UserData>();
-		for (UserPojo p : list) {
-			list2.add(convert(p));
+		for (UserPojo pojo : list) {
+			list2.add(convert(pojo));
 		}
 		return list2;
 	}
-
-	private static UserData convert(UserPojo p) {
-		UserData d = new UserData();
-		d.setEmail(p.getEmail());
-		d.setRole(p.getRole().name());
-		d.setId(p.getId());
-		return d;
-	}
-
-	private static UserPojo convert(UserForm f) {
-		UserPojo p = new UserPojo();
-		p.setEmail(f.getEmail());
-		p.setRole(EnumData.Role.valueOf(f.getRole()));
-		p.setPassword(f.getPassword());
-		return p;
-	}
-
 }

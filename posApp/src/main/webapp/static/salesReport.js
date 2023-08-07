@@ -58,7 +58,7 @@ function displayOrderList(data){
         var e = data[i];
         var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
         var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
-        dataRows.push([ trimmedBrand, trimmedCategory, e.quantity,e.revenue]);
+        dataRows.push([ trimmedBrand, trimmedCategory, e.quantity,parseFloat(e.revenue).toFixed(2)]);
     }
     table.rows.add(dataRows).draw();
 }
@@ -94,9 +94,14 @@ function findBrandCategory(){
     searchInTwoColumns(0, brand, 1, category);
 }
 
+function emptyFields() {
+    $('input').val('');
+    getOrderListByFilter();
+}
+
 //INITIALIZATION CODE
 function init(){
-	$('#refresh-data').click(getOrderListByFilter);
+	$('#refresh-data').click(emptyFields);
 	$('#upload-data').click(getOrderListByFilter);
 	$('#find-brand-data').click(findBrandCategory);
 	getOrderListByFilter();

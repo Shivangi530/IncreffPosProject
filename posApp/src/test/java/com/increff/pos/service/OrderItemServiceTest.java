@@ -1,7 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.OutwardOrderPojo;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,10 +102,10 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testDelete() throws ApiException{
-		OrderPojo orderPojo= new OrderPojo();
-		orderService.add(orderPojo);
+		OutwardOrderPojo outwardOrderPojo = new OutwardOrderPojo();
+		orderService.add(outwardOrderPojo);
 		OrderItemPojo p=new OrderItemPojo();
-		p.setOrderId(orderPojo.getId());
+		p.setOrderId(outwardOrderPojo.getId());
 		p.setProductId(11);
 		p.setSellingPrice(10.8);
 		p.setQuantity(10);
@@ -172,10 +172,10 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testGetRelevantAll() throws ApiException{
-		OrderPojo order1= new OrderPojo();
+		OutwardOrderPojo order1= new OutwardOrderPojo();
 		orderService.add(order1);
 
-		OrderPojo order2= new OrderPojo();
+		OutwardOrderPojo order2= new OutwardOrderPojo();
 		orderService.add(order2);
 
 		OrderItemPojo p=new OrderItemPojo();
@@ -199,7 +199,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
 		p2.setQuantity(10);
 		service.add(p2);
 
-		List<OrderPojo> orderlist= new ArrayList<>();
+		List<OutwardOrderPojo> orderlist= new ArrayList<>();
 		orderlist.add(order1);
 		orderlist.add(order2);
 		List<OrderItemPojo> q= service.getRelevantAll(orderlist);

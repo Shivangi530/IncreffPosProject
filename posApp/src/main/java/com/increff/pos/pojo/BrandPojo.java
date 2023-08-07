@@ -15,10 +15,9 @@ public class BrandPojo extends AbstractPojo{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(nullable = false, length = 255)
+	@Column(nullable = false)
 	private String brand;
 
-	@Column(nullable = false, length = 255)
+	@Column(nullable = false)
 	private String category;
-
 }

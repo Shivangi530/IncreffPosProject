@@ -37,8 +37,10 @@
                         <button type="submit" class="btn btn-primary" id="login">Go</button>
                     </form>
                 </div>
-                <div class="card-footer" th:classappend="${info.getMessage() == 'User registered successfully' ? 'text-success' : 'text-danger'}">
-                    [[${info.getMessage()}]]
+                <div class="card-footer" th:classappend="${info.getMessage() == 'User registered successfully' ? 'text-success' : 'text-danger'}" >
+                    <div class="card-footer" th:classappend="${info.getMessage() == 'No message' ? 'd-none' : 'text-danger'}">
+                        [[${info.getMessage()}]]
+                    </div>
                 </div>
                 <div class="card-footer ">
                     New User

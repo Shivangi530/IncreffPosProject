@@ -1,10 +1,6 @@
 function getCreateOrderUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/validateOrderItem";
-}
-function getCreateOrderUrl2() {
-    var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/validateOrderItem/all";
+    return baseUrl + "/api/validate-order-item";
 }
 function getOrderUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -22,7 +18,6 @@ function getInvoiceUrl() {
 var createOrderData = [];
 
 function getCreateOrderList() {
-    // Retrieve the create order data from the array
     var data = createOrderData;
     displayCreateOrderList(data);
 }
@@ -38,7 +33,7 @@ function initialChecks(json1){
     }
     if(parseFloat(json1.quantity)-parseInt(json1.quantity)>0){
         danger("Quantity should be of integer type");
-        return;
+        return false;
     }
     if(json1.sellingPrice === ""){
         warning("Mrp cannot be empty");
@@ -62,7 +57,6 @@ function addCreateOrder(event) {
     }
     var url = getCreateOrderUrl();
     var data = createOrderData;
-    console.log("data is: ", data);
 
     for (var i = 0; i < data.length; i++) {
         if (data[i].barcode === json1.barcode) {
@@ -102,151 +96,37 @@ function addCreateOrder(event) {
 function updateCreateOrder(event) {
     var url = getCreateOrderUrl();
     $('#edit-createOrder-modal').modal('toggle');
-    //Get the ID
     var id = $("#createOrder-edit-form input[name=id]").val();
-
-    //Set the values to update
     var $form = $("#createOrder-edit-form");
-
     var json = toJson($form);
     json = JSON.parse(json);
     if (initialChecks(json) === false) {
        return false;
     }
     var data = createOrderData;
-    console.log("The data is: ", data);
-    // Find the object with the matching ID
     var objectToUpdate = data.find(function(obj) {
-        console.log("obj id= ", obj.id, "id = ", id);
         return obj.id === id;
     });
-    if (objectToUpdate) {
-        // Update the properties of the object
-        objectToUpdate.barcode = json.barcode;
-        objectToUpdate.quantity = json.quantity;
-        objectToUpdate.sellingPrice = json.sellingPrice;
 
-
-    } else {
-        console.log("Object with ID " + id + " not found.");
-    }
     $.ajax({
         url: url,
         type: 'POST',
-        data: JSON.stringify(objectToUpdate),
+        data: JSON.stringify(json),//JSON.stringify(objectToUpdate),
         headers: {
             'Content-Type': 'application/json'
         },
         success: function(response) {
+            if (objectToUpdate) {
+                // Update the properties of the object
+                objectToUpdate.barcode = json.barcode;
+                objectToUpdate.quantity = json.quantity;
+                objectToUpdate.sellingPrice = json.sellingPrice;
+            }
             success("Object updated.");
-            console.log("Object with ID " + id + " is updated:");
-            console.log(objectToUpdate);
             getCreateOrderList();
         },
         error: handleAjaxError
     });
-    return false;
-}
-
-function displaySuccessCreateOrder(event) {
-    var url = getCreateOrderUrl();
-    $('#success-createOrder-modal').modal('toggle');
-}
-
-function checkCreateOrder() {
-    var url = getCreateOrderUrl2();
-    var data = createOrderData;
-    console.log("The data is: ", data);
-    // Find the object with the matching ID
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: JSON.stringify(createOrderData),
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        success: function(response) {
-            getCreateOrderList();
-            return true;
-        },
-        error:function(response) {
-             handleAjaxError;
-             return false;
-        }
-    });
-    return false;
-}
-
-function OrderItemFunction(json2) {
-    //Set the values to update
-    var baseUrl = $("meta[name=baseUrl]").attr("content")
-    var urlOrderItem = baseUrl + "/api/orderItem";
-    console.log("placing the order");
-    //  Function call to enter data into orderItem.
-    $.ajax({
-        url: urlOrderItem,
-        type: 'POST',
-        data: JSON.stringify(json2),
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        success: function(response) {
-            success("Order Placed!");
-            console.log("Order Item called successfully");
-            //	   		getCreateOrderList();
-        },
-        error: handleAjaxError
-    });
-    return false;
-}
-
-function createOrder() {
-    //Set the values to update
-    var baseUrl = $("meta[name=baseUrl]").attr("content")
-    var urlOrder = baseUrl + "/api/order";
-    var generatedId;
-
-    if(createOrderData.length==0){
-        danger("Cannot place empty order");
-        return;
-    }
-
-    // FUNCTION
-    console.log("placing the order");
-    //OrderForm form
-    var json;
-    $.ajax({
-        url: urlOrder,
-        type: 'POST',
-        data: json,
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        success: function(response) {
-            console.log(response);
-            generatedId = response;
-            console.log("generatedId= ", generatedId);
-            console.log("Created order successfully");
-
-            //FUNCTION
-            var json2 = createOrderData;
-            console.log("createOrderData", createOrderData);
-            json2.forEach(function(e) {
-                e.orderId = generatedId;
-                console.log(e);
-                OrderItemFunction(e);
-            });
-            createOrderData = [];
-            getCreateOrderList();
-            $('#success-createOrder-modal').modal('toggle');
-            $('#generateInvoice').click(function() {
-                 printOrder(generatedId)});
-            $('#redirectToViewOrder').click(function() {
-                            redirectToViewOrder()});
-        },
-        error: handleAjaxError
-    });
-
     return false;
 }
 
@@ -255,46 +135,41 @@ function placeOrder(event) {
         danger("Cannot place empty order");
         return;
     }
-    var url = getCreateOrderUrl2();
-    var data = createOrderData;
-        console.log("The data is: ", data);
-        // Find the object with the matching ID
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            success: function(response) {
-            console.log("success in place order "+url);
 
-                getCreateOrderList();
-                createOrder();
-                return true;
-            },
-            error:function(response) {
-            console.log("error in place order "+url);
-            console.log(response);
-            console.log(response.responseJSON.message);
-            danger(response.responseJSON.message);
-                 handleAjaxError;
-                 return false;
-            }
-        });
-        return false;
+    var data = createOrderData;
+    $.ajax({
+        url: getOrderUrl(),
+        type: 'POST',
+        data: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function(response) {
+            success("Order placed.")
+            createOrderData = [];
+            getCreateOrderList();
+            var generatedId=response;
+            $('#success-createOrder-modal').modal('toggle');
+            $('#generateInvoice').click(function() {
+                 printOrder(generatedId)});
+            $('#redirectToViewOrder').click(function() {
+                 redirectToViewOrder()});
+        },
+        error: handleAjaxError
+    });
+
+    return false;
 }
 
 function redirectToViewOrder() {
     window.location.href = getOrderUrl2();
 }
 function printOrder(id) {
-    updateOrder(id,"INVOICED");
+    updateOrderStatus(id,"INVOICED");
     window.location.href = getInvoiceUrl() + "/" + id;
-    console.log("in print order");
 }
 
-function updateOrder(id,status) {
+function updateOrderStatus(id,status) {
     var url = getOrderUrl() + "/" + id;
     console.log(url);
     $.ajax({
@@ -314,12 +189,11 @@ function updateOrder(id,status) {
 
 // Function to generate a unique ID
 var lastAssignedId = 0;
-
 function generateUniqueId() {
-    // Generate a random number or use a library for generating unique IDs
     lastAssignedId++;
     return lastAssignedId.toString();
 }
+
 //UI DISPLAY METHODS
 
 function displayCreateOrderList(parsedArray) {
@@ -333,12 +207,7 @@ function displayCreateOrderList(parsedArray) {
             e.id = generateUniqueId();
         }
         e.sellingPrice=parseFloat(e.sellingPrice).toFixed(2);
-        console.log("e.id");
-        console.log(e.id);
-        console.log(e.barcode);
-        console.log(e.quantity);
-        console.log(e.sellingPrice);
-        var buttonHtml = '<button class="btn btn-outline-primary" onclick="deleteCreateOrder(' + index + ')">Delete</button>'
+        var buttonHtml = '<button class="btn btn-outline-primary" onclick="deleteCreateOrder(' + index + ')">Delete</button>&nbsp;'
         buttonHtml += ' <button class="btn btn-outline-primary" onclick="displayEditCreateOrder(' + index + ')">Edit</button>'
 
         var row = '<tr>' +
@@ -352,11 +221,6 @@ function displayCreateOrderList(parsedArray) {
 }
 
 function displayEditCreateOrder(id) {
-    console.log(createOrderData);
-    console.log("id=",id);
-    console.log(createOrderData[0]);
-    console.log(createOrderData[0].barcode);
-    console.log("The edit button");
     var data=createOrderData[id];
     if (!data) {
         console.error('Item not found at index:', id);
@@ -366,8 +230,6 @@ function displayEditCreateOrder(id) {
 }
 
 function deleteCreateOrder(index) {
-    console.log("The delete button");
-    console.log("index=",index);
     var data=createOrderData[index];
         if (!data) {
             console.error('Item not found at index:', index);

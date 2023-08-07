@@ -7,7 +7,7 @@ function getOrderUrl() {
 
 function getOrderItemUrl() {
     var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/orderItem";
+    return baseUrl + "/api/order-item";
 }
 
 function getInvoiceUrl() {
@@ -50,7 +50,6 @@ function viewOrder(id, status) {
         success: function(data) {
             console.log("data.length(): ",data.length);
             if(data.length==0){
-
                 updateOrder(id,"CANCELED");
             }
             data=data.reverse();
@@ -78,8 +77,8 @@ function displayOrderList(data) {
         var e = data[i];
         var date = e.dateTime;
 //        var formattedDatetime= date;
-        var formattedDatetime = date.slice(2, 3).join('-') + '-' +
-                    padZero(date[1]) + '-' + date[0] + ' ' +
+        var formattedDatetime = date.slice(2, 3).join('-') + '/' +
+                    padZero(date[1]) + '/' + date[0] + ' ' +
                     padZero(date[3]) + ':' + padZero(date[4]) + ':' +
                     padZero(date[5]);
         console.log("displayOrderList",e.status);
@@ -90,9 +89,9 @@ function displayOrderList(data) {
                 } else if (status === "INVOICED") {
                     buttonHtml1 += 'btn-outline-success" ';
                 } else if (status === "CANCELED") {
-                    buttonHtml1 += 'btn-outline-dark" ';
+                    buttonHtml1 += 'btn-outline-dark " ';
                 } else {
-                    buttonHtml1 += 'btn-outline-secondary" ';
+                    buttonHtml1 += 'btn-outline-secondary " ';
                 }
 
         if (e.status === "CANCELED") {
@@ -100,42 +99,31 @@ function displayOrderList(data) {
         } else {
             buttonHtml1 += ' data-toggle="modal" data-target="#exampleModal" onclick="viewOrder(' + e.id + ',\'' + e.status + '\')"';
         }
-        buttonHtml1 += '>View Order</button>';
+        buttonHtml1 += '>View Order</button>&nbsp;';
 
-        var buttonHtml2 = '<button type="button" class="btn ';
         if (status === "CREATED") {
-            buttonHtml2 += 'btn-outline-primary" ';
+            buttonHtml1 += '<button type="button" class="btn btn-outline-primary" onclick="printOrder(' + e.id + ', \'' + e.status + '\')">Download Invoice</button>';
         } else if (status === "INVOICED") {
-            buttonHtml2 += 'btn-outline-success" ';
+            buttonHtml1 += '<button type="button" class="btn btn-outline-success" onclick="printOrder(' + e.id + ', \'' + e.status + '\')">Download Invoice</button>';
         } else if (status === "CANCELED") {
-            buttonHtml2 += 'btn-outline-dark" ';
+            buttonHtml1 += '<button type="button" class="btn btn-outline-dark" disabled>Download Invoice</button>';
         } else {
-            buttonHtml2 += 'btn-outline-secondary" '; // Default class if status is not recognized
+            buttonHtml1 += '<button type="button" class="btn btn-outline-secondary d-none" disabled></button>'; // Default class if status is not recognized
         }
-        if (e.status === "CANCELED") {
-            buttonHtml2 += ' disabled';
-        } else {
-            buttonHtml2 += ' onclick="printOrder(' + e.id + ', \'' + e.status + '\')"';
-        }
-        buttonHtml2 += '>Invoice</button>';
 
         var row = '<tr>' +
             '<td>' + e.id + '</td>' +
             '<td>' + formattedDatetime + '</td>' +
             '<td>' + e.status + '</td>' +
             '<td>' + buttonHtml1 + '</td>' +
-            '<td>' + buttonHtml2 + '</td>' +
             '</tr>';
         console.log(e.id, formattedDatetime, e.status);
-        dataRows.push([e.id, formattedDatetime, e.status, buttonHtml1,buttonHtml2]);
+        dataRows.push([e.id, formattedDatetime, e.status, buttonHtml1]);
     }
     table.rows.add(dataRows).draw();
 }
 
 function viewOrderList(data, status) {
-console.log("in vieworderlist: ",status);
-//    var $header = $('#exampleModalLabel');
-//    $header.append(":" + data[0].orderId);
     var $tbody = $('#view-order-table').find('tbody');
     $tbody.empty();
     var totalSellingPrice = 0;
@@ -149,19 +137,17 @@ console.log("in vieworderlist: ",status);
         } else {
             buttonHtml1 += ' disabled';
         }
-        buttonHtml1 += '>Edit</button>';
+        buttonHtml1 += '>Edit</button>&nbsp;';
 
 
-        var buttonHtml2 = '<button type="button" class="btn btn-outline-primary" ';
+        buttonHtml1 += '<button type="button" class="btn btn-outline-primary" ';
 
         if (status === "CREATED") {
-            buttonHtml2 += ' onclick="deleteOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
+            buttonHtml1 += ' onclick="deleteOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
         } else {
-            buttonHtml2 += ' disabled';
+            buttonHtml1 += ' disabled';
         }
-        buttonHtml2 += '>Delete</button>';
-
-        console.log(buttonHtml1);
+        buttonHtml1 += '>Delete</button>';
 
         var rowid = "row-" + e.id;
         var row = '<tr id=' + rowid + '>' +
@@ -171,11 +157,8 @@ console.log("in vieworderlist: ",status);
             '<td><input type="number" inputmode="decimal" class="form-control" name="sellingPrice" placeholder="enter sellingPrice" value="' + e.sellingPrice + '"></td>' +
             '<td>' + e.sellingPrice * e.quantity + '</td>' +
             '<td>' + buttonHtml1 + '</td>' +
-            '<td>' + buttonHtml2 + '</td>' +
             '</tr>';
         $tbody.append(row);
-        //        console.log("row is",row);
-        //        console.log("viewOrderList rowid= ",rowid);
         totalSellingPrice += (e.sellingPrice * e.quantity);
     }
     var $sellingPrice = $('#modal-footer').find('h6');
@@ -238,6 +221,10 @@ function updateOrderItem(id, orderId, prevQty, status) {
         warning("Quantity cannot be empty");
         return false;
     }
+    if(quantity.includes('.')){
+            warning("Quantity should be of integer type");
+            return false;
+    }
     if(parseFloat(quantity)-parseInt(quantity)>0){
         warning("Quantity should be of integer type");
         return false;
@@ -271,7 +258,6 @@ function updateOrderItem(id, orderId, prevQty, status) {
         "quantity": quantity,
         "sellingPrice": sellingPrice,
         "id": id,
-//        "inventoryQty": quantity - prevQty
     };
     console.log("json is: ", json);
 
@@ -345,8 +331,6 @@ function deleteOrderItem(id, orderId, prevQty) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            console.log("CANCELED");
-            console.log("id=", id);
             success("Deleted");
             viewOrder(orderId, status);
         },
@@ -355,14 +339,14 @@ function deleteOrderItem(id, orderId, prevQty) {
     return false;
 }
 
-function displayOrderItem(data) {
-    $("#orderItem-edit-form input[name=orderId]").val(data.orderId);
-    $("#orderItem-edit-form input[name=productId]").val(data.productId);
-    $("#orderItem-edit-form input[name=quantity]").val(data.quantity);
-    $("#orderItem-edit-form input[name=sellingPrice]").val(data.sellingPrice);
-    $("#orderItem-edit-form input[name=id]").val(data.id);
-    $('#edit-orderItem-modal').modal('toggle');
-}
+//function displayOrderItem(data) {
+//    $("#orderItem-edit-form input[name=orderId]").val(data.orderId);
+//    $("#orderItem-edit-form input[name=productId]").val(data.productId);
+//    $("#orderItem-edit-form input[name=quantity]").val(data.quantity);
+//    $("#orderItem-edit-form input[name=sellingPrice]").val(data.sellingPrice);
+//    $("#orderItem-edit-form input[name=id]").val(data.id);
+//    $('#edit-orderItem-modal').modal('toggle');
+//}
 
 //INITIALIZATION CODE
 function init() {
@@ -371,8 +355,8 @@ function init() {
     getOrderList();
         table = $('#order-table').DataTable({
           columnDefs: [
-            { targets: [3,4], orderable: false },
-            { targets: [0, 1, 2, 3,4], className: "text-center" }
+            { targets: [3], orderable: false },
+            { targets: [0, 1, 2, 3], className: "text-center" }
           ],
           searching: false,
           info: true,

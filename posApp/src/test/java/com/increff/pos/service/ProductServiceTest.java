@@ -20,18 +20,18 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		service.add(p);
 
 		ProductPojo q= service.get(p.getId());
 		String expectedBarcode= "ndejf";
-		Integer expectedBrand_Category= 1;
+		Integer expectedBrandCategory= 1;
 		double expectedMrp = 10.7;
 		String expectedName= "Fanta 200 ml";
 		assertEquals(expectedBarcode,q.getBarcode());
-		assertEquals(expectedBrand_Category,q.getBrand_category());
+		assertEquals(expectedBrandCategory,q.getBrandCategory());
 		assertEquals(expectedMrp,q.getMrp(),0.0001);
 		assertEquals(expectedName,q.getName());
 	}
@@ -40,7 +40,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testNameEmptyAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10);
 		p.setName("");
 		try {
@@ -55,7 +55,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testBarcodeEmptyAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10);
 		p.setName("fdsfee");
 		try {
@@ -70,7 +70,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testMrpInvalidAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dsfds");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(0);
 		p.setName("fdsfee");
 		try {
@@ -85,14 +85,14 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testBarcodeExistsAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dasfds");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10);
 		p.setName("fdsfee");
 		service.add(p);
 
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
-		q.setBrand_category(10);
+		q.setBrandCategory(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
 		try {
@@ -107,7 +107,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testBrandCategoryInvalidAdd() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dsfds");
-		p.setBrand_category(0);
+		p.setBrandCategory(0);
 		p.setMrp(10);
 		p.setName("fdsfee");
 		try {
@@ -122,14 +122,14 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testUpdate() throws ApiException{
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
-		q.setBrand_category(10);
+		q.setBrandCategory(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
 		service.add(q);
 
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(20.1);
 		p.setName("Fanta 500 ml");
 		service.update(q.getId(),"Fanta 500 ml","ndejf",20.1);
@@ -145,7 +145,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testNameEmptyUpdate() throws ApiException{
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
-		q.setBrand_category(10);
+		q.setBrandCategory(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
 		service.add(q);
@@ -162,7 +162,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testBarcodeEmptyUpdate() throws ApiException{
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
-		q.setBrand_category(10);
+		q.setBrandCategory(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
 		service.add(q);
@@ -179,7 +179,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testMrpInvalidUpdate() throws ApiException{
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
-		q.setBrand_category(10);
+		q.setBrandCategory(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
 		service.add(q);
@@ -188,7 +188,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 			service.update(q.getId(),q.getName(),q.getBarcode(),0);
 			fail("Expected ApiException was not thrown");
 		} catch (ApiException e) {
-			TestCase.assertEquals( "Mrp should be positive", e.getMessage());
+			TestCase.assertEquals( "Invalid Mrp", e.getMessage());
 		}
 	}
 
@@ -196,14 +196,14 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testBarcodeExistsUpdate() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("dasfds");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10);
 		p.setName("fdsfee");
 		service.add(p);
 
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfdsgfds");
-		q.setBrand_category(10);
+		q.setBrandCategory(10);
 		q.setMrp(10);
 		q.setName("fdsfee");
 		service.add(q);
@@ -220,21 +220,21 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testGetCheckId() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		service.add(p);
 
 		ProductPojo q= service.checkId(p.getId());;
 		String expectedBarcode= service.selectBarcode(p.getId());
-		Integer expectedBrand_Category= 1;
+		Integer expectedBrandCategory= 1;
 		double expectedMrp = 10.7;
 		String expectedName= "Fanta 200 ml";
 		Integer expectedId=p.getId();
 		Integer qId= service.getIdByBarcode("ndejf");
 		assertEquals(expectedId,qId);
 		assertEquals(expectedBarcode,q.getBarcode());
-		assertEquals(expectedBrand_Category,q.getBrand_category());
+		assertEquals(expectedBrandCategory,q.getBrandCategory());
 		assertEquals(expectedMrp,q.getMrp(),0.0001);
 		assertEquals(expectedName,q.getName());
 	}
@@ -253,13 +253,13 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testGetAll() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 
 		ProductPojo q=new ProductPojo();
 		q.setBarcode("dasfds");
-		q.setBrand_category(10);
+		q.setBrandCategory(10);
 		q.setMrp(10.9);
 		q.setName("fdsfee");
 
@@ -276,7 +276,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testCheckSellingPrice() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		service.add(p);
@@ -289,7 +289,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testCheckSellingPriceInvalidNegative() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		service.add(p);
@@ -306,7 +306,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 	public void testCheckSellingPriceInvalid() throws ApiException{
 		ProductPojo p=new ProductPojo();
 		p.setBarcode("ndejf");
-		p.setBrand_category(1);
+		p.setBrandCategory(1);
 		p.setMrp(10.7);
 		p.setName("Fanta 200 ml");
 		service.add(p);

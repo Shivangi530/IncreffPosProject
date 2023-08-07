@@ -31,7 +31,7 @@ public class loginDto {
     @Value("${roles.path}")
     private String rolesPath;
 
-    public ModelAndView signUp(LoginForm f) throws ApiException {
+    public ModelAndView signUp(LoginForm f) {
         info.setMessage("");
         try {
             // Check if the user already exists
@@ -85,7 +85,6 @@ public class loginDto {
 
         session.setAttribute("role",String.valueOf(p.getRole()));
         info.setRole(String.valueOf(p.getRole()));
-        System.out.println("Info Role= "+info.getRole());
         return new ModelAndView("redirect:/ui/home");
     }
 
@@ -106,8 +105,6 @@ public class loginDto {
         String roleString = role.name();
         authorities.add(new SimpleGrantedAuthority(roleString));
 
-        // you can add more roles if required
-
         // Create Authentication
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,
                 authorities);
@@ -122,18 +119,15 @@ public class loginDto {
             properties.load(file);
             file.close();
         } catch (IOException e) {
-            // Handle file loading error
             e.printStackTrace();
-            return null; // Or throw an exception
+            return null;
         }
 
         // Check if the email exists in properties
         String role = properties.getProperty(email);
         if (role != null && !role.isEmpty()) {
-            // Email found, assign supervisor role
             return "SUPERVISOR";
         } else {
-            // Email not found, assign operator role
             return "OPERATOR";
         }
     }

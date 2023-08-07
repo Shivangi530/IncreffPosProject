@@ -11,7 +11,6 @@ import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +43,13 @@ public class inventoryDto {
         return list2;
     }
 
-    public void update(Integer id, InventoryForm f) throws ApiException {
-        service.update(id, f.getQuantity());
+    public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
+        normalize(inventoryForm);
+        if(inventoryForm.getQuantity() == null || inventoryForm.getQuantity() %1 !=0 || inventoryForm.getQuantity()>1000000000){
+            throw new ApiException("Invalid quantity");
+        }
+        Integer quantityInt = inventoryForm.getQuantity().intValue();
+        service.update(id, quantityInt);
     }
 
     public void updateList(List<InventoryForm> formList) throws ApiException {
@@ -57,19 +61,15 @@ public class inventoryDto {
 
         for (int i = 0; i < formList.size(); i++) {
             InventoryForm inventoryForm = formList.get(i);
-            System.out.println("InventoryForm "+inventoryForm);
             Pair<Integer, String> errorPair;
             try {
                 normalize(inventoryForm);
                 validate(inventoryForm);
-                System.out.println("InventoryForm "+inventoryForm);
-                int id= productService.getIdByBarcode(inventoryForm.getBarcode());
-                System.out.println("id= "+id);
+                Integer id= productService.getIdByBarcode(inventoryForm.getBarcode());
                 InventoryPojo inventoryPojo= convert(inventoryForm);
                 inventoryPojo.setId(id);
                 inventoryPojoList.add(inventoryPojo);
             } catch (ApiException e) {
-                System.out.println("error: "+e);
                 errorPair = new Pair<>(i , e.getMessage());
                 errorList.add(errorPair);
             }

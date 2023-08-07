@@ -1,7 +1,7 @@
 package com.increff.pos.dao;
 
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.OutwardOrderPojo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -18,7 +18,7 @@ public class OrderItemDao extends AbstractDao {
 	private static String DELETE_ID = "delete from OrderItemPojo p where id=:id";
 	private static String SELECT_ID = "select p from OrderItemPojo p where id=:id";
 	private static String SELECT_ALL = "select p from OrderItemPojo p";
-	private static String SELECT_RELEVANT = "select p from OrderItemPojo p where orderId=:orderId";
+	private static String SELECT_ITEMS_BY_ORDER = "select p from OrderItemPojo p where orderId=:orderId";
 
 	@PersistenceContext
 	private EntityManager em;
@@ -45,10 +45,10 @@ public class OrderItemDao extends AbstractDao {
 		return query.getResultList();
 	}
 
-	public List<OrderItemPojo> selectRelevant(List<OrderPojo> allOrderId) {
+	public List<OrderItemPojo> selectRelevant(List<OutwardOrderPojo> allOrderId) {
 		List<OrderItemPojo> list = new ArrayList<>();
-		for (OrderPojo orderId : allOrderId) {
-			TypedQuery<OrderItemPojo> query = getQuery(SELECT_RELEVANT, OrderItemPojo.class);
+		for (OutwardOrderPojo orderId : allOrderId) {
+			TypedQuery<OrderItemPojo> query = getQuery(SELECT_ITEMS_BY_ORDER, OrderItemPojo.class);
 			query.setParameter("orderId", orderId.getId());
 			list.addAll(query.getResultList());
 		}
@@ -57,7 +57,7 @@ public class OrderItemDao extends AbstractDao {
 
 	public List<OrderItemPojo> selectOrderItemByOrderId(int id) {
 		List<OrderItemPojo> list = new ArrayList<>();
-		TypedQuery<OrderItemPojo> query = getQuery(SELECT_RELEVANT, OrderItemPojo.class);
+		TypedQuery<OrderItemPojo> query = getQuery(SELECT_ITEMS_BY_ORDER, OrderItemPojo.class);
 		query.setParameter("orderId", id);
 		list.addAll(query.getResultList());
 		return list;

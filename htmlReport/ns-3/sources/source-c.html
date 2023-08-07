@@ -87,7 +87,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.increff.pos.service;
 &nbsp;
 &nbsp;import com.increff.pos.pojo.OrderItemPojo;
-&nbsp;import com.increff.pos.pojo.OrderPojo;
+&nbsp;import com.increff.pos.pojo.OutwardOrderPojo;
 &nbsp;import junit.framework.TestCase;
 &nbsp;import org.junit.Test;
 &nbsp;import org.springframework.beans.factory.annotation.Autowired;
@@ -188,10 +188,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;	@Test
 &nbsp;	public void testDelete() throws ApiException{
-<b class="fc">&nbsp;		OrderPojo orderPojo= new OrderPojo();</b>
-<b class="fc">&nbsp;		orderService.add(orderPojo);</b>
+<b class="fc">&nbsp;		OrderPojo outwardOrderPojo= new OrderPojo();</b>
+<b class="fc">&nbsp;		orderService.add(outwardOrderPojo);</b>
 <b class="fc">&nbsp;		OrderItemPojo p=new OrderItemPojo();</b>
-<b class="fc">&nbsp;		p.setOrderId(orderPojo.getId());</b>
+<b class="fc">&nbsp;		p.setOrderId(outwardOrderPojo.getId());</b>
 <b class="fc">&nbsp;		p.setProductId(11);</b>
 <b class="fc">&nbsp;		p.setSellingPrice(10.8);</b>
 <b class="fc">&nbsp;		p.setQuantity(10);</b>

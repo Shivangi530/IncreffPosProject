@@ -67,4 +67,21 @@ public class helper {
         createOrderForm.setSellingPrice(sellingPrice);
         return createOrderForm;
     }
+
+    public static ProductTsvForm createProduct(String brandName, String category, String productBarcode, String productMrp, String productName) {
+        ProductTsvForm productForm = new ProductTsvForm();
+        productForm.setBrand(brandName);
+        productForm.setCategory(category);
+        productForm.setName(productName);
+        productForm.setBarcode(productBarcode);
+        productForm.setMrp(productMrp);
+        return productForm;
+    }
+
+    public static InventoryTsvForm createInventory(String productBarcode, String quantity) {
+        InventoryTsvForm inventoryForm = new InventoryTsvForm();
+        inventoryForm.setBarcode(productBarcode);
+        inventoryForm.setQuantity(quantity);
+        return inventoryForm;
+    }
 }

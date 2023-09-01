@@ -35,8 +35,8 @@ public class createOrderDtoTest extends AbstractUnitTest {
     public void testCheck() throws ApiException{
         BrandForm brandForm= createBrand("brand","category");
         brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode",10.0,"name");
-        productDto.add(f);
+        ProductForm productForm= createProduct("brand","category","barcode",10.0,"name");
+        productDto.add(productForm);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
         inventoryForm.setQuantity(200.0);
@@ -61,8 +61,8 @@ public class createOrderDtoTest extends AbstractUnitTest {
     public void testCheckInvalidBarcode() throws ApiException{
         BrandForm brandForm= createBrand("brand","category");
         brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode",10.0,"name");
-        productDto.add(f);
+        ProductForm productForm= createProduct("brand","category","barcode",10.0,"name");
+        productDto.add(productForm);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
         inventoryForm.setQuantity(200.0);
@@ -81,8 +81,8 @@ public class createOrderDtoTest extends AbstractUnitTest {
     public void testCheckInvalidQuantity() throws ApiException{
         BrandForm brandForm= createBrand("brand","category");
         brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode",10.0,"name");
-        productDto.add(f);
+        ProductForm productForm= createProduct("brand","category","barcode",10.0,"name");
+        productDto.add(productForm);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
         inventoryForm.setQuantity(200.0);
@@ -101,8 +101,8 @@ public class createOrderDtoTest extends AbstractUnitTest {
     public void testCheckInvalidSellingPrice() throws ApiException{
         BrandForm brandForm= createBrand("brand","category");
         brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode",10.0,"name");
-        productDto.add(f);
+        ProductForm productForm= createProduct("brand","category","barcode",10.0,"name");
+        productDto.add(productForm);
         int id=productService.getIdByBarcode("barcode");
         InventoryForm inventoryForm= inventoryDto.get(id);
         inventoryForm.setQuantity(200.0);
@@ -121,10 +121,10 @@ public class createOrderDtoTest extends AbstractUnitTest {
     public void testCheckAll() throws ApiException{
         BrandForm brandForm= createBrand("brand","category");
         brandDto.add(brandForm);
-        ProductForm f1= createProduct("brand","category","barcode1",10.0,"name1");
-        productDto.add(f1);
-        ProductForm f2= createProduct("brand","category","barcode2",20.0,"name2");
-        productDto.add(f2);
+        ProductForm productForm1= createProduct("brand","category","barcode1",10.0,"name1");
+        productDto.add(productForm1);
+        ProductForm productForm2= createProduct("brand","category","barcode2",20.0,"name2");
+        productDto.add(productForm2);
 
         int id1=productService.getIdByBarcode("barcode1");
         InventoryForm inventoryForm1= inventoryDto.get(id1);

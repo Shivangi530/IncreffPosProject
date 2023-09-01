@@ -117,7 +117,7 @@ public class orderItemDtoTest extends AbstractUnitTest {
             dto.update(orderItemId, orderItemFormUpdated);
             Assert.fail("Expected ApiException was not thrown");
         } catch (ApiException e){
-            assertEquals("Invalid operation",e.getMessage());
+            assertEquals("Selected quantity:100 is more than inventory: 10 for barcode:barcode",e.getMessage());
         }
     }
 

@@ -23,25 +23,23 @@
                         <div class="form-group">
                             <label for="email" class="col-sm-10 col-form-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="email" id="email"
-                                       placeholder="enter email">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="enter email">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="password" class="col-sm-10 col-form-label">Password</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" id="password"
-                                       placeholder="password">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="password">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary" id="login">Go</button>
                     </form>
                 </div>
-                <div class="card-footer" th:classappend="${info.getMessage() == 'User registered successfully' ? 'text-success' : 'text-danger'}" >
-                    <div class="card-footer" th:classappend="${info.getMessage() == 'No message' ? 'd-none' : 'text-danger'}">
-                        [[${info.getMessage()}]]
-                    </div>
+
+                <div th:class="(${info.getMessage()} == 'User registered successfully' ? 'card-footer text-success' : 'card-footer text-danger') + (${info.getMessage()} == 'No message' ? ' d-none' : '')">
+                    [[${info.getMessage()}]]
                 </div>
+
                 <div class="card-footer ">
                     New User
                     <button type="submit" class="btn btn-primary" id="signup">

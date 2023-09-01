@@ -2,7 +2,7 @@ package com.increff.pos.util;
 
 import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.service.*;
 
 import java.time.LocalDate;
 
@@ -41,6 +41,16 @@ public class ConversionUtil {
         pojo.setMrp(form.getMrp());
         pojo.setBrandCategory(brandCategory);
         return pojo;
+    }
+
+    public static ProductForm convert(ProductTsvForm tsvForm,Double mrp) {
+        ProductForm form = new ProductForm();
+        form.setBarcode(tsvForm.getBarcode());
+        form.setName(tsvForm.getName());
+        form.setMrp(mrp);
+        form.setCategory(tsvForm.getCategory());
+        form.setBrand(tsvForm.getBrand());
+        return form;
     }
 
     public static InventoryData convert(InventoryPojo pojo, String barcode) throws ApiException {
@@ -139,5 +149,15 @@ public class ConversionUtil {
         revenue=Math.round(revenue  * 100.0) / 100.0;
         data.setRevenue(revenue);
         return data;
+    }
+
+    public static OrderItemPojo convert(int productId,int quantity, double sellingPrice, int orderId) throws ApiException{
+        OrderItemPojo pojo = new OrderItemPojo();
+        OrderItemPojo orderItemPojo= new OrderItemPojo();
+        orderItemPojo.setOrderId(orderId);
+        orderItemPojo.setQuantity(quantity);
+        orderItemPojo.setProductId(productId);
+        orderItemPojo.setSellingPrice(((int)(sellingPrice  * 100)) / 100.0);
+        return pojo;
     }
 }

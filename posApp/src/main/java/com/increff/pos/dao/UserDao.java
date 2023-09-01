@@ -1,6 +1,7 @@
 package com.increff.pos.dao;
 
 import com.increff.pos.pojo.UserPojo;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -13,6 +14,7 @@ public class UserDao extends AbstractDao {
 
 	private static String DELETE_ID = "delete from UserPojo p where id=:id";
 	private static String SELECT_EMAIL = "select p from UserPojo p where email=:email";
+	private static String SELECT_ID = "select p from UserPojo p where id=:id";
 	private static String SELECT_ALL = "select p from UserPojo p";
 
 	@Transactional
@@ -29,6 +31,12 @@ public class UserDao extends AbstractDao {
 	public UserPojo select(String email) {
 		TypedQuery<UserPojo> query = getQuery(SELECT_EMAIL, UserPojo.class);
 		query.setParameter("email", email);
+		return getSingle(query);
+	}
+
+	public UserPojo selectById(Integer id) {
+		TypedQuery<UserPojo> query = getQuery(SELECT_ID, UserPojo.class);
+		query.setParameter("id", id);
 		return getSingle(query);
 	}
 

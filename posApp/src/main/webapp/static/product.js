@@ -28,12 +28,12 @@ function addProduct(event) {
         warning("Mrp cannot be empty");
         return false;
     }
-    if(parseFloat(json1.mrp)>1000000000){
+    if(parseFloat(json1.mrp)>10000000){
         warning("Mrp entered is too large");
         return false;
     }
-    if(parseFloat(json1.mrp)<=0){
-        warning("Mrp must be positive");
+    if(parseFloat(json1.mrp)<0.01){
+        warning("Mrp must be more than or equal to 0.01");
         return false;
     }
     if(json1.brand === ""){
@@ -66,7 +66,6 @@ function addProduct(event) {
 }
 
 function updateProduct(event) {
-    $('#edit-product-modal').modal('toggle');
     //Get the ID
     var id = $("#product-edit-form input[name=id]").val();
     var url = getProductUrl() + "/" + id;
@@ -83,12 +82,12 @@ function updateProduct(event) {
         warning("Mrp cannot be empty");
         return false;
     }
-    if(parseFloat(json1.mrp)>1000000000){
+    if(parseFloat(json1.mrp)>10000000){
         warning("Mrp entered is too large");
         return false;
     }
-    if(parseFloat(json1.mrp)<=0){
-            warning("Mrp must be positive");
+    if(parseFloat(json1.mrp)<0.01){
+            warning("Mrp must be more than or equal to 0.01");
             return false;
     }
     json1.mrp=parseFloat(json1.mrp).toFixed(2);
@@ -100,6 +99,7 @@ function updateProduct(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
+            $('#edit-product-modal').modal('toggle');
             success("Item Updated");
             getProductList();
         },
@@ -160,6 +160,20 @@ function readFileDataCallback(results) {
         console.log("File size exceeds limit");
         warning("The file size (" + fileData.length + ") exceeds the limit of 5000.");
     } else {
+        const firstRecord = fileData[0];
+        const updatedKeys = Object.keys(firstRecord).map(key => key.toLowerCase().trim());
+
+        const fileDataFiltered = fileData.map(obj => {
+          const lowercaseHeaders = {};
+          Object.keys(obj).forEach(key => {
+            const lowercaseKey = key.toLowerCase().trim();
+            if (lowercaseKey !== "") {  // Skip empty headers
+                lowercaseHeaders[lowercaseKey] = obj[key];
+            }
+          });
+          return lowercaseHeaders;
+        });
+        fileData= fileDataFiltered;
         if (!checkHeaderMatch(fileData[0])) {
             console.log("File headers do not match the expected format");
             warning("File headers do not match the expected format");
@@ -171,7 +185,8 @@ function readFileDataCallback(results) {
 
 function checkHeaderMatch(uploadedHeaders) {
     var expectedHeaders = ["barcode", "brand", "category", "mrp", "name"];
-    var extractedHeaders = Object.keys(uploadedHeaders).map(header => header.toLowerCase());
+    var extractedHeaders = Object.keys(uploadedHeaders);
+    extractedHeaders = extractedHeaders.map(header => header.toLowerCase().trim());
 
     if (extractedHeaders.length !== expectedHeaders.length) {
         return false;
@@ -257,15 +272,6 @@ function displayProductList(data) {
         var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
         var trimmedName = e.name.length > 30 ? e.name.substring(0, 30) + '...' : e.name;
         var buttonHtml = ' <button class="btn btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
-//        var row = '<tr>' +
-//            '<td>' + e.id + '</td>' +
-//            '<td>' + e.barcode + '</td>' +
-//            '<td>' + trimmedBrand + '</td>' +
-//            '<td>' + trimmedCategory + '</td>' +
-//            '<td>' + trimmedName + '</td>' +
-//            '<td>' + e.mrp + '</td>' +
-//            '<td>' + buttonHtml + '</td>' +
-//            '</tr>';
         dataRows.push([e.id,e.barcode, trimmedBrand, trimmedCategory,trimmedName,parseFloat(e.mrp).toFixed(2), buttonHtml]);
     }
     table.rows.add(dataRows).draw();
@@ -362,7 +368,15 @@ function init() {
         [5, 10, 20, 'All']
       ],
       deferRender: true,
-      order: [[0, "desc"]]
+      order: [[0, "desc"]],
+      columns: [
+                       { searchable: false },
+                       { searchable: true },
+                       { searchable: true },
+                       { searchable: true },
+                       { searchable: true },
+                       { searchable: false }
+                   ],
     });
 }
 

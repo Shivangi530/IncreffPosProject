@@ -4,7 +4,6 @@ import com.increff.pos.model.EnumData;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.pojo.OutwardOrderPojo;
 import com.increff.pos.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -54,20 +53,29 @@ public class orderItemDto {
     @Transactional
     public void update( int id,  OrderItemForm f) throws ApiException {
         OrderItemPojo pojo = service.getCheck(id);
-        int newQty= f.getQuantity()- pojo.getQuantity() ;
+        if(f.getQuantity()>10000000){
+            throw new ApiException("Quantity is too large");
+        }
+        int newQty= f.getQuantity()- pojo.getQuantity();
+
         EnumData.Status status= orderService.getCheck(pojo.getOrderId()).getStatus();
         if(status== EnumData.Status.CREATED) {
+            // Checking if inventory is sufficient
             int inventoryPrevQty = inventoryService.getCheck(pojo.getProductId()).getQuantity();
-            int inventoryUpdatedQty = inventoryPrevQty - newQty;
-            if(inventoryUpdatedQty<0) {
-                throw new ApiException("Invalid operation");
+            if(inventoryPrevQty< newQty){
+                throw new ApiException("Selected quantity:"+f.getQuantity()+" is more than inventory: "+inventoryPrevQty+" for barcode:"+productService.get(pojo.getProductId()).getBarcode());
             }
+            int inventoryUpdatedQty = inventoryPrevQty - newQty;
+
             //Checking if the selling price is less than mrp.
             int productId=pojo.getProductId();
             productService.checkSellingPrice(f.getSellingPrice(),productId);
             double sellingPrice= Math.round(f.getSellingPrice()  * 100.0) / 100.0;
 
             //Updating the inventory
+            if(inventoryUpdatedQty<0) {
+                throw new ApiException("Invalid operation");
+            }
             inventoryService.update(pojo.getProductId(), inventoryUpdatedQty);
             service.update(id, f.getQuantity(),sellingPrice);
         }else if(status== EnumData.Status.INVOICED){

@@ -5,25 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab9188e-5739-42ec-a965-4171a9a948ff" name="Changes" comment="done">
+      <change afterPath="$PROJECT_DIR$/../salesCampaign/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesCampaign/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesCampaign/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/SaleCampaignApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/controller/CampaignController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/controller/ProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/pojo/CampaignDiscountPojo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/pojo/CampaignPojo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/pojo/ProductPojo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/pojo/ProductPriceHistoryPojo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/repository/CampaignRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/repository/ProductPriceHistoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/repository/ProductRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/service/CampaignService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/service/ProductPriceHistoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/service/ProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/spring/ControllerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/spring/DbConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/spring/SpringConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/spring/SpringSecurityInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/spring/WebInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../salesPost/src/main/java/org/saleCampaign/util/SnakeCasePhysicalNamingStrategy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-12.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-12.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-d.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-d.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-e.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-e.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-f.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-2/sources/source-f.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-d.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-d.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-e.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-3/sources/source-e.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-4/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-4/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-4/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-4/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-7/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-7/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htmlReport/ns-7/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/htmlReport/ns-7/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../IncreffPOSproject/posApp" beforeDir="false" afterPath="$PROJECT_DIR$/../IncreffPOSproject/posApp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IncreffPOSproj/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IncreffPOSproject/.idea/IncreffPOSproject.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IncreffPOSproject/posApp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Increff_POS_Spring_app" beforeDir="false" afterPath="$PROJECT_DIR$/../Increff_POS_Spring_app" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pos" beforeDir="false" />
     </list>
@@ -77,46 +84,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;TODO_SCOPE&quot;: &quot;All Places&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew/posApp/src/main/resources/demoValid&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew/src/main/java/org/increff/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "TODO_SCOPE": "All Places",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew",
+    "onboarding.tips.debug.path": "/Users/shivangipokhriyal/Documents/IncreffPOSProjectNew/src/main/java/org/increff/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.externalResources"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/posApp/src/main/resources/demoInit" />
       <recent name="$PROJECT_DIR$/posApp/src/main/resources/demoValid" />
       <recent name="$PROJECT_DIR$/posApp/src/main/resources" />
       <recent name="$PROJECT_DIR$/posApp/src/main/webapp/static/images" />
       <recent name="$PROJECT_DIR$/posApp/src/main/resources/sample" />
-      <recent name="$PROJECT_DIR$/posApp/src/main/resources/com/increff/pos" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/posApp/src/main/webapp/static/images" />
+      <recent name="$PROJECT_DIR$/posApp/src/main/resources/demoErrorFiles" />
       <recent name="$PROJECT_DIR$/posApp/src/main/webapp/static" />
       <recent name="$PROJECT_DIR$/posApp/src/test/java/com/increff/employee/dto" />
       <recent name="$PROJECT_DIR$/posApp/src/main/webapp/images" />
-      <recent name="$PROJECT_DIR$/posApp" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.increff.pos.model" />
       <recent name="com.increff.pos.dto" />
       <recent name="com.increff.pos.service" />
       <recent name="com.increff.employee.dto" />
       <recent name="com.increff.employee.model" />
-      <recent name="com.increff.employee.service" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.loginDtoTest.testSignUp_ApiException">
+  <component name="RunManager" selected="Maven. [jetty-run]">
     <configuration name="inventoryDtoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-spring-full" />
       <extension name="coverage">
@@ -164,22 +171,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="loginDtoTest.signUp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="employee-spring-full" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.increff.pos.dto.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.increff.pos.dto" />
-      <option name="MAIN_CLASS_NAME" value="com.increff.pos.dto.loginDtoTest" />
-      <option name="METHOD_NAME" value="signUp" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="loginDtoTest.testSignUp_ApiException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-spring-full" />
       <extension name="coverage">
@@ -212,7 +203,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="orderDtoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="productDtoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="employee-spring-full" />
       <extension name="coverage">
         <pattern>
@@ -221,8 +212,24 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.increff.pos.dto" />
-      <option name="MAIN_CLASS_NAME" value="com.increff.pos.dto.orderDtoTest" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.pos.dto.productDtoTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="productDtoTest.tesAddList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="employee-spring-full" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.increff.pos.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.increff.pos.dto" />
+      <option name="MAIN_CLASS_NAME" value="com.increff.pos.dto.productDtoTest" />
+      <option name="METHOD_NAME" value="tesAddList" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -279,21 +286,21 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.java in employee-spring-full" />
-      <item itemvalue="JUnit.loginDtoTest.signUp" />
       <item itemvalue="JUnit.loginDtoTest.testSignUp_ApiException" />
       <item itemvalue="JUnit.loginDtoTest.testSignUp_UserExists" />
+      <item itemvalue="JUnit.productDtoTest" />
+      <item itemvalue="JUnit.productDtoTest.tesAddList" />
       <item itemvalue="JUnit.inventoryDtoTest" />
-      <item itemvalue="JUnit.orderDtoTest" />
       <item itemvalue="Maven. [jetty-run]" />
       <item itemvalue="Maven.invoice-app [jetty:run]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.inventoryDtoTest" />
+        <item itemvalue="JUnit.productDtoTest.tesAddList" />
+        <item itemvalue="JUnit.productDtoTest" />
         <item itemvalue="JUnit.loginDtoTest.testSignUp_ApiException" />
         <item itemvalue="JUnit.loginDtoTest.testSignUp_UserExists" />
-        <item itemvalue="JUnit.loginDtoTest.signUp" />
-        <item itemvalue="JUnit.inventoryDtoTest" />
-        <item itemvalue="JUnit.orderDtoTest" />
       </list>
     </recent_temporary>
   </component>
@@ -398,6 +405,9 @@
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandServiceTest_testAddNullBrand.ic" NAME="BrandServiceTest.testAddNullBrand Coverage Results" MODIFIED="1691035335188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.service.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$loginDtoTest_testSignUp_ApiException.ic" NAME="loginDtoTest.testSignUp_ApiException Coverage Results" MODIFIED="1691390425890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.pos.dto.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$orderItemDtoTest_testUpdateInvalidQuantity.ic" NAME="orderItemDtoTest.testUpdateInvalidQuantity Coverage Results" MODIFIED="1690963733956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.dto.*</FILTER>
     </SUITE>
@@ -449,7 +459,7 @@
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$inventoryDtoTest_testUpdate.ic" NAME="inventoryDtoTest.testUpdate Coverage Results" MODIFIED="1690869105138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.dto.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$java_in_employee_spring_full.ic" NAME="java in employee-spring-full Coverage Results" MODIFIED="1691386622348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$java_in_employee_spring_full.ic" NAME="java in employee-spring-full Coverage Results" MODIFIED="1691740465539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.dao.*</FILTER>
       <FILTER>com.increff.pos.dto.*</FILTER>
       <FILTER>com.increff.pos.service.*</FILTER>
@@ -487,6 +497,9 @@
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandDtoTest2_testExistingBrandCategoryAdd.ic" NAME="BrandDtoTest2.testExistingBrandCategoryAdd Coverage Results" MODIFIED="1690078527130" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.employee.dto.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$loginDtoTest_testSignUp_UserExists.ic" NAME="loginDtoTest.testSignUp_UserExists Coverage Results" MODIFIED="1691390284493" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.increff.pos.dto.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$InventoryServiceTest_testQuantityInvalidAdd.ic" NAME="InventoryServiceTest.testQuantityInvalidAdd Coverage Results" MODIFIED="1689583194310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.employee.service.*</FILTER>
     </SUITE>
@@ -502,7 +515,7 @@
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$productDtoTest_testAdd.ic" NAME="productDtoTest.testAdd Coverage Results" MODIFIED="1690081796376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.employee.dto.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$productDtoTest.ic" NAME="productDtoTest Coverage Results" MODIFIED="1690957975516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$productDtoTest.ic" NAME="productDtoTest Coverage Results" MODIFIED="1691464773611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.dto.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandDtoTest2_testUpdate.ic" NAME="BrandDtoTest2.testUpdate Coverage Results" MODIFIED="1690078107600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -532,7 +545,7 @@
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$BrandDtoTest_testAddList.ic" NAME="BrandDtoTest.testAddList Coverage Results" MODIFIED="1690955244257" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.dto.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$productDtoTest_tesAddList.ic" NAME="productDtoTest.tesAddList Coverage Results" MODIFIED="1690955895207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$productDtoTest_tesAddList.ic" NAME="productDtoTest.tesAddList Coverage Results" MODIFIED="1691464862351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.dto.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$orderItemDtoTest_testDeleteInvoiced.ic" NAME="orderItemDtoTest.testDeleteInvoiced Coverage Results" MODIFIED="1690963444722" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -647,7 +660,7 @@
       <FILTER>com.increff.pos.service.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$service_in_employee_spring_full.ic" NAME="service in employee-spring-full Coverage Results" MODIFIED="1690972549066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$inventoryDtoTest.ic" NAME="inventoryDtoTest Coverage Results" MODIFIED="1691374956512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$inventoryDtoTest.ic" NAME="inventoryDtoTest Coverage Results" MODIFIED="1691465643292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.increff.pos.dto.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IncreffPOSProjectNew$DayOnDaySalesTest_testAdd.ic" NAME="DayOnDaySalesTest.testAdd Coverage Results" MODIFIED="1690953496298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

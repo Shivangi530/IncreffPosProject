@@ -31,9 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/about").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
 				.antMatchers(HttpMethod.POST, "/api/report/salesReport").hasAnyAuthority("OPERATOR","SUPERVISOR")
-				.antMatchers("/api/validateOrderItem/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers("/api/validate-order-item/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
 				.antMatchers("/api/order/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
-				.antMatchers("/api/orderItem/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
+				.antMatchers("/api/order-item/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
 				.antMatchers("/api/invoice/**").hasAnyAuthority("OPERATOR","SUPERVISOR")
 				.antMatchers("/api/admin/**").hasAnyAuthority("SUPERVISOR")//
 				.antMatchers("/api/**").hasAnyAuthority("SUPERVISOR")//

@@ -28,31 +28,29 @@ public class orderDto {
     private InventoryService inventoryService;
 
     @Transactional(rollbackOn = ApiException.class)
-    public int add(List<CreateOrderForm> orderFormList) throws ApiException {
+    public Integer add(List<CreateOrderForm> orderFormList) throws ApiException {
         checkAll(orderFormList);
 
         OutwardOrderPojo orderPojo = new OutwardOrderPojo();
         service.add(orderPojo);
-        int orderId= orderPojo.getId();
+        Integer orderId= orderPojo.getId();
 
         for (CreateOrderForm form : orderFormList) {
-            int productId=productService.getIdByBarcode(form.getBarcode());
-            int quantity=inventoryService.checkQuantity(form.getQuantity(),productId);
+            Integer productId=productService.getIdByBarcode(form.getBarcode());
+            Integer quantity=inventoryService.checkQuantity(form.getQuantity(),productId);
             double sellingPrice=productService.checkSellingPrice(form.getSellingPrice(),productId);
 
-            OrderItemPojo orderItemPojo= new OrderItemPojo();
-            orderItemPojo.setOrderId(orderId);
-            orderItemPojo.setQuantity(quantity);
-            orderItemPojo.setProductId(productId);
-            orderItemPojo.setSellingPrice(Math.round(sellingPrice  * 100.0) / 100.0);
-            int inventoryQty=inventoryService.getCheck(productId).getQuantity();
+            OrderItemPojo orderItemPojo= convert(productId,quantity,sellingPrice,orderId);
+
+            Integer inventoryQty=inventoryService.getCheck(productId).getQuantity();
             inventoryService.update(productId,inventoryQty-quantity);
+
             orderItemService.add(orderItemPojo);
         }
         return orderId;
     }
 
-    public OrderData get(int id) throws ApiException {
+    public OrderData get(Integer id) throws ApiException {
         OutwardOrderPojo orderPojo = service.getCheck(id);
         return convert(orderPojo);
     }
@@ -65,7 +63,7 @@ public class orderDto {
         return list2;
     }
 
-    public void update(int id,String status) throws ApiException {
+    public void update(Integer id,String status) throws ApiException {
         service.update(id,status);
     }
 
@@ -73,8 +71,8 @@ public class orderDto {
         if (f == null) {
             throw new ApiException("Cannot place empty order.");
         }
-        int productId=productService.getIdByBarcode(f.getBarcode());
-        int quantity=inventoryService.checkQuantity(f.getQuantity(),productId);
+        Integer productId=productService.getIdByBarcode(f.getBarcode());
+        Integer quantity=inventoryService.checkQuantity(f.getQuantity(),productId);
         double sellingPrice=productService.checkSellingPrice(f.getSellingPrice(),productId);
     }
     public void checkAll(List<CreateOrderForm> formList) throws ApiException {

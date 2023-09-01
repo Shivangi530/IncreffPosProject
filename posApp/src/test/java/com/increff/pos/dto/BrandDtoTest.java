@@ -24,26 +24,26 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testAdd() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
         String expectedBrand="amul";
         String expectedCategory="milk";
 
-        BrandPojo p= service.checkCombination(expectedBrand,expectedCategory);
-        assertEquals(expectedBrand,p.getBrand());
-        assertEquals(expectedCategory,p.getCategory());
+        BrandPojo pojo= service.checkCombination(expectedBrand,expectedCategory);
+        assertEquals(expectedBrand,pojo.getBrand());
+        assertEquals(expectedCategory,pojo.getCategory());
     }
 
     @Test
     public void testEmptyBrandAdd() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("");
-        f.setCategory("Milk");
+        BrandForm form= new BrandForm();
+        form.setBrand("");
+        form.setCategory("Milk");
         try {
-            dto.add(f);
+            dto.add(form);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
             assertEquals( "Brand cannot be empty", e.getMessage());
@@ -52,52 +52,50 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testEmptyCategoryAdd() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("");
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("");
         try {
-            dto.add(f);
+            dto.add(form);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
-            // ApiException is caught as expected
             assertEquals("Category cannot be empty", e.getMessage());
         }
     }
 
     @Test
     public void testDuplicateBrandCategoryAdd() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
-        BrandForm f1= new BrandForm();
-        f1.setBrand("Amul");
-        f1.setCategory("Milk");
+        BrandForm form1= new BrandForm();
+        form1.setBrand("Amul");
+        form1.setCategory("Milk");
         try {
-            dto.add(f1);
+            dto.add(form1);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e) {
-            // ApiException is caught as expected
             assertEquals("Brand:amul and Category:milk combination already exists", e.getMessage());
         }
     }
 
     @Test
     public void testGetBrand() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
         String expectedBrand="amul";
         String expectedCategory="milk";
 
         BrandPojo brandPojo=service.checkCombination(expectedBrand,expectedCategory);
 
-        BrandData p= dto.getBrand(brandPojo.getId());
-        assertEquals(expectedBrand,p.getBrand());
-        assertEquals(expectedCategory,p.getCategory());
+        BrandData pojo= dto.getBrand(brandPojo.getId());
+        assertEquals(expectedBrand,pojo.getBrand());
+        assertEquals(expectedCategory,pojo.getCategory());
     }
 
     @Test
@@ -113,53 +111,53 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testGetAll() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
-        BrandForm f1= new BrandForm();
-        f1.setBrand("Mother Dairy");
-        f1.setCategory("Milk");
-        dto.add(f1);
+        BrandForm form1= new BrandForm();
+        form1.setBrand("Mother Dairy");
+        form1.setCategory("Milk");
+        dto.add(form1);
 
-        List<BrandData> p= dto.getAll();
-        assertEquals(2,p.size());
+        List<BrandData> pojo= dto.getAll();
+        assertEquals(2,pojo.size());
     }
 
     @Test
     public void testUpdate() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
         String expectedBrand="dairy milk";
         String expectedCategory="chocolate";
 
-        BrandPojo p= service.checkCombination("amul","milk");
+        BrandPojo pojo= service.checkCombination("amul","milk");
 
-        f.setBrand("Dairy Milk");
-        f.setCategory("Chocolate");
-        dto.update(p.getId(),f);
+        form.setBrand("Dairy Milk");
+        form.setCategory("Chocolate");
+        dto.update(pojo.getId(),form);
 
-        assertEquals(expectedBrand,p.getBrand());
-        assertEquals(expectedCategory,p.getCategory());
+        assertEquals(expectedBrand,pojo.getBrand());
+        assertEquals(expectedCategory,pojo.getCategory());
     }
 
     @Test
     public void testEmptyBrandUpdate() throws ApiException {
-        BrandForm f = new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form = new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
-        BrandPojo p = service.checkCombination("amul", "milk");
+        BrandPojo pojo = service.checkCombination("amul", "milk");
 
-        f.setBrand("");
-        f.setCategory("Chocolate");
+        form.setBrand("");
+        form.setCategory("Chocolate");
         try{
-            dto.update(p.getId(), f);
+            dto.update(pojo.getId(), form);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e){
             assertEquals("Brand cannot be empty",e.getMessage());
@@ -169,17 +167,17 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testEmptyCategoryUpdate() throws ApiException {
-        BrandForm f = new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form = new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
-        BrandPojo p = service.checkCombination("amul", "milk");
+        BrandPojo pojo = service.checkCombination("amul", "milk");
 
-        f.setBrand("Dairy Milk");
-        f.setCategory("");
+        form.setBrand("Dairy Milk");
+        form.setCategory("");
         try{
-            dto.update(p.getId(), f);
+            dto.update(pojo.getId(), form);
             fail("Expected ApiException was not thrown");
         }catch (ApiException e){
             assertEquals("Category cannot be empty",e.getMessage());
@@ -188,23 +186,23 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testDuplicateBrandCategoryUpdate() throws ApiException {
-        BrandForm f = new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
-        dto.add(f);
+        BrandForm form = new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
+        dto.add(form);
 
-        BrandForm f1= new BrandForm();
-        f1.setBrand("Dairy Milk");
-        f1.setCategory("Chocolate");
-        dto.add(f1);
+        BrandForm form1= new BrandForm();
+        form1.setBrand("Dairy Milk");
+        form1.setCategory("Chocolate");
+        dto.add(form1);
 
-        BrandPojo p = service.checkCombination("amul", "milk");
+        BrandPojo pojo = service.checkCombination("amul", "milk");
 
-        f.setBrand("Dairy Milk");
-        f.setCategory("Chocolate");
+        form.setBrand("Dairy Milk");
+        form.setCategory("Chocolate");
 
         try{
-            dto.update(p.getId(), f);
+            dto.update(pojo.getId(), form);
             fail("Expected ApiException was not thrown");
         } catch (ApiException e){
             assertEquals("Brand:dairy milk and Category:chocolate combination already exists",e.getMessage());
@@ -213,21 +211,21 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testAddList() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
 
-        BrandForm f1= new BrandForm();
-        f1.setBrand("Mother Dairy");
-        f1.setCategory("Milk");
+        BrandForm form1= new BrandForm();
+        form1.setBrand("Mother Dairy");
+        form1.setCategory("Milk");
 
         List<BrandForm> list= new ArrayList<>();
-        list.add(f);
-        list.add(f1);
+        list.add(form);
+        list.add(form1);
         dto.addList(list);
 
-        List<BrandData> p= dto.getAll();
-        assertEquals(2,p.size());
+        List<BrandData> pojo= dto.getAll();
+        assertEquals(2,pojo.size());
     }
 
     @Test
@@ -243,22 +241,22 @@ public class BrandDtoTest extends AbstractUnitTest {
 
     @Test
     public void testAddListDuplicates() throws ApiException{
-        BrandForm f= new BrandForm();
-        f.setBrand("Amul");
-        f.setCategory("Milk");
+        BrandForm form= new BrandForm();
+        form.setBrand("Amul");
+        form.setCategory("Milk");
 
-        BrandForm f1= new BrandForm();
-        f1.setBrand("Mother Dairy");
-        f1.setCategory("Milk");
+        BrandForm form1= new BrandForm();
+        form1.setBrand("Mother Dairy");
+        form1.setCategory("Milk");
 
-        BrandForm f2= new BrandForm();
-        f2.setBrand("Mother Dairy");
-        f2.setCategory("Milk");
+        BrandForm form2= new BrandForm();
+        form2.setBrand("Mother Dairy");
+        form2.setCategory("Milk");
 
         List<BrandForm> list= new ArrayList<>();
-        list.add(f);
-        list.add(f1);
-        list.add(f2);
+        list.add(form);
+        list.add(form1);
+        list.add(form2);
 
         try{
             dto.addList(list);

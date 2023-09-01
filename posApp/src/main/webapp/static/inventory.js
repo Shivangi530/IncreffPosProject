@@ -11,7 +11,6 @@ function getInventoryListUrl() {
 }
 
 function updateInventory(event) {
-    $('#edit-inventory-modal').modal('toggle');
     //Get the ID
     var id = $("#inventory-edit-form input[name=id]").val();
     var url = getInventoryUrl() + "/" + id;
@@ -25,6 +24,11 @@ function updateInventory(event) {
         return;
     }if(json1.quantity<0){
         warning("Quantity should be positive");
+        return;
+    }
+    if(json1.quantity>10000000){
+        warning("Quantity is too large.");
+        return;
     }
     console.log(json);
     console.log(json1);
@@ -38,7 +42,8 @@ function updateInventory(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            success("Item Updated");
+            $('#edit-inventory-modal').modal('toggle');
+            success("Inventory Updated");
             getInventoryList();
         },
         error: handleAjaxError
@@ -81,7 +86,9 @@ function processData() {
 }
 
 function readFileDataCallback(results) {
+    console.log(results);
     fileData = results.data;
+    console.log(fileData);
     if (fileData.length == 0) {
         console.log("File Empty");
         warning("File Empty");
@@ -91,6 +98,20 @@ function readFileDataCallback(results) {
         warning("The file size (" + fileData.length + ") exceeds the limit of 5000.");
         return;
     } else {
+        const firstRecord = fileData[0];
+        const updatedKeys = Object.keys(firstRecord).map(key => key.toLowerCase().trim());
+
+        const fileDataFiltered = fileData.map(obj => {
+          const lowercaseHeaders = {};
+          Object.keys(obj).forEach(key => {
+            const lowercaseKey = key.toLowerCase().trim();
+            if (lowercaseKey !== "") {  // Skip empty headers
+                lowercaseHeaders[lowercaseKey] = obj[key];
+            }
+          });
+          return lowercaseHeaders;
+        });
+        fileData= fileDataFiltered;
         if (!checkHeaderMatch(fileData[0])) {
             console.log("File headers do not match the expected format");
             warning("File headers do not match the expected format");
@@ -103,17 +124,14 @@ function readFileDataCallback(results) {
 function checkHeaderMatch(uploadedHeaders) {
     // Extract the headers from the object
     var expectedHeaders = ["barcode", "quantity"];
-
-    var extractedHeaders = Object.keys(uploadedHeaders).map(header => header.toLowerCase());
-    extractedHeaders = extractedHeaders.filter(item => item !== 'error');
+    var extractedHeaders = Object.keys(uploadedHeaders);//.map(header => header.toLowerCase());
+    //extractedHeaders = extractedHeaders.map(header => header.toLowerCase().trim());
+    console.log(extractedHeaders);
     // Compare the headers
     if (extractedHeaders.length !== expectedHeaders.length) {
         return false;
     }
-    // Sort the extracted headers and expected headers in lowercase
     extractedHeaders.sort();
-    expectedHeaders = expectedHeaders.map(header => header.toLowerCase());
-    expectedHeaders.sort();
     for (var i = 0; i < expectedHeaders.length; i++) {
         if (extractedHeaders[i] !== expectedHeaders[i]) {
             return false;
@@ -289,6 +307,10 @@ function init() {
         [5, 10, 20, 'All']
       ],
       deferRender: true,
+      columns: [
+                       { searchable: true },
+                       { searchable: false }
+                   ],
     });
 }
 

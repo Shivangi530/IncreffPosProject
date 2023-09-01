@@ -25,5 +25,5 @@ public class DayOnDaySalesPojo extends AbstractPojo {
     private Integer itemCount;
 
 	@Column(nullable = false, scale = 2)
-    private double revenue;
+    private Double revenue;
 }

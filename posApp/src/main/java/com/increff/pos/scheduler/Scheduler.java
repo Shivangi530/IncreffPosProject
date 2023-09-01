@@ -17,7 +17,7 @@ public class Scheduler {
     @Autowired
     private DayOnDaySalesService service;
 
-    @Scheduled(fixedDelay = 3600000) // @Scheduled(fixedDelay = 5000)(cron = "0 23 13 * * ?")
+    @Scheduled(fixedDelay = 3600000)
     public void scheduledTask() throws ApiException {
         ZonedDateTime l = ZonedDateTime.now();
         System.out.println(l);

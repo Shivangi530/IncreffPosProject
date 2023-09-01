@@ -82,7 +82,6 @@ public class OrderService {
 	public ResponseEntity<byte[]> getInvoicePDF(Integer id) throws Exception {
 		InvoiceForm invoiceForm = generateInvoiceForOrder(id);
 		RestTemplate restTemplate = new RestTemplate();
-		System.out.println("invoice url= "+invoiceUrl);
 		byte[] contents = Base64.getDecoder().decode(restTemplate.postForEntity(invoiceUrl, invoiceForm, byte[].class).getBody());
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PDF);

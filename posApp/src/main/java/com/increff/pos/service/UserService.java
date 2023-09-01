@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.UserDao;
+import com.increff.pos.model.EnumData;
 import com.increff.pos.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,13 +31,21 @@ public class UserService {
 		return dao.select(email);
 	}
 
+	public UserPojo get(int id){
+		return dao.selectById(id);
+	}
+
 	@Transactional
 	public List<UserPojo> getAll() {
 		return dao.selectAll();
 	}
 
 	@Transactional
-	public void delete(int id) {
+	public void delete(int id) throws ApiException{
+		UserPojo pojo= get(id);
+		if(pojo.getRole() == EnumData.Role.valueOf("SUPERVISOR")){
+			throw new ApiException("Cannot delete supervisor");
+		}
 		dao.delete(id);
 	}
 

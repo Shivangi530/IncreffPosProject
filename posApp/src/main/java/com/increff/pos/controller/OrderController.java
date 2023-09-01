@@ -21,7 +21,7 @@ public class OrderController {
 
 	@ApiOperation(value = "Add an order")
 	@RequestMapping(path = "/api/order", method = RequestMethod.POST)
-	public int createOrder(@RequestBody List<CreateOrderForm> orderFormList) throws ApiException {
+	public Integer createOrder(@RequestBody List<CreateOrderForm> orderFormList) throws ApiException {
 		return dto.add(orderFormList);
 	}
 
@@ -33,7 +33,7 @@ public class OrderController {
 
 	@ApiOperation(value = "Update an order")
 	@RequestMapping(path = "/api/order/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int id, @RequestBody String status) throws ApiException {
+	public void update(@PathVariable Integer id, @RequestBody String status) throws ApiException {
 		dto.update(id,status);
 	}
 

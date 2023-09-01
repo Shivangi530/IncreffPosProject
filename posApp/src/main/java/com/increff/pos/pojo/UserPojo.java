@@ -26,4 +26,3 @@ public class UserPojo extends AbstractPojo{
 	private EnumData.Role role;
 
 }
-// todo: read about criteria builder to build native queries

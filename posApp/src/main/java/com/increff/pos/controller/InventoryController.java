@@ -3,6 +3,7 @@ package com.increff.pos.controller;
 import com.increff.pos.dto.inventoryDto;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.InventoryTsvForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +39,7 @@ public class InventoryController {
 
 	@ApiOperation(value = "Update multiple inventory")
 	@RequestMapping(path = "/list", method = RequestMethod.PUT)
-	public void updateList(@RequestBody List<InventoryForm> inventoryFormList) throws ApiException {
+	public void updateList(@RequestBody List<InventoryTsvForm> inventoryFormList) throws ApiException {
 		inventoryDto.updateList(inventoryFormList);
 	}
 

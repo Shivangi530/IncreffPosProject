@@ -17,25 +17,26 @@ import static com.increff.pos.util.ConversionUtil.convert;
 
 @Api
 @RestController
+@RequestMapping(path = "/api/admin/user")
 public class AdminController {
 	@Autowired
 	private UserService service;
 
 	@ApiOperation(value = "Add a user")
-	@RequestMapping(path = "/api/admin/user", method = RequestMethod.POST)
+	@RequestMapping(path = "", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm form) throws ApiException {
 		UserPojo pojo = convert(form);
 		service.add(pojo);
 	}
 
 	@ApiOperation(value = "Delete a user")
-	@RequestMapping(path = "/api/admin/user/{id}", method = RequestMethod.DELETE)
-	public void deleteUser(@PathVariable int id) {
+	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+	public void deleteUser(@PathVariable int id) throws ApiException{
 		service.delete(id);
 	}
 
 	@ApiOperation(value = "Get list of all users")
-	@RequestMapping(path = "/api/admin/user", method = RequestMethod.GET)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public List<UserData> getAllUser() {
 		List<UserPojo> list = service.getAll();
 		List<UserData> list2 = new ArrayList<UserData>();

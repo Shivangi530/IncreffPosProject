@@ -5,10 +5,9 @@ function getBrandUrl() {
     return baseUrl + "/api/brand";
 }
 
-function getBrandUrlList(){
-	var baseUrl = $("meta[name=baseUrl]").attr("content");
-	console.log(baseUrl);
-	return baseUrl + "/api/brand/list";
+function getBrandUrlList() {
+    var baseUrl = $("meta[name=baseUrl]").attr("content");
+    return baseUrl + "/api/brand/list";
 }
 
 //BUTTON ACTIONS
@@ -16,13 +15,12 @@ function addBrand(event) {
     var $form = $("#brand-form");
     var json = toJson($form);
     var url = getBrandUrl();
-    console.log(url);
     var json1 = JSON.parse(json);
-    if (json1.brand == "") {
+    if(json1.brand == "") {
         warning("Brand cannot be empty");
         return false;
     }
-    if (json1.category == "") {
+    if(json1.category == "") {
         warning("Category cannot be empty");
         return false;
     }
@@ -44,13 +42,21 @@ function addBrand(event) {
 }
 
 function updateBrand(event) {
-    $('#edit-brand-modal').modal('toggle');
     //Get the ID
     var id = $("#brand-edit-form input[name=id]").val();
     var url = getBrandUrl() + "/" + id;
     //Set the values to update
     var $form = $("#brand-edit-form");
     var json = toJson($form);
+    var json1 = JSON.parse(json);
+    if(json1.brand == "") {
+        warning("Brand cannot be empty");
+        return false;
+    }
+    if(json1.category == "") {
+        warning("Category cannot be empty");
+        return false;
+    }
     $.ajax({
         url: url,
         type: 'PUT',
@@ -59,6 +65,7 @@ function updateBrand(event) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
+            $('#edit-brand-modal').modal('toggle');
             success("Item Updated");
             getBrandList();
         },
@@ -73,7 +80,7 @@ function getBrandList() {
         url: url,
         type: 'GET',
         success: function(data) {
-            data= data.reverse();
+            data = data.reverse();
             displayBrandList(data);
         },
         error: handleAjaxError
@@ -84,13 +91,14 @@ function getBrandList() {
 // FILE UPLOAD METHODS
 var fileData = [];
 var errorData = [];
-var fileErrorData=[];
+var fileErrorData = [];
 var processCount = 0;
 
-function processData(){
-	var file = $('#brandFile')[0].files[0];
+function processData() {
+    var file = $('#brandFile')[0].files[0];
+    console.log(file);
     var tsv = (file) => file.toLowerCase().endsWith('.tsv');
-    if (!tsv) {
+    if(!tsv) {
         console.log("Invalid file format: Not TSV.");
         warning("Invalid file format: Not TSV.");
         return;
@@ -99,20 +107,39 @@ function processData(){
     }
 }
 
-function readFileDataCallback(results){
+function readFileDataCallback(results) {
     fileData = results.data;
-    if (fileData.length == 0) {
+    if(fileData.length == 0) {
         console.log("File Empty");
         warning("File Empty");
-    } else if (fileData.length > 5000) {
+    } else if(fileData.length > 5000) {
         console.log("File size exceeds limit");
         warning("The file size (" + fileData.length + ") exceeds the limit of 5000.");
     } else {
-        if (!checkHeaderMatch(fileData[0])) {
+        console.log(fileData[0]);
+        // Convert keys to lowercase and trim whitespace
+        const firstRecord = fileData[0];
+        const updatedKeys = Object.keys(firstRecord).map(key => key.toLowerCase().trim());
+
+        const fileDataFiltered = fileData.map(obj => {
+          const lowercaseHeaders = {};
+          Object.keys(obj).forEach(key => {
+            const lowercaseKey = key.toLowerCase().trim();
+            if (lowercaseKey !== "") {  // Skip empty headers
+                lowercaseHeaders[lowercaseKey] = obj[key];
+            }
+          });
+          return lowercaseHeaders;
+        });
+        console.log(fileData);
+        console.log(fileDataFiltered);
+        fileData= fileDataFiltered;
+        if(!checkHeaderMatch(fileData[0])) {
             console.log("File headers do not match the expected format");
             warning("File headers do not match the expected format");
             return;
         }
+        console.log(fileData);
         uploadRows();
     }
 }
@@ -120,13 +147,15 @@ function readFileDataCallback(results){
 function checkHeaderMatch(uploadedHeaders) {
     var expectedHeaders = ["brand", "category"];
     var extractedHeaders = Object.keys(uploadedHeaders);
+    extractedHeaders = extractedHeaders.map(header => header.toLowerCase().trim());
+
     // Compare the headers
-    if (extractedHeaders.length !== expectedHeaders.length) {
+    if(extractedHeaders.length !== expectedHeaders.length) {
         return false;
     }
     extractedHeaders.sort();
-    for (var i = 0; i < expectedHeaders.length; i++) {
-        if (extractedHeaders[i] !== expectedHeaders[i]) {
+    for(var i = 0; i < expectedHeaders.length; i++) {
+        if(extractedHeaders[i] !== expectedHeaders[i]) {
             return false;
         }
     }
@@ -136,10 +165,8 @@ function checkHeaderMatch(uploadedHeaders) {
 function uploadRows() {
     //Update progress
     updateUploadDialog();
-    var row = fileData;
-    var json = JSON.stringify(row);
+    var json = JSON.stringify(fileData);
     var url = getBrandUrlList();
-    console.log(json);
     //Make ajax call
     $.ajax({
         url: url,
@@ -149,13 +176,11 @@ function uploadRows() {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            console.log(response);
             getBrandList();
             $('#upload-brand-modal').modal('hide');
             success("File uploaded successfully");
         },
         error: function(response) {
-            console.log(response);
             var resp = JSON.parse(response.responseText);
             const inputString = resp.message;
             // Remove the square brackets at the beginning and end of the string
@@ -164,18 +189,18 @@ function uploadRows() {
             // Split the string using the comma (,) as the delimiter
             const errorArray = cleanedString.split(', ');
 
-            var i=0;
+            var i = 0;
             // Loop through the errorArray and format each error as a CSV row
             errorArray.forEach((error) => {
-              const index = error.indexOf('=');
-              const errorCode = error.slice(0, index);
-              const errorMessage = error.slice(index + 1);
-              const errorRowIndex = parseInt(errorCode, 10);
-                if (!isNaN(errorRowIndex) && errorRowIndex >= 0 && errorRowIndex < fileData.length) {
-                  if (!errorData[i]) {
-                    errorData[i] = Object.assign({}, fileData[errorRowIndex], { error: errorMessage });
-                    i++;
-                  }
+                const index = error.indexOf('=');
+                const errorCode = error.slice(0, index);
+                const errorMessage = error.slice(index + 1);
+                const errorRowIndex = parseInt(errorCode, 10);
+                if(!isNaN(errorRowIndex) && errorRowIndex >= 0 && errorRowIndex < fileData.length) {
+                    if(!errorData[i]) {
+                        errorData[i] = Object.assign({}, fileData[errorRowIndex], { error: errorMessage });
+                        i++;
+                    }
                 }
             });
             updateUploadDialog();
@@ -185,31 +210,8 @@ function uploadRows() {
     });
 }
 
-//function checkHeaderMatch(uploadedHeaders) {
-//    // Extract the headers from the object
-//    var expectedHeaders = ["brand", "category"];
-//
-//    var extractedHeaders = Object.keys(uploadedHeaders);
-////    var filteredArr = extractedHeaders.filter(header=> expectedHeaders.includes(header));
-//    var filteredArr = extractedHeaders.filter(function(header, index) {
-//        console.log("header: ",header,"  :  ",index);
-//      return (expectedHeaders.includes(header.toLowerCase()) && extractedHeaders.indexOf(header) === index);
-//    });
-//    if (filteredArr.length !== expectedHeaders.length) {
-//        return false;
-//    }
-//    filteredArr.sort();
-//    expectedHeaders.sort();
-//
-//    for (var i = 0; i < filteredArr.length; i++) {
-//        console.log(filteredArr[i],expectedHeaders[i])
-//    }
-//    return true;
-//}
-
 function downloadErrors() {
-    console.log(errorData);
-    if (errorData.length === 0) {
+    if(errorData.length === 0) {
         $("#download-errors").prop('disabled', true);
         warning("No errors to download");
         return;
@@ -221,19 +223,15 @@ function downloadErrors() {
 //UI DISPLAY METHODS
 
 function displayBrandList(data) {
-    console.log("userRole= ",userRole);
     var $tbody = $('#brand-table').find('tbody');
     table.clear().draw();
-    var dataRows=[];
-    for (var i in data) {
+    var dataRows = [];
+    for(var i in data) {
         var e = data[i];
         var buttonHtml = ' <button class="btn btn-outline-primary" onclick="displayEditBrand(' + e.id + ')"> Edit </button>';
         var trimmedBrand = e.brand.length > 15 ? e.brand.substring(0, 15) + '...' : e.brand;
         var trimmedCategory = e.category.length > 15 ? e.category.substring(0, 15) + '...' : e.category;
-
-//        if (userRole === "SUPERVISOR") {
         dataRows.push([e.id, trimmedBrand, trimmedCategory, buttonHtml]);
-
     }
     table.rows.add(dataRows).draw();
 }
@@ -259,14 +257,14 @@ function resetUploadDialog() {
     processCount = 0;
     fileData = [];
     errorData = [];
-    fileErrorData =[];
+    fileErrorData = [];
     //Update counts
     updateUploadDialog();
 }
 
 function updateUploadDialog() {
     $('#rowCount').html("" + fileData.length);
-//    $('#processCount').html("" + processCount);
+    //    $('#processCount').html("" + processCount);
     $('#errorCount').html("" + errorData.length);
 }
 
@@ -313,19 +311,27 @@ function init() {
     getBrandList();
 
     table = $('#brand-table').DataTable({
-      columnDefs: [
-        { targets: [0, 1, 2, 3], className: "text-center" },
-        { targets: 0, visible: false},
-        { targets: 3, orderable: false, visible: userRole === 'SUPERVISOR'},
-      ],
-      searching: true,
-      info: true,
-      lengthMenu: [
-        [5, 10, 20, -1],
-        [5, 10, 20, 'All']
-      ],
-      deferRender: true,
-      order: [[0, "desc"]]
+        columnDefs: [
+            { targets: [0, 1, 2, 3], className: "text-center" },
+            { targets: 0, visible: false },
+            { targets: 3, orderable: false, visible: userRole === 'SUPERVISOR' },
+        ],
+        searching: true,
+        info: true,
+        lengthMenu: [
+            [5, 10, 20, -1],
+            [5, 10, 20, 'All']
+        ],
+        deferRender: true,
+        order: [
+            [0, "desc"]
+        ],
+        columns: [
+            { searchable: false },
+            { searchable: true },
+            { searchable: true },
+            { searchable: false }
+        ],
     });
 }
 $(document).ready(init);

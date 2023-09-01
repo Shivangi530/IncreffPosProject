@@ -79,10 +79,10 @@ public class reportsDto {
         List<OutwardOrderPojo> list1 = orderService.getOrderDates(startDateTime, endDateTime);
         List<OrderItemPojo> orderList = service.getRelevantAll(list1);
         for (OrderItemPojo p : orderList) {
-            int brand_category = productDao.select(p.getProductId()).getBrandCategory();
+            int brandCategory = productDao.select(p.getProductId()).getBrandCategory();
             LocalDate date = orderDao.select(p.getOrderId()).getDateTime().toLocalDate();
-            String brand = brandDao.select(brand_category).getBrand();
-            String category = brandDao.select(brand_category).getCategory();
+            String brand = brandDao.select(brandCategory).getBrand();
+            String category = brandDao.select(brandCategory).getCategory();
             SalesReportData s = convert(p, date, brand, category);
             int i = findBrandCategory(list, s);
             if (i == -1) {

@@ -3,6 +3,7 @@ package com.increff.pos.dto;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.ProductTsvForm;
 import com.increff.pos.service.AbstractUnitTest;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.ProductService;
@@ -91,9 +92,9 @@ public class productDtoTest extends AbstractUnitTest {
     public void tesAddList() throws ApiException{
         BrandForm brandForm= createBrand("brand","category");
         brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode1",10.0,"name1");
-        ProductForm f1= createProduct("brand","category","barcode2",20.0,"name2");
-        List<ProductForm> formList= new ArrayList<>();
+        ProductTsvForm f= createProduct("brand","category","barcode1","10.0","name1");
+        ProductTsvForm f1= createProduct("brand","category","barcode2","20.0","name2");
+        List<ProductTsvForm> formList= new ArrayList<>();
         formList.add(f);
         formList.add(f1);
         dto.addList(formList);
@@ -104,7 +105,7 @@ public class productDtoTest extends AbstractUnitTest {
 
     @Test
     public void tesAddEmptyList() throws ApiException{
-        List<ProductForm> formList= new ArrayList<>();
+        List<ProductTsvForm> formList= new ArrayList<>();
         try{
             dto.addList(formList);
             fail("Expected ApiException was not thrown");
@@ -117,10 +118,10 @@ public class productDtoTest extends AbstractUnitTest {
     public void tesAddListDuplicate() throws ApiException{
         BrandForm brandForm= createBrand("brand","category");
         brandDto.add(brandForm);
-        ProductForm f= createProduct("brand","category","barcode1",10.0,"name1");
-        ProductForm f1= createProduct("brand","category","barcode2",20.0,"name2");
-        ProductForm f2= createProduct("brand","category","barcode2",20.0,"name2");
-        List<ProductForm> formList= new ArrayList<>();
+        ProductTsvForm f= createProduct("brand","category","barcode1","10.0","name1");
+        ProductTsvForm f1= createProduct("brand","category","barcode2","20.0","name2");
+        ProductTsvForm f2= createProduct("brand","category","barcode2","20.0","name2");
+        List<ProductTsvForm> formList= new ArrayList<>();
         formList.add(f);
         formList.add(f1);
         formList.add(f2);

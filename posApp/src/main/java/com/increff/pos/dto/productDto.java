@@ -1,8 +1,8 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.ProductTsvForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
@@ -14,7 +14,6 @@ import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 import static com.increff.pos.util.ConversionUtil.convert;
@@ -60,7 +59,7 @@ public class productDto {
         List<ProductData> list2 = new ArrayList<>();
         for (ProductPojo p : list) {
             BrandPojo brandPojo= brandService.getValueBrandCategory(p.getBrandCategory());
-            String brand = brandPojo.getBrand(); //todo: to call once by using the list api
+            String brand = brandPojo.getBrand();
             String category = brandPojo.getCategory();
             list2.add(convert(p, brand, category));
         }
@@ -75,21 +74,20 @@ public class productDto {
         if (brandService.checkCombination(form.getBrand(), form.getCategory()) != null) {
             brandCategory = brandService.checkCombination(form.getBrand(), form.getCategory()).getId();
         }
-        System.out.println(brandCategory);
         ProductPojo p = convert(form, brandCategory);
 
         service.update(id, p.getName(),p.getBarcode(),p.getMrp());
     }
 
-    public void addList(List<ProductForm> formList) throws ApiException {
-//        List<ProductPojo> productPojoList = new ArrayList<>();
+    public void addList(List<ProductTsvForm> formList) throws ApiException {
+        List<ProductForm> productFormList = new ArrayList<>();
         if (formList.size() == 0) {
             throw new ApiException("List size cannot be zero");
         }
         List<Pair<Integer, String>> errorList = new ArrayList<>();
         Set<String> checkDuplicateBarcode = new HashSet<>();
         for (int i = 0; i < formList.size(); i++) {
-            ProductForm productForm = formList.get(i);
+            ProductTsvForm productForm = formList.get(i);
             Pair<Integer, String> errorPair;
             try {
                 normalize(productForm);
@@ -99,26 +97,27 @@ public class productDto {
                 if (brandPojo != null) {
                     brandCategoryId = brandPojo.getId();
                 }
-//                ProductPojo productPojo= convert(productForm,brandCategoryId);
-                service.checkAll(productForm.getName(),productForm.getBarcode(),productForm.getMrp(),brandCategoryId);
+                double mrp=0.0;
+                mrp= Double.parseDouble(productForm.getMrp());
+                mrp= ((int)(mrp * 100) / 100.0);
+                ProductForm form= convert(productForm,mrp);
+                service.checkAll(productForm.getName(),productForm.getBarcode(),mrp,brandCategoryId);
                 if (!checkDuplicateBarcode.add(productForm.getBarcode())) {
                     throw new ApiException("Duplicate entry for Barcode: " + productForm.getBarcode() );
                 }
-//                productPojoList.add(productPojo);
+                if (Objects.isNull(form.getBrand()) || Objects.isNull(form.getCategory())|| Objects.isNull(form.getBarcode())|| Objects.isNull(form.getName())|| Objects.isNull(form.getMrp())) {
+                    throw new ApiException("All fields must be non-null strings.");
+                }
+                productFormList.add(form);
             } catch (ApiException e) {
                 errorPair = new Pair<>(i , e.getMessage());
                 errorList.add(errorPair);
             }
         }
-        System.out.println(errorList.size());
-        for (Pair<Integer, String> p : errorList) {
-            System.out.println(p.getKey()+"....."+p.getValue());
-        }
-        System.out.println(checkDuplicateBarcode.size());
         if(!errorList.isEmpty()){
             throw new ApiException(errorList.toString());
         }else{
-            bulkAdd(formList);
+            bulkAdd(productFormList);
         }
     }
 

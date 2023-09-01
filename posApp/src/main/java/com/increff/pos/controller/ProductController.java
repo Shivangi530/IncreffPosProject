@@ -2,6 +2,7 @@ package com.increff.pos.controller;
 
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.ProductTsvForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +43,7 @@ public class ProductController {
 
 	@ApiOperation(value = "Add list of product")
 	@RequestMapping(path = "/api/product/list", method = RequestMethod.POST)
-	public void addList(@RequestBody List<ProductForm> productFormList) throws ApiException {
+	public void addList(@RequestBody List<ProductTsvForm> productFormList) throws ApiException {
 		productDto.addList(productFormList);
 	}
 

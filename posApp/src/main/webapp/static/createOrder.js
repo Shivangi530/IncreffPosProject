@@ -39,8 +39,16 @@ function initialChecks(json1){
         warning("Mrp cannot be empty");
         return false;
     }
-    if(json1.sellingPrice <=0){
-        warning("Mrp should be positive");
+    if(json1.sellingPrice < 0.01){
+        warning("Mrp should not be less than 0.01");
+        return false;
+    }
+    if(json1.quantity > 10000000){
+        warning("Quantity is too large");
+        return false;
+    }
+    if(json1.sellingPrice > 10000000){
+        danger("Selling Price is too large");
         return false;
     }
 }
@@ -60,7 +68,12 @@ function addCreateOrder(event) {
 
     for (var i = 0; i < data.length; i++) {
         if (data[i].barcode === json1.barcode) {
-            json1.quantity = parseInt(json1.quantity) + parseInt(data[i].quantity);
+            if(data[i].sellingPrice=== json1.sellingPrice){
+                json1.quantity = parseInt(json1.quantity) + parseInt(data[i].quantity);
+            }else{
+                warning(`Item already present with selling price: ${data[i].sellingPrice}`);
+                return false;
+            }
             break;
         }
     }
@@ -95,7 +108,6 @@ function addCreateOrder(event) {
 
 function updateCreateOrder(event) {
     var url = getCreateOrderUrl();
-    $('#edit-createOrder-modal').modal('toggle');
     var id = $("#createOrder-edit-form input[name=id]").val();
     var $form = $("#createOrder-edit-form");
     var json = toJson($form);
@@ -111,7 +123,7 @@ function updateCreateOrder(event) {
     $.ajax({
         url: url,
         type: 'POST',
-        data: JSON.stringify(json),//JSON.stringify(objectToUpdate),
+        data: JSON.stringify(json),
         headers: {
             'Content-Type': 'application/json'
         },
@@ -122,6 +134,7 @@ function updateCreateOrder(event) {
                 objectToUpdate.quantity = json.quantity;
                 objectToUpdate.sellingPrice = json.sellingPrice;
             }
+            $('#edit-createOrder-modal').modal('toggle');
             success("Object updated.");
             getCreateOrderList();
         },
@@ -137,6 +150,7 @@ function placeOrder(event) {
     }
 
     var data = createOrderData;
+    console.log(data);
     $.ajax({
         url: getOrderUrl(),
         type: 'POST',
@@ -199,16 +213,24 @@ function generateUniqueId() {
 function displayCreateOrderList(parsedArray) {
     parsedArray.reverse();
     var $tbody = $('#createOrder-table').find('tbody');
+    var $thead = $('#createOrder-table').find('thead');
+    var $placeOrderButton =$('#placeOrder')
     $tbody.empty();
-    console.log(parsedArray);
+    if (parsedArray.length === 0) {
+        $thead.hide();
+        $placeOrderButton.hide();
+    } else {
+        $thead.show();
+        $placeOrderButton.show();
+    }
     // Accessing the parsed objects
     parsedArray.forEach(function(e,index) {
         if (!e.id) {
             e.id = generateUniqueId();
         }
         e.sellingPrice=parseFloat(e.sellingPrice).toFixed(2);
-        var buttonHtml = '<button class="btn btn-outline-primary" onclick="deleteCreateOrder(' + index + ')">Delete</button>&nbsp;'
-        buttonHtml += ' <button class="btn btn-outline-primary" onclick="displayEditCreateOrder(' + index + ')">Edit</button>'
+        var buttonHtml = ' <button class="btn btn-outline-primary" onclick="displayEditCreateOrder(' + index + ')">Edit</button>&nbsp;'
+        buttonHtml += '<button class="btn btn-outline-danger" onclick="deleteCreateOrder(' + index + ')">Delete</button>'
 
         var row = '<tr>' +
             '<td>' + e.barcode + '</td>' +

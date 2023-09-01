@@ -3,12 +3,12 @@ package com.increff.pos.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @Setter
-public class BrandForm {
+public class ProductTsvForm {
+	private String barcode;
+	private String name;
+	private String mrp;
 	private String brand;
 	private String category;
-
 }

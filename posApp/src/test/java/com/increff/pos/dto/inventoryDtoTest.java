@@ -82,10 +82,10 @@ public class inventoryDtoTest extends AbstractUnitTest {
         ProductForm productForm2 = createProduct("brand", "category", "barcode2", 10.0, "name");
         productDto.add(productForm2);
 
-        InventoryForm f1 = createInventory("barcode1", 30);
-        InventoryForm f2 = createInventory("barcode2", 40);
+        InventoryTsvForm f1 = createInventory("barcode1", "30");
+        InventoryTsvForm f2 = createInventory("barcode2", "40");
 
-        List<InventoryForm> list= new ArrayList<>();
+        List<InventoryTsvForm> list= new ArrayList<>();
         list.add(f1);
         list.add(f2);
 
@@ -105,11 +105,11 @@ public class inventoryDtoTest extends AbstractUnitTest {
         ProductForm productForm2 = createProduct("brand", "category", "barcode2", 10.0, "name");
         productDto.add(productForm2);
 
-        InventoryForm f1 = createInventory("barcode1", 30);
-        InventoryForm f2 = createInventory("barcode2", 40);
-        InventoryForm f3 = createInventory("barcode", 40);
+        InventoryTsvForm f1 = createInventory("barcode1", "30");
+        InventoryTsvForm f2 = createInventory("barcode2", "40");
+        InventoryTsvForm f3 = createInventory("barcode", "40");
 
-        List<InventoryForm> list= new ArrayList<>();
+        List<InventoryTsvForm> list= new ArrayList<>();
         list.add(f1);
         list.add(f2);
         list.add(f3);
@@ -124,7 +124,7 @@ public class inventoryDtoTest extends AbstractUnitTest {
 
     @Test
     public void testUpdateEmptyList() {
-        List<InventoryForm> list= new ArrayList<>();
+        List<InventoryTsvForm> list= new ArrayList<>();
         try{
             dto.updateList(list);
             Assert.fail("Expected ApiException was not thrown");

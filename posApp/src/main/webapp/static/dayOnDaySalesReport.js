@@ -28,22 +28,8 @@ function displayInvoiceList(data){
     var dataRows=[];
     for (var i in data) {
         var e = data[i];
-//		var row = '<tr>'
-//		+ '<td>' + e.date + '</td>'
-//		+ '<td>' + e.orderCount + '</td>'
-//		+ '<td>'  + e.itemCount + '</td>'
-//		+ '<td>'  + e.revenue + '</td>'
-//		+ '</tr>';
-        var minute="00";
-        var hour="00";
-        var day="00";
-        var month="00";
-        (e.date[1]<10)? month = '0'+e.date[1] : month = e.date[1];
-        (e.date[2]<10)? date = '0'+e.date[2]:date = e.date[2];
-//        var formattedDate= date+"-"+month+"-"+e.date[0];
         var formattedDate= formatDate(e.date);
         e.revenue= e.revenue.toFixed(2)
-//        var date= formatDate(e.date);
         dataRows.push([formattedDate, e.orderCount, e.itemCount, e.revenue ]);
     }
     table.rows.add(dataRows).draw();

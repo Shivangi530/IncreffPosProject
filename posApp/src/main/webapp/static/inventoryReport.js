@@ -69,8 +69,8 @@ function init(){
         searching: true,
         info: true,
         lengthMenu: [
-            [ 10, 20, -1],
-            [ 10, 20, 'All']
+            [5, 10, 20, -1],
+            [5, 10, 20, 'All']
         ],
         deferRender: true,
         columns: [

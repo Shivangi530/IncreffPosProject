@@ -14,12 +14,17 @@ function signupUser(event) {
     var url = getSignupUrl();
     console.log(url);
     var json1 = JSON.parse(json);
+    console.log(json1);
     if (json1.email == "") {
         warning("Email cannot be empty");
         return false;
     }
     if (json1.password == "") {
         warning("Password cannot be empty");
+        return false;
+    }
+    if (!isValidEmail(json1.email)) {
+        warning("Invalid email format");
         return false;
     }
     if(!isValidPassword(json1.password)){
@@ -87,117 +92,13 @@ function isValidPassword(password) {
     return true;
 }
 
+function isValidEmail(email) {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailPattern.test(email);
+}
+
 function init() {
     $('#signup').click(signupUser);
 }
 
 $(document).ready(init);
-
-
-
-
-//document.addEventListener("DOMContentLoaded", function() {
-//    var signupForm = document.getElementById("signupForm");
-//    signupForm.addEventListener("submit", function(event) {
-//        event.preventDefault(); // Prevent form submission
-//        console.log("in function");
-//        var email = document.getElementById("email").value;
-//        var password = document.getElementById("password").value;
-//        console.log(email, password);
-//        // Password validation
-//        try {
-//            isValidPassword(password);
-//        } catch (error) {
-//            console.log("invalid password")
-//            warning("Invalid password: " + error.message);
-//            return; // Stop form submission if the password is invalid
-//        }
-//
-//        // Create an object to store form data
-//        var formData = {
-//            email: email,
-//            password: password
-//        };
-//        console.log("formData= ", formData);
-//        // Send a POST request to the signup API endpoint
-//        fetch("/pos/session/signup", {
-//                method: "POST",
-//                headers: {
-//                    "Content-Type": "application/json"
-//                },
-//                body: JSON.stringify(formData)
-//            })
-//            .then(function(response) {
-//                if (response.ok) {
-//                    // Redirect to the login page on successful signup
-//                    window.location.href = "/site/login";
-//                } else {
-//                    // Display error message
-//                    alert("Error occurred during user registration");
-//                }
-//            })
-//            .catch(function(error) {
-//                console.error("Error:", error);
-//                // Display error message
-//                alert("Error occurred during user registration");
-//            });
-//    });
-//});
-
-//document.addEventListener("DOMContentLoaded", function() {
-//    var signupForm = document.getElementById("signupForm");
-//    signupForm.addEventListener("submit", function(event) {
-//        event.preventDefault(); // Prevent form submission
-//
-//        var email = document.getElementById("email").value;
-//        var password = document.getElementById("password").value;
-//
-//        // Password validation
-//        try {
-//            isValidPassword(password);
-//        } catch (error) {
-//            alert("Invalid password: " + error.message);
-//            return; // Stop form submission if the password is invalid
-//        }
-//
-//        // Create an object to store form data
-//        var formData = {
-//            email: email,
-//            password: password
-//        };
-//        console.log("formData= ", formData);
-//        // Send a POST request to the signup API endpoint
-//        fetch("/session/signup", {
-//            method: "POST",
-//            headers: {
-//                "Content-Type": "application/json"
-//            },
-//            body: JSON.stringify(formData)
-//        })
-//        .then(function(response) {
-//            if (response.ok) {
-//                // Redirect to the login page on successful signup
-//                window.location.href = "/site/login";
-//            } else {
-//                // Handle server error response
-//                console.error("Server responded with status: ", response.status);
-//
-//                return response.json();
-//            }
-//        })
-//        .then(function(data) {
-//            console.log("Response data: ", data);
-//            alert("Error occurred during user registration. Please check console for details.");
-//
-////            if (data && data.error) {
-////                alert("Error occurred during user registration: " + data.error);
-////            } else {
-////                alert("Unknown error occurred during user registration.");
-////            }
-//        })
-//        .catch(function(error) {
-//            console.error("Error:", error);
-//            alert("Unknown error occurred during user registration.");
-//        });
-//    });
-//});

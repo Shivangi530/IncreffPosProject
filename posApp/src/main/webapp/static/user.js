@@ -67,7 +67,6 @@ function displayUserList(data){
             '>Delete</button>';
 
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
 		+ '<td>' + e.email + '</td>'
 		+ '<td>' + e.role + '</td>'
 		+ '<td>' + buttonHtml + '</td>'

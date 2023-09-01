@@ -1,6 +1,5 @@
 package com.increff.pos.dto;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.service.BrandService;
@@ -20,7 +19,6 @@ import static com.increff.pos.util.ValidateUtil.validate;
 public class brandDto {
     @Autowired
     private BrandService brandService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void add(BrandForm form) throws ApiException {
         if (Objects.isNull(form.getBrand()) || Objects.isNull(form.getCategory())) {

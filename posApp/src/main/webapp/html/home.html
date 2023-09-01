@@ -42,8 +42,10 @@
 			</div>
 			<div class="m-5 text-center">
 				<div class="dropdown" id="reportDropdown" >
-					<img th:src="@{/static/images/report.png}" alt="Reports" width="200" height="200" class="img-fluid" id="reportImage" data-bs-toggle="dropdown" aria-expanded="false" />
-					<br>Reports
+					<div id="reportImage" data-bs-toggle="dropdown" aria-expanded="false" >
+					<img th:src="@{/static/images/report.png}" alt="Reports" width="200" height="200" class="img-fluid" />
+					<br>Reports ^
+					</div>
 					<ul class="dropdown-menu" aria-labelledby="reportImage">
 						<li><a th:href="@{/ui/report/brandReport}" title="brandReport" class="dropdown-item">Brand Report</a></li>
 						<li><a th:href="@{/ui/report/inventoryReport}" title="inventoryReport" class="dropdown-item">Inventory Report</a></li>
@@ -54,8 +56,6 @@
 			</div>
 		</div>
 	</div>
-
-
 </div> <!-- Container end-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

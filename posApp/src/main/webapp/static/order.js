@@ -29,19 +29,6 @@ function getOrderList() {
     });
 }
 
-function deleteOrder(id) {
-    var url = getOrderUrl() + "/" + id;
-
-    $.ajax({
-        url: url,
-        type: 'DELETE',
-        success: function(data) {
-            getOrderList();
-        },
-        error: handleAjaxError
-    });
-}
-
 function viewOrder(id, status) {
     var url = getOrderItemUrl() + "/view/" + id;
     $.ajax({
@@ -76,7 +63,6 @@ function displayOrderList(data) {
     for (var i in data) {
         var e = data[i];
         var date = e.dateTime;
-//        var formattedDatetime= date;
         var formattedDatetime = date.slice(2, 3).join('-') + '/' +
                     padZero(date[1]) + '/' + date[0] + ' ' +
                     padZero(date[3]) + ':' + padZero(date[4]) + ':' +
@@ -111,12 +97,6 @@ function displayOrderList(data) {
             buttonHtml1 += '<button type="button" class="btn btn-outline-secondary d-none" disabled></button>'; // Default class if status is not recognized
         }
 
-        var row = '<tr>' +
-            '<td>' + e.id + '</td>' +
-            '<td>' + formattedDatetime + '</td>' +
-            '<td>' + e.status + '</td>' +
-            '<td>' + buttonHtml1 + '</td>' +
-            '</tr>';
         console.log(e.id, formattedDatetime, e.status);
         dataRows.push([e.id, formattedDatetime, e.status, buttonHtml1]);
     }
@@ -130,39 +110,38 @@ function viewOrderList(data, status) {
     for (var i in data) {
         var e = data[i];
         console.log(e);
-        var buttonHtml1 = '<button type="button" class="btn btn-outline-primary" ';
+        var buttonHtml1 = '<button type="button" class="btn btn-outline';
 
         if (status === "CREATED") {
-            buttonHtml1 += ' onclick="updateOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
+            buttonHtml1 += '-primary"  onclick="updateOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
         } else {
-            buttonHtml1 += ' disabled';
+            buttonHtml1 += '-secondary"  disabled';
         }
         buttonHtml1 += '>Edit</button>&nbsp;';
 
-
-        buttonHtml1 += '<button type="button" class="btn btn-outline-primary" ';
+        buttonHtml1 += '<button type="button" class="btn btn-outline';
 
         if (status === "CREATED") {
-            buttonHtml1 += ' onclick="deleteOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
+            buttonHtml1 += '-danger"  onclick="deleteOrderItem(' + e.id + ',' + e.orderId + ',' + e.quantity + ',\'' + status + '\')"';
         } else {
-            buttonHtml1 += ' disabled';
+            buttonHtml1 += '-secondary"  disabled';
         }
         buttonHtml1 += '>Delete</button>';
-
+        var sellingPrice= ((e.sellingPrice * e.quantity).toFixed(2));
         var rowid = "row-" + e.id;
         var row = '<tr id=' + rowid + '>' +
             '<td>' + e.barcode + '</td>' +
             '<td>' + e.productName + '</td>' +
             '<td><input type="number" class="form-control" name="quantity" placeholder="enter product Id" value="' + e.quantity + '"></td>' +
             '<td><input type="number" inputmode="decimal" class="form-control" name="sellingPrice" placeholder="enter sellingPrice" value="' + e.sellingPrice + '"></td>' +
-            '<td>' + e.sellingPrice * e.quantity + '</td>' +
+            '<td>' + sellingPrice + '</td>' +
             '<td>' + buttonHtml1 + '</td>' +
             '</tr>';
         $tbody.append(row);
         totalSellingPrice += (e.sellingPrice * e.quantity);
     }
     var $sellingPrice = $('#modal-footer').find('h6');
-    $sellingPrice.text('Total Selling Price : ' + totalSellingPrice);
+    $sellingPrice.text('Total Selling Price : ' + totalSellingPrice.toFixed(2));
 }
 
 function displayEditOrder(id) {
@@ -209,14 +188,11 @@ function updateOrder(id,status) {
 }
 
 function updateOrderItem(id, orderId, prevQty, status) {
-    console.log("updateOrderItem: ",status );
     var rowid = '#row-' + id;
     var $row = $(rowid);
     // Find the input fields within the row and get their values
     var quantity = $row.find('td input[name="quantity"]').val();
     var sellingPrice = $row.find('td input[name="sellingPrice"]').val();
-    console.log("Quantity: " + quantity - prevQty);
-    console.log("Selling Price: " + sellingPrice);
     if(quantity==""){
         warning("Quantity cannot be empty");
         return false;
@@ -229,34 +205,33 @@ function updateOrderItem(id, orderId, prevQty, status) {
         warning("Quantity should be of integer type");
         return false;
     }
-    if(quantity<0){
-        danger("Quantity cannot be negative");
+    if(quantity<=0){
+        warning("Quantity should be positive");
         return false;
     }
-    if(quantity>1000000000){
-        danger("Quantity entered is too large");
+    if(quantity>10000000){
+        warning("Quantity entered is too large");
         return false;
     }
     if(sellingPrice==""){
             warning("Selling Price cannot be empty");
             return false;
         }
-    if(sellingPrice>1000000000){
-        danger("Selling Price entered is too large");
+    if(sellingPrice>10000000){
+        warning("Selling Price entered is too large");
         return false;
     }
-    if(sellingPrice<=0){
-        danger("Selling price should be positive");
+    if(sellingPrice<0.01){
+        warning("Mrp should not be less than 0.01");
         return false;
     }
-
 
     //Set the values to update
     var json = {
         "orderId": "",
         "productId": "",
         "quantity": quantity,
-        "sellingPrice": sellingPrice,
+        "sellingPrice": parseFloat(sellingPrice).toFixed(2),
         "id": id,
     };
     console.log("json is: ", json);
@@ -270,13 +245,11 @@ function updateOrderItem(id, orderId, prevQty, status) {
             'Content-Type': 'application/json'
         },
         success: function(response) {
-            console.log("updated");
             success("Updated");
             viewOrder(orderId, status);
         },
         error: handleAjaxError
     });
-
     return false;
 }
 
@@ -317,10 +290,8 @@ function deleteOrderItem(id, orderId, prevQty) {
         "productId": "",
         "quantity": quantity,
         "sellingPrice": sellingPrice,
-        "id": id,
-//        "inventoryQty": quantity - prevQty
+        "id": id
     };
-    console.log("json is: ", json);
 
     var url = getOrderItemUrl() + "/" + id;
     $.ajax({
@@ -339,15 +310,6 @@ function deleteOrderItem(id, orderId, prevQty) {
     return false;
 }
 
-//function displayOrderItem(data) {
-//    $("#orderItem-edit-form input[name=orderId]").val(data.orderId);
-//    $("#orderItem-edit-form input[name=productId]").val(data.productId);
-//    $("#orderItem-edit-form input[name=quantity]").val(data.quantity);
-//    $("#orderItem-edit-form input[name=sellingPrice]").val(data.sellingPrice);
-//    $("#orderItem-edit-form input[name=id]").val(data.id);
-//    $('#edit-orderItem-modal').modal('toggle');
-//}
-
 //INITIALIZATION CODE
 function init() {
     $('#update-orderItem').click(updateOrderItem);
@@ -358,14 +320,20 @@ function init() {
             { targets: [3], orderable: false },
             { targets: [0, 1, 2, 3], className: "text-center" }
           ],
-          searching: false,
+          searching: true,
           info: true,
           lengthMenu: [
             [5, 10, 20, -1],
             [5, 10, 20, 'All']
           ],
           deferRender: true,
-          order: [[0, "desc"]]
+          order: [[0, "desc"]],
+          columns: [
+            { searchable: true },
+            { searchable: true },
+            { searchable: true },
+            { searchable: false }
+          ],
         });
 }
 

@@ -24,6 +24,6 @@ public class OrderItemPojo extends AbstractPojo{
 	private Integer quantity;
 
 	@Column(nullable = false, columnDefinition="Decimal(10,2)")
-	private double sellingPrice;
+	private Double sellingPrice;
 
 }

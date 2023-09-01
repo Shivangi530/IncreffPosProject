@@ -28,7 +28,7 @@ public class BrandService {
 
 
 	@Transactional(rollbackOn  = ApiException.class)
-	public void update(Integer id, String brand, String category) throws ApiException { //todo: don't use pojo for updating
+	public void update(Integer id, String brand, String category) throws ApiException {
 		if(StringUtil.isEmpty(brand)) {
 			throw new ApiException("Brand cannot be empty");
 		}

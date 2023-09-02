@@ -39,12 +39,10 @@ public class orderDto {
             Integer productId=productService.getIdByBarcode(form.getBarcode());
             Integer quantity=inventoryService.checkQuantity(form.getQuantity(),productId);
             double sellingPrice=productService.checkSellingPrice(form.getSellingPrice(),productId);
-
             OrderItemPojo orderItemPojo= convert(productId,quantity,sellingPrice,orderId);
 
             Integer inventoryQty=inventoryService.getCheck(productId).getQuantity();
             inventoryService.update(productId,inventoryQty-quantity);
-
             orderItemService.add(orderItemPojo);
         }
         return orderId;

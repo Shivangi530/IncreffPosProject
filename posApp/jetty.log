@@ -10636,3 +10636,10 @@ Caused by: java.lang.ClassNotFoundException: com.increff.pos.model.BrandForm
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
 	... 61 more
 2023-08-11 13:27:14 INFO  SecurityConfig:44 - Configuration complete
+2023-09-02 13:40:49 INFO  SecurityConfig:44 - Configuration complete
+2023-09-02 13:59:58 INFO  SecurityConfig:44 - Configuration complete
+2023-09-02 14:04:17 INFO  SecurityConfig:44 - Configuration complete
+2023-09-02 14:06:20 INFO  SecurityConfig:44 - Configuration complete
+2023-09-02 14:10:51 INFO  SecurityConfig:44 - Configuration complete
+2023-09-02 14:15:28 INFO  SecurityConfig:44 - Configuration complete
+2023-09-02 14:27:11 INFO  SecurityConfig:44 - Configuration complete

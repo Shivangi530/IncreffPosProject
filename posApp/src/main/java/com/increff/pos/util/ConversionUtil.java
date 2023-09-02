@@ -152,12 +152,11 @@ public class ConversionUtil {
     }
 
     public static OrderItemPojo convert(int productId,int quantity, double sellingPrice, int orderId) throws ApiException{
-        OrderItemPojo pojo = new OrderItemPojo();
         OrderItemPojo orderItemPojo= new OrderItemPojo();
         orderItemPojo.setOrderId(orderId);
         orderItemPojo.setQuantity(quantity);
         orderItemPojo.setProductId(productId);
         orderItemPojo.setSellingPrice(((int)(sellingPrice  * 100)) / 100.0);
-        return pojo;
+        return orderItemPojo;
     }
 }

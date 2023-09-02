@@ -21,6 +21,7 @@ public class OrderItemService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderItemPojo pojo) throws ApiException {
+		System.out.println(pojo.getOrderId()+ " , " +pojo.getProductId()+ " , "+pojo.getQuantity()+" , "+pojo.getSellingPrice());
 		if(pojo.getOrderId()==0){
 			throw new ApiException("Invalid Order Id");
 		}if(pojo.getProductId()<=0){

@@ -68,7 +68,7 @@ function addCreateOrder(event) {
 
     for (var i = 0; i < data.length; i++) {
         if (data[i].barcode === json1.barcode) {
-            if(data[i].sellingPrice=== json1.sellingPrice){
+            if(data[i].sellingPrice === parseFloat(json1.sellingPrice).toFixed(2)){
                 json1.quantity = parseInt(json1.quantity) + parseInt(data[i].quantity);
             }else{
                 warning(`Item already present with selling price: ${data[i].sellingPrice}`);
